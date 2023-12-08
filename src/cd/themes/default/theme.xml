@@ -1,0 +1,24 @@
+<THEME>
+	<LOAD_ROM_IMAGE file="Loading.bmp"/>
+	<MAIN_SCREEN background="Main.bmp">
+		<TITLE text="MAIN MENU" x="240" y="124" color="FF2A00" border="000000"/>
+		<MENU x="205" y="161" max_width="244" max_height="289" color="FFFFFF" selected_color="FFA147" font_size="30"/>
+		<PAUSED_MINI x="8" y="220" width="174" height="151"/>
+	</MAIN_SCREEN>
+	<OPTIONS_SCREEN background="Options.bmp">
+		<TITLE text="OPTIONS" x="102" y="28" color="FF2A00" border="000000"/>
+		<MENU x="60" y="64" max_width="483" max_height="340" color="FFFFFF" selected_color="FFA147" font_size="30"/>
+	</OPTIONS_SCREEN>
+	<CONTROLLER_SCREEN background="Controls.bmp">
+		<TITLE text="CONTROLLERS" x="82" y="29" color="FF2A00" border="000000"/>
+		<MENU x="60" y="64" max_width="483" max_height="340" color="FFFFFF" selected_color="FFA147" font_size="30"/>
+	</CONTROLLER_SCREEN>
+	<THEME_SCREEN background="Options.bmp">
+		<TITLE text="THEMES" x="102" y="28" color="FF2A00" border="000000"/>
+		<MENU x="60" y="64" max_width="483" max_height="340" color="FFFFFF" selected_color="FFA147" font_size="30"/>
+	</THEME_SCREEN>
+	<ROM_SCREEN background="RomSelect.bmp" folder_color="7BAED1">
+		<TITLE text="LOAD GAME" x="102" y="32" color="FF2A00" border="000000" size="30"/>
+		<MENU x="60" y="64" max_width="483" max_height="340" color="FFFFFF" selected_color="FFA147" font_size="24"/>
+	</ROM_SCREEN>
+</THEME>

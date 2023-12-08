@@ -1,0 +1,23 @@
+<THEME>
+	<LOAD_ROM_IMAGE file="bowsercast.bmp"/>
+	<MAIN_SCREEN background="Splashc320.bmp">
+		<MENU x="20" y="36" max_width="620" max_height="464" color="FFFFFF" selected_color="FFA147" font_size="48"/>
+		<PAUSED_MINI x="336" y="217" width="256" height="224"/>
+	</MAIN_SCREEN>
+	<OPTIONS_SCREEN background="optionsnt.bmp">
+		<TITLE text="OPTIONS" x="159" y="24" slant="5" color="01C2E5" border="000000"/>
+		<MENU x="159" y="59" max_width="445" max_height="384" color="FFFFFF" selected_color="FFA147" font_size="48"/>
+	</OPTIONS_SCREEN>
+	<CONTROLLER_SCREEN background="optionsnt.bmp">
+		<TITLE text="CONTROLLERS" x="159" y="24" slant="5" color="01C2E5" border="000000"/>
+		<MENU x="159" y="59" max_width="445" max_height="384" color="FFFFFF" selected_color="FFA147" font_size="48"/>
+	</CONTROLLER_SCREEN>
+	<THEME_SCREEN background="optionsnt.bmp">
+		<TITLE text="THEMES" x="159" y="24" slant="5" color="01C2E5" border="000000"/>
+		<MENU x="159" y="59" max_width="445" max_height="384" color="FFFFFF" selected_color="FFA147" font_size="48"/>
+	</THEME_SCREEN>
+	<ROM_SCREEN background="rlnt.bmp" folder_color="7BAED1">
+		<TITLE text="LOAD GAME" x="14" y="24" slant="5" color="01C2E5" border="000000"/>
+		<MENU x="14" y="58" max_width="596" max_height="394" color="FFFFFF" selected_color="FFA147" font_size="36"/>
+	</ROM_SCREEN>
+</THEME>
