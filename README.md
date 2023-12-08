@@ -80,55 +80,50 @@ if it has it.
 
 ## Options
 
-Bilinear Filtering:
-	Enabling this feature will make the emulated image appear smoother and
-	less pixelated. It does not affect performance.
+### Bilinear Filtering
 
-Frameskip:
-	Auto - Tells the emulator to skip frames in order to acheive full
-speed
-	emulation. However, there is a limit to the max frames to be dropped,
-	which is now 10. So if your game hits about 5/60 fps, it might not be
-	running full speed. The max frames allowed to be dropped might be
-	configurable in a future release. Hopefully it won't be needed due to
-speed
-	increases.
+Enabling this feature will make the emulated image appear smoother and
+less pixelated. It does not affect performance.
+
+### Frameskip
+
+Auto - Tells the emulator to skip frames in order to acheive full speed
+emulation. However, there is a limit to the max frames to be dropped,
+which is now 10. So if your game hits about 5/60 fps, it might not be
+running full speed. The max frames allowed to be dropped might be
+configurable in a future release. Hopefully it won't be needed due to speed increases.
 	
-	0-5 - Draw every nth frame as fast as possible. For processing rich
-games,
-	it can often produce smoother frame skipping than auto but full speed
-	emulation is less likely. Experiment with your favorite game to find
-	which pleases you most.
+0-5 - Draw every nth frame as fast as possible. For processing rich games,
+it can often produce smoother frame skipping than auto but full speed
+emulation is less likely. Experiment with your favorite game to find
+which pleases you most.
 
-Display Frame Rate:
-	Enabling this feature will display the current frame rate during
-emulation.
-	If auto frame skipping is not enabled, then this feature will always
-read
-	the same ratio and is not a true indicator of frame rate.
+### Display Frame Rate
 
-Auto Save SRAM:
-	If this feature is enabled, games that support SRAM will be checked
-every
-	30 seconds to see if changes have been made to SRAM. If so, then they
-are
-	saved to VMU automatically during gameplay. A slight pause in game
-play
-	occurs do to this.
+Enabling this feature will display the current frame rate during emulation.
+If auto frame skipping is not enabled, then this feature will always read
+the same ratio and is not a true indicator of frame rate.
 
-Enable Sound:
-	Enables the SNES APU and produces sound output. This WILL slow down
-your
-	game to just about an unplayable state AND it is out of sync. Future
-	optimizations will hopefully free up enough CPU time to make sound a
-	positive feature. Also note that if you enable of disable sound while
-	a gmae is currently loaded, you will be forced to reset emulation.
+### Auto Save SRAM
 
-Adjust Screen:
-	This allows you to adjust to bounds of the area drawn to the screen to
-	account for the fact the most TVs clip parts of the image on all
-sides.
-	The D-Pad pans the image while the analog resizes it.
+If this feature is enabled, games that support SRAM will be checked every
+30 seconds to see if changes have been made to SRAM. If so, then they are
+saved to VMU automatically during gameplay. A slight pause in game play
+occurs do to this.
+
+### Enable Sound
+
+Enables the SNES APU and produces sound output. This WILL slow down your
+game to just about an unplayable state AND it is out of sync. Future
+optimizations will hopefully free up enough CPU time to make sound a
+positive feature. Also note that if you enable of disable sound while
+a gmae is currently loaded, you will be forced to reset emulation.
+
+### Adjust Screen
+
+This allows you to adjust to bounds of the area drawn to the screen to
+account for the fact the most TVs clip parts of the image on all sides.
+The D-Pad pans the image while the analog resizes it.
 
 ## Configure Controllers
 
@@ -157,31 +152,32 @@ You can store as many themes as you like under the themes directory.
 
 This menu provides some quick and useful functions.
 
-Save SRAM:
-	Explicitly save SRAM to VMU regardless of the auto-save feature.
+### Save SRAM
 
-Reset Emulation:
-	Perform a soft-reset of emulation. This is equal to pressing reset on
-	a real SNES. All SRAM will remain intact.
+Explicitly save SRAM to VMU regardless of the auto-save feature.
 
-Adjust Screen:
-	Identical to the Adjust Screen found under the options menu except
-that
-	the current game frame is used as the background. White lines are
-drawn
-	on the edges of the frame in case black borders the edges.
+### Reset Emulation
 
-Render Options:
-	Toggle the display of various layers including backgrounds and
-sprites.
+Perform a soft-reset of emulation. This is equal to pressing reset on
+a real SNES. All SRAM will remain intact.
+
+### Adjust Screen
+
+Identical to the Adjust Screen found under the options menu except that
+the current game frame is used as the background. White lines are
+drawn on the edges of the frame in case black borders the edges.
+
+### Render Options
+
+Toggle the display of various layers including backgrounds and sprites.
 
 ## Credits
 
-Snes9x Team - for over 95% of the source used in Super Famicast
-DreamSNES team - for providing the cpu core
-mastakilla - for his Bowser theme
-Mikey - for the clean theme
-Rigor Mortis - for the first theme music
+* Snes9x Team - for over 95% of the source used in Super Famicast
+* DreamSNES team - for providing the cpu core
+* mastakilla - for his Bowser theme
+* Mikey - for the clean theme
+* Rigor Mortis - for the first theme music
 
 ## Thanks
 
@@ -192,11 +188,11 @@ made development faster and less stressful.
 
 ## Links
 
-Super Famicast: http://www.superfamicast.com/
-Snes9x: http://www.snes9x.com/
-KOS: http://cadcdev.sourceforge.net/
-DC Emulation: http://www.dcemulation.com/
-SourceForge: https://sourceforge.net/projects/superfamicast/
+* Super Famicast: http://www.superfamicast.com/
+* Snes9x: http://www.snes9x.com/
+* KOS: http://cadcdev.sourceforge.net/
+* DC Emulation: http://www.dcemulation.com/
+* SourceForge: https://sourceforge.net/projects/superfamicast/
 
 ## Contact
 
