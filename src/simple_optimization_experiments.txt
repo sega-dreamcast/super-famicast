@@ -1,0 +1,8 @@
+FPS		ACTION
+22		removed -fno-optimize-sibling-calls
+22		again added -fno-optimize-sibling-calls, seemed slightly better
+21		changed -O3 to -Os
+23		added -fforce-addr
+21		added -fmove-all-movables
+24		removed -fno-strict-aliasing
+22		added -funroll-loops

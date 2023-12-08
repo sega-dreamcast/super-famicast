@@ -155,9 +155,6 @@ int AudioOpen(unsigned long freq, unsigned long minbufsize, unsigned long bitrat
         Frequency = freq;
 
     so.playback_rate = Frequency;
-    
-    if(stereo) so.stereo = TRUE;
-    else so.stereo = FALSE;
 
         switch(bitrate)
         {

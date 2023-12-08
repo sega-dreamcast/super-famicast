@@ -109,15 +109,19 @@ void SPC7110Grab(char*);
 
 typedef struct SPC7110RTC
 {
+	time_t last_used;
 	unsigned char reg[16];
 	short index;
 	uint8 control;
 	bool init;
-	time_t last_used;
 } S7RTC;
 
 typedef struct SPC7110EmuVars
 {
+	uint32 DataRomOffset;
+	uint32 DataRomSize;
+	uint32 bank50Internal;
+	
 	unsigned char reg4800;
 	unsigned char reg4801;
 	unsigned char reg4802;
@@ -166,9 +170,6 @@ typedef struct SPC7110EmuVars
 	uint8 AlignBy;
 	uint8 written;
 	uint8 offset_add;
-	uint32 DataRomOffset;
-	uint32 DataRomSize;
-	uint32 bank50Internal;
 	uint8 bank50[DECOMP_BUFFER_SIZE];
 
 } SPC7110Regs;

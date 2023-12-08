@@ -140,8 +140,6 @@ void S9xResetAPU ()
 
     int i;
 
-    Settings.APUEnabled = Settings.NextAPUEnabled;
-
 	ZeroMemory(spc_dump_dsp, 0x100);
 	ZeroMemory(IAPU.RAM, 0x100);
 	memset(IAPU.RAM+0x20, 0xFF, 0x20);
@@ -150,9 +148,7 @@ void S9xResetAPU ()
 	memset(IAPU.RAM+0xE0, 0xFF, 0x20);
 
 	for(i=1;i<256;i++)
-	{
 		memcpy(IAPU.RAM+(i<<8), IAPU.RAM, 0x100);
-	}
 
     memcpy (IAPU.ShadowRAM, IAPU.RAM, 0x10000);
 	
@@ -169,7 +165,7 @@ void S9xResetAPU ()
     APURegisters.P = 0;
     S9xAPUUnpackStatus ();
     APURegisters.PC = 0;
-    IAPU.APUExecuting = Settings.APUEnabled;
+    IAPU.APUExecuting = TRUE;
 #ifdef SPC700_SHUTDOWN
     IAPU.WaitAddress1 = NULL;
     IAPU.WaitAddress2 = NULL;

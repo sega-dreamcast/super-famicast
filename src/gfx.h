@@ -81,61 +81,60 @@
 
 struct SGFX{
     // Initialize these variables
-    uint8  *Screen;
-    uint8  *SubScreen;
-    uint8  *ZBuffer;
-    uint8  *SubZBuffer;
-    uint32 Pitch;
-
-    // Setup in call to S9xGraphicsInit()
-    int   Delta;
-    uint16 *X2;
-    uint16 *ZERO_OR_X2;
-    uint16 *ZERO;
+    uint8*	Screen;
+    uint8*	SubScreen;
+    uint8*	ZBuffer;
+    uint8*	SubZBuffer;
+    uint32	Pitch;
     uint32 RealPitch; // True pitch of Screen buffer.
-    uint32 Pitch2;    // Same as RealPitch except while using speed up hack for Glide.
-    uint32 ZPitch;    // Pitch of ZBuffer
-    uint32 PPL;	      // Number of pixels on each of Screen buffer
-    uint32 PPLx2;
+	uint32 Pitch2;    // Same as RealPitch except while using speed up hack for Glide.
+	uint32 ZPitch;    // Pitch of ZBuffer
+	uint32 PPL;	      // Number of pixels on each of Screen buffer
+	uint32 PPLx2;
     uint32 PixSize;
-    uint8  *S;
-    uint8  *DB;
-    uint16 *ScreenColors;
-    uint32 DepthDelta;
-    uint8  Z1;          // Depth for comparison
-    uint8  Z2;          // Depth to save
-    uint8  ZSprite;     // Used to ensure only 1st sprite is drawn per pixel
-    uint32 FixedColour;
-    const char *InfoString;
-    uint32 InfoStringTimeout;
-    uint32 StartY;
-    uint32 EndY;
-    struct ClipData *pCurrentClip;
+    int   Delta;
+    uint16*	X2;
+    uint16*	ZERO_OR_X2;
+    uint16*	ZERO;
+    uint8*	S;
+    uint8*	DB;
+    uint16*	ScreenColors;
+    uint32	DepthDelta;
+    uint32	FixedColour;
+    const char*	InfoString;
+    uint32	InfoStringTimeout;
+    uint32	StartY;
+    uint32	EndY;
+    struct ClipData*	pCurrentClip;
     uint32 Mode7Mask;
     uint32 Mode7PriorityMask;
-    uint8  OBJWidths[128];
-    uint8  OBJVisibleTiles[128];
-    struct {
-        uint8 RTOFlags;
-        int16 Tiles;
-        struct {
-            int8 Sprite;
-            uint8 Line;
-        } OBJ[32];
-    } OBJLines [SNES_HEIGHT_EXTENDED];
+    
+#ifdef GFX_MULTI_FORMAT
+	uint32 PixelFormat;
+	uint32 (*BuildPixel) (uint32 R, uint32 G, uint32 B);
+	uint32 (*BuildPixel2) (uint32 R, uint32 G, uint32 B);
+	void   (*DecomposePixel) (uint32 Pixel, uint32 &R, uint32 &G, uint32 &B);
+#endif
 
     uint8  r212c;
     uint8  r212d;
     uint8  r2130;
     uint8  r2131;
     bool8  Pseudo;
-    
-#ifdef GFX_MULTI_FORMAT
-    uint32 PixelFormat;
-    uint32 (*BuildPixel) (uint32 R, uint32 G, uint32 B);
-    uint32 (*BuildPixel2) (uint32 R, uint32 G, uint32 B);
-    void   (*DecomposePixel) (uint32 Pixel, uint32 &R, uint32 &G, uint32 &B);
-#endif
+    uint8  OBJWidths[128];
+    uint8  OBJVisibleTiles[128];
+    uint8	Z1;          // Depth for comparison
+	uint8	Z2;          // Depth to save
+    uint8	ZSprite;     // Used to ensure only 1st sprite is drawn per pixel
+
+	struct {
+	        uint8 RTOFlags;
+	        int16 Tiles;
+	        struct {
+	            int8 Sprite;
+	            uint8 Line;
+	        } OBJ[32];
+    } OBJLines [SNES_HEIGHT_EXTENDED];
 };
 
 struct SLineData {
@@ -162,8 +161,8 @@ struct SBG
     uint32 PaletteShift;
     uint32 PaletteMask;
     
-    uint8 *Buffer;
-    uint8 *Buffered;
+    uint8*	Buffer;
+    uint8*	Buffered;
     bool8  DirectColourMode;
 };
 
@@ -177,18 +176,18 @@ struct SLineMatrixData
     short CentreY;
 };
 
-extern uint32 odd_high [4][16];
-extern uint32 odd_low [4][16];
-extern uint32 even_high [4][16];
-extern uint32 even_low [4][16];
+extern uint32 odd_high[4][16];
+extern uint32 odd_low[4][16];
+extern uint32 even_high[4][16];
+extern uint32 even_low[4][16];
 extern SBG BG;
 extern uint16 DirectColourMaps [8][256];
 
-extern uint8 add32_32 [32][32];
-extern uint8 add32_32_half [32][32];
-extern uint8 sub32_32 [32][32];
-extern uint8 sub32_32_half [32][32];
-extern uint8 mul_brightness [16][32];
+extern uint8 add32_32[32][32];
+extern uint8 add32_32_half[32][32];
+extern uint8 sub32_32[32][32];
+extern uint8 sub32_32_half[32][32];
+extern uint8 mul_brightness[16][32];
 
 // Could use BSWAP instruction on Intel port...
 #define SWAP_DWORD(dw) dw = ((dw & 0xff) << 24) | ((dw & 0xff00) << 8) | \
@@ -269,8 +268,8 @@ extern struct SGFX GFX;
 
 bool8 S9xGraphicsInit ();
 void S9xGraphicsDeinit();
-bool8 S9xInitUpdate (void);
-bool8 S9xDeinitUpdate (int Width, int Height, bool8 sixteen_bit);
+bool8 S9xInitUpdate ();
+bool8 S9xDeinitUpdate ();
 void S9xSetPalette ();
 void S9xSyncSpeed ();
 

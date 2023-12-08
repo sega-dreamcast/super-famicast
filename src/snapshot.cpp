@@ -605,24 +605,13 @@ static void Freeze (STREAM stream)
     FreezeBlock (stream, "RAM", Memory.RAM, 0x20000);
     FreezeBlock (stream, "SRA", ::SRAM, 0x20000);
     FreezeBlock (stream, "FIL", Memory.FillRAM, 0x8000);
-    if (Settings.APUEnabled)
-    {
-		// APU
-		FreezeStruct (stream, "APU", &APU, SnapAPU, COUNT (SnapAPU));
-		FreezeStruct (stream, "ARE", &APURegisters, SnapAPURegisters,
-			COUNT (SnapAPURegisters));
-		FreezeBlock (stream, "ARA", IAPU.RAM, 0x10000);
-		FreezeStruct (stream, "SOU", &SoundData, SnapSoundData,
-			COUNT (SnapSoundData));
-    }
-    if (Settings.SA1)
-    {
-		SA1Registers.PC = SA1.PC - SA1.PCBase;
-		S9xSA1PackStatus ();
-		FreezeStruct (stream, "SA1", &SA1, SnapSA1, COUNT (SnapSA1));
-		FreezeStruct (stream, "SAR", &SA1Registers, SnapSA1Registers, 
-			COUNT (SnapSA1Registers));
-    }
+	// APU
+	FreezeStruct (stream, "APU", &APU, SnapAPU, COUNT (SnapAPU));
+	FreezeStruct (stream, "ARE", &APURegisters, SnapAPURegisters,
+		COUNT (SnapAPURegisters));
+	FreezeBlock (stream, "ARA", IAPU.RAM, 0x10000);
+	FreezeStruct (stream, "SOU", &SoundData, SnapSoundData,
+		COUNT (SnapSoundData));
 	
 	if (Settings.SPC7110)
     {
@@ -716,7 +705,6 @@ static int Unfreeze (STREAM stream)
 			IAPU.DirectPage = IAPU.RAM + 0x100;
 		else
 			IAPU.DirectPage = IAPU.RAM;
-		Settings.APUEnabled = TRUE;
 		IAPU.APUExecuting = TRUE;
     }
     else
@@ -1326,12 +1314,10 @@ bool8 S9xUnfreezeZSNES (const char *filename)
 				IAPU.DirectPage = IAPU.RAM + 0x100;
 			else
 				IAPU.DirectPage = IAPU.RAM;
-			Settings.APUEnabled = TRUE;
 			IAPU.APUExecuting = TRUE;
 		}
 		else
 		{
-			Settings.APUEnabled = FALSE;
 			IAPU.APUExecuting = FALSE;
 			S9xSetSoundMute (TRUE);
 		}

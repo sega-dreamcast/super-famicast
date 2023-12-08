@@ -258,7 +258,7 @@ void S9xDeinterleaveMode2 ();
 bool8 LoadZip(const char* zipname,
 	      int32 *TotalFileSize,
 	      int32 *headers, uint8*buffer= Memory.ROM);
-void S9xAutoSaveSRAM (); // MOVED HERE BY SCHERZO
+void S9xAutoSaveSRAM ();
 END_EXTERN_C
 
 #ifdef NO_INLINE_SET_GET

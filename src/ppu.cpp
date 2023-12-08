@@ -189,16 +189,13 @@ void S9xUpdateHTimer ()
 void S9xFixColourBrightness ()
 {
     IPPU.XB = mul_brightness [PPU.Brightness];
-    if (Settings.SixteenBit)
+	for (int i = 0; i < 256; i++)
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			IPPU.Red [i] = IPPU.XB [PPU.CGDATA [i] & 0x1f];
-			IPPU.Green [i] = IPPU.XB [(PPU.CGDATA [i] >> 5) & 0x1f];
-			IPPU.Blue [i] = IPPU.XB [(PPU.CGDATA [i] >> 10) & 0x1f];
-			IPPU.ScreenColors [i] = BUILD_PIXEL (IPPU.Red [i], IPPU.Green [i],
-												 IPPU.Blue [i]);
-		}
+		IPPU.Red [i] = IPPU.XB [PPU.CGDATA [i] & 0x1f];
+		IPPU.Green [i] = IPPU.XB [(PPU.CGDATA [i] >> 5) & 0x1f];
+		IPPU.Blue [i] = IPPU.XB [(PPU.CGDATA [i] >> 10) & 0x1f];
+		IPPU.ScreenColors [i] = BUILD_PIXEL (IPPU.Red [i], IPPU.Green [i],
+											 IPPU.Blue [i]);
 	}
 }
 
@@ -915,7 +912,7 @@ void S9xSetPPU (uint8 Byte, uint16 Address)
 			Memory.FillRAM [Address] = Byte;
 			IAPU.RAM [(Address & 3) + 0xf4] = Byte;
 #ifdef SPC700_SHUTDOWN
-			IAPU.APUExecuting = Settings.APUEnabled;
+			IAPU.APUExecuting = TRUE;
 			IAPU.WaitCounter++;
 #endif
 #endif // SPCTOOL
@@ -1376,23 +1373,18 @@ uint8 S9xGetPPU (uint16 Address)
 #else
     //	CPU.Flags |= DEBUG_MODE_FLAG;
 #ifdef SPC700_SHUTDOWN	
-	    IAPU.APUExecuting = Settings.APUEnabled;
+	    IAPU.APUExecuting = TRUE;
 	    IAPU.WaitCounter++;
 #endif
-	    if (Settings.APUEnabled)
-	    {
 #ifdef CPU_SHUTDOWN
-//		CPU.WaitAddress = CPU.PCAtOpcodeStart;
+//			CPU.WaitAddress = CPU.PCAtOpcodeStart;
 #endif	
 		if (SNESGameFixes.APU_OutPorts_ReturnValueFix &&
-		    Address >= 0x2140 && Address <= 0x2143 && !CPU.V_Counter)
+			Address >= 0x2140 && Address <= 0x2143 && !CPU.V_Counter)
 		{
-                    return (uint8)((Address & 1) ? ((rand() & 0xff00) >> 8) : 
-				   (rand() & 0xff));
+			return (uint8)((Address & 1) ? ((rand() & 0xff00) >> 8) : (rand() & 0xff));
 		}
-
 		return (APU.OutPorts [Address & 3]);
-	    }
 
 	    switch (Settings.SoundSkipMethod)
 	    {
@@ -2763,16 +2755,17 @@ void S9xProcessMouse (int which1)
 			      (PPU.MouseSpeed [which1] << 4) |
 		              ((buttons & 1) << 6) | ((buttons & 2) << 6);
 
-	delta_x = x - IPPU.PrevMouseX[which1];
-	delta_y = y - IPPU.PrevMouseY[which1];
-
+	//delta_x = x - IPPU.PrevMouseX[which1];
+	//delta_y = y - IPPU.PrevMouseY[which1];
+	delta_x = x;
+	delta_y = y;
+	/*
 	if (delta_x > 63)
 	{
 	    delta_x = 63;
 	    IPPU.PrevMouseX[which1] += 63;
 	}
-	else
-	if (delta_x < -63)
+	else if (delta_x < -63)
 	{
 	    delta_x = -63;
 	    IPPU.PrevMouseX[which1] -= 63;
@@ -2785,15 +2778,25 @@ void S9xProcessMouse (int which1)
 	    delta_y = 63;
 	    IPPU.PrevMouseY[which1] += 63;
 	}
-	else
-	if (delta_y < -63)
+	else if (delta_y < -63)
 	{
 	    delta_y = -63;
 	    IPPU.PrevMouseY[which1] -= 63;
 	}
 	else
 	    IPPU.PrevMouseY[which1] = y;
+	*/
+	
+	if (delta_x > 63)
+	    delta_x = 63;
+	else if (delta_x < -63)
+	    delta_x = -63;
 
+	if (delta_y > 63)
+	    delta_y = 63;
+	else if (delta_y < -63)
+	    delta_y = -63;
+	
 	if (delta_x < 0)
 	{
 	    delta_x = -delta_x;

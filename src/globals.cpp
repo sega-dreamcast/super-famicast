@@ -93,27 +93,27 @@
 START_EXTERN_C
 char String[513];
 
-struct Missing missing;
+struct Missing missing __attribute__ ((aligned (32)));
 
-struct SICPU ICPU;
+struct SICPU ICPU __attribute__ ((aligned (32)));
 
-struct SCPUState CPU;
+struct SCPUState CPU __attribute__ ((aligned (32)));
 
-struct SRegisters Registers;
+struct SRegisters Registers __attribute__ ((aligned (32)));
 
-struct SAPU APU;
+struct SAPU APU __attribute__ ((aligned (32)));
 
-struct SIAPU IAPU;
+struct SIAPU IAPU __attribute__ ((aligned (32)));
 
-struct SAPURegisters APURegisters;
+struct SAPURegisters APURegisters __attribute__ ((aligned (32)));
 
-struct SSettings Settings;
+struct SSettings Settings __attribute__ ((aligned (32)));
 
-struct SDSP1 DSP1;
+struct SDSP1 DSP1 __attribute__ ((aligned (32)));
 
-struct SSA1Registers SA1Registers;
+struct SSA1Registers SA1Registers __attribute__ ((aligned (32)));
 
-struct SSA1 SA1;
+struct SSA1 SA1 __attribute__ ((aligned (32)));
 
 SSoundData SoundData;
 
@@ -124,7 +124,7 @@ uint8 *C4RAM = NULL;
 
 long OpAddress = 0;
 
-CMemory Memory;
+CMemory Memory __attribute__ ((aligned (32)));
 
 struct SSNESGameFixes SNESGameFixes;
 
@@ -151,19 +151,19 @@ uint8 *SFXPlotTable = NULL;
 END_EXTERN_C
 #endif
 
-struct SPPU PPU;
-struct InternalPPU IPPU;
+struct SPPU PPU __attribute__ ((aligned (32)));
+struct InternalPPU IPPU __attribute__ ((aligned (32)));
 
-struct SDMA DMA[8];
+struct SDMA DMA[8] __attribute__ ((aligned (32)));
 
 uint8 *HDMAMemPointers [8];
 uint8 *HDMABasePointers [8];
 
-struct SBG BG;
+struct SBG BG __attribute__ ((aligned (32)));
 
-struct SGFX GFX;
-struct SLineData LineData[240];
-struct SLineMatrixData LineMatrixData [240];
+struct SGFX GFX __attribute__ ((aligned (32)));
+struct SLineData LineData[240] __attribute__ ((aligned (32)));
+struct SLineMatrixData LineMatrixData [240] __attribute__ ((aligned (32)));
 
 uint8 Mode7Depths [2];
 NormalTileRenderer DrawTilePtr = NULL;
@@ -216,11 +216,11 @@ struct SCheatData Cheat;
 
 volatile SoundStatus so;
 
-int Echo [24000];
-int DummyEchoBuffer [SOUND_BUFFER_SIZE];
-int MixBuffer [SOUND_BUFFER_SIZE];
-int EchoBuffer [SOUND_BUFFER_SIZE];
-int FilterTaps [8];
+int Echo [24000] __attribute__ ((aligned (32)));
+int DummyEchoBuffer [SOUND_BUFFER_SIZE] __attribute__ ((aligned (32)));
+int MixBuffer [SOUND_BUFFER_SIZE] __attribute__ ((aligned (32)));
+int EchoBuffer [SOUND_BUFFER_SIZE] __attribute__ ((aligned (32)));
+int FilterTaps [8] __attribute__ ((aligned (32)));
 unsigned long Z = 0;
 int Loop [16];
 

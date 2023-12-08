@@ -1,14 +1,4 @@
-/* png example for KOS 1.1.x
- * Jeffrey McBeth / Morphogenesis
- * <mcbeth@morphogenesis.2y.net>
- *
- * Heavily borrowed from from 2-D example
- * AndrewK / Napalm 2001
- * <andrewk@napalm-x.com>
- */
-
 #include <kos.h>
-#include <os/process.h>
 #include <plx/font.h>
 #include <png/png.h>
 #include "vorbisfile.h"
@@ -31,7 +21,20 @@
 #include "pvr_texture.h"
 #include "XML.h"
 #include "dc_controller.h"
+#include "dc_mouse.h"
 #include "dc_file_browser.h"
+#include "scherzo_snd_stream.h"
+
+uint32 g_soundModes[] = { 	0,
+							8192,
+							11025,
+							16500,
+							22050,
+							29300,
+							36600,
+							44100 };
+
+uint8 g_sound_mode = 2;
 
 #ifndef timercmp
 #define timercmp(tvp, uvp, cmp)\
@@ -42,8 +45,6 @@
 
 #define SCREEN_WIDTH	640
 #define SCREEN_HEIGHT	480
-
-#define SUPER_FAMICAST_FREQ	22050
 
 #define ANALOG_THRESHOLD	(128 / 2)
 
@@ -92,8 +93,9 @@ bool do_menu = true;
 bool game_loaded = false;
 bool bilinear_filtering = true;
 bool use_analog[] = {false, false, false, false};
+bool mouse_enabled = false;
 bool auto_save_sram = false;
-bool sound_enabled = false;
+//bool sound_enabled = false;
 
 bool has_little = false;
 float little_x = -1;
@@ -112,12 +114,16 @@ bool just_entered_game = false;
 
 bool in_main_menu_system = false;
 
+bool draw_da_frame_mr_thread = false;
+
 int texture_index = 0;
 
 void ShowMsg(const char* str);
 void InitTheme();
 void ShowSplashIndex(int32 my_index, uint16 duration, uint16 fade_duration, void (*work_func)() = NULL);
 void ShowSplash(const char* filename, uint16 duration, uint16 fade_duration, void (*work_func)() = NULL);
+
+void PrintOffsetsAsm();
 
 struct
 {
@@ -141,7 +147,7 @@ struct SSuperFamicastSettings
 	bool8  DisplayFrameRate;
 	char theme_dir[0x100];
 	bool auto_save_sram;
-	bool sound_enabled;
+	uint8 g_sound_mode;
 	//VERSION 2
 };
 
@@ -150,9 +156,9 @@ FILE* ogg_fp = NULL;
 OggVorbis_File vf;
 
 #define SFCAST_SOUND_BUF_SIZE	MAX_BUFFER_SIZE
+uint8 sound_buf[SFCAST_SOUND_BUF_SIZE] __attribute__ ((aligned (32)));
 #define OGG_BUF_SIZE 65536
-uint8 sound_buf[OGG_BUF_SIZE];
-uint8 ogg_sound_buf[OGG_BUF_SIZE];
+uint8 ogg_sound_buf[OGG_BUF_SIZE] __attribute__ ((aligned (32)));
 uint8* pcm_ptr = ogg_sound_buf;
 int32 pcm_count = 0;			/* bytes in buffer */
 int32 last_read = 0;			/* number of bytes the sndstream driver grabbed at last callback */
@@ -180,8 +186,8 @@ void StartMusic()
 			}
 			memset(ogg_sound_buf, 0, OGG_BUF_SIZE);
 			vorbis_info* vi = ov_info(&vf, -1);
-			snd_stream_init(interfaceGetSound);
-			snd_stream_start(vi->rate, vi->channels - 1);
+			scherzo_snd_stream_init(interfaceGetSound);
+			scherzo_snd_stream_start(vi->rate, vi->channels - 1);
 			music_is_playing = true;
 		}
 	}
@@ -193,8 +199,8 @@ void StopMusic()
 #if I_HAVE_MENU_MUSIC
 	if (music_is_playing)
 	{
-		snd_stream_stop();
-		snd_stream_shutdown();
+		scherzo_snd_stream_stop();
+		scherzo_snd_stream_shutdown();
 		pcm_count = 0;
 		last_read = 0;
 		pcm_ptr = ogg_sound_buf;
@@ -260,7 +266,7 @@ void SaveSettings()
 		out_settings.DisplayFrameRate = Settings.DisplayFrameRate;
 		out_settings.auto_save_sram = auto_save_sram;
 		strcpy(out_settings.theme_dir, theme_dir);
-		out_settings.sound_enabled = sound_enabled;
+		out_settings.g_sound_mode = g_sound_mode;
 		
 		fwrite(&out_settings, sizeof(SSuperFamicastSettings), 1, fp);
 		fclose(fp);
@@ -309,7 +315,7 @@ void LoadSettings()
 			Settings.DisplayFrameRate = out_settings.DisplayFrameRate;
 			auto_save_sram = out_settings.auto_save_sram;
 			strcpy(theme_dir, out_settings.theme_dir);
-			sound_enabled = out_settings.sound_enabled;
+			g_sound_mode = out_settings.g_sound_mode;
 		};
 		loaded = true;
 		break;
@@ -420,22 +426,41 @@ static void commit_texture_fullscreen(pvr_poly_hdr_t* poly, uint16 width, uint16
 	pvr_prim (&vert, sizeof(vert));
 }
 
-static void display_snes_screen ()
+void DMADoneSoDrawNow(ptr_t data)
 {
-  pvr_wait_ready ();
-  sq_cpy(snes_texture_addrs[texture_index], GFX.Screen, GFX_Screen_Size);
-  //dcache_flush_range(GFX.Screen, GFX_Screen_Size);
-  //pvr_txr_load_dma(GFX.Screen, snes_texture_addrs[texture_index], GFX_Screen_Size, 1);
-  pvr_scene_begin ();
-  pvr_list_begin (PVR_LIST_OP_POLY);
-  if (bilinear_filtering)
-    dc_snesscreen_commit_texture(snes_pvr_poly_headers_filter_bilinear + texture_index);
-  else
-    dc_snesscreen_commit_texture(snes_pvr_poly_headers_filter_none + texture_index);
-  pvr_list_finish();
-  pvr_scene_finish ();
-  
-  texture_index = (texture_index + 1) & (SNES_TEXTURE_ADDRS_SIZE - 1);
+	//pvr_wait_ready ();
+	pvr_scene_begin ();
+	pvr_list_begin (PVR_LIST_OP_POLY);
+	if (bilinear_filtering)
+		dc_snesscreen_commit_texture(snes_pvr_poly_headers_filter_bilinear + texture_index);
+	else
+		dc_snesscreen_commit_texture(snes_pvr_poly_headers_filter_none + texture_index);
+	pvr_list_finish();
+	pvr_scene_finish ();
+	if (!Settings.Paused)
+		texture_index = (texture_index + 1) & (SNES_TEXTURE_ADDRS_SIZE - 1);
+}
+
+static void display_snes_screen()
+{
+	pvr_wait_ready ();
+	sq_cpy(snes_texture_addrs[texture_index], GFX.Screen, GFX_Screen_Size);
+	
+	//pvr_txr_load_dma(GFX.Screen, snes_texture_addrs[texture_index], GFX_Screen_Size, 0, DMADoneSoDrawNow, NULL);
+	//icache_flush_range((uint32) GFX.Screen, GFX_Screen_Size);
+	
+	//pvr_dma_transfer(GFX.Screen, (uint32) snes_texture_addrs[texture_index], GFX_Screen_Size, PVR_DMA_VRAM32, 0, NULL, NULL);
+	
+	pvr_scene_begin ();
+	pvr_list_begin (PVR_LIST_OP_POLY);
+	if (bilinear_filtering)
+		dc_snesscreen_commit_texture(snes_pvr_poly_headers_filter_bilinear + texture_index);
+	else
+		dc_snesscreen_commit_texture(snes_pvr_poly_headers_filter_none + texture_index);
+	pvr_list_finish();
+	pvr_scene_finish ();
+	if (!Settings.Paused)
+		texture_index = (texture_index + 1) & (SNES_TEXTURE_ADDRS_SIZE - 1);
 }
 
 /* romdisk */
@@ -582,9 +607,23 @@ extern "C" bool8 S9xInitUpdate (void)
 
 int update_count = 0;
 
-extern "C" bool8 S9xDeinitUpdate (int Width, int Height, bool8 sixteen_bit)
+void draw_worker(void *param)
+{
+	while (true)
+	{
+		if (draw_da_frame_mr_thread)
+		{
+			display_snes_screen();
+			draw_da_frame_mr_thread = false;
+		}
+		thd_pass();
+	}
+}
+
+extern "C" bool8 S9xDeinitUpdate ()
 {
 	display_snes_screen();
+	//draw_da_frame_mr_thread = true;
 	return TRUE;
 }
 
@@ -593,7 +632,7 @@ extern "C" void S9xSetPalette(void)
 	
 }
 
-bool FamicastSaveSRAM()
+static bool FamicastSaveSRAM()
 {
 	char vmu_path[0x100];
 	if (FindFirstVMU(vmu_path))
@@ -636,11 +675,38 @@ extern "C" void S9xLoadSDD1Data()
 	}
 }
 
-extern "C" bool8 S9xReadMousePosition (int which, int &x, int &y, uint32 &buttons)
+int g_mouse_x = 0;
+int g_mouse_y = 0;
+
+extern "C" bool8 S9xReadMousePosition(int which, int &x, int &y, uint32 &buttons)
 {
-	x = 0;
-	y = 0;
+	if (!mouse_enabled || which != 0)
+		return FALSE;
+	DCMouse* pMouse = g_mice;
+	if (!pMouse->GetDevice())
+		return FALSE;
+	pMouse->Poll();
+	g_mouse_x += pMouse->GetDX();
+	g_mouse_y += pMouse->GetDY();
+	if (g_mouse_x < 0)
+		g_mouse_x = 0;
+	else if (g_mouse_x > 255)
+		g_mouse_x = 255;
+	if (g_mouse_y < 0)
+		g_mouse_y = 0;
+	else if (g_mouse_y > 223)
+		g_mouse_y = 223;
+	//x = g_mouse_x;
+	//y = g_mouse_y;
+	x = pMouse->GetDX();
+	y = pMouse->GetDY();
 	buttons = 0;
+	if (pMouse->IsPressed(MOUSE_LEFTBUTTON))
+		buttons |= 1;
+	if (pMouse->IsPressed(MOUSE_RIGHTBUTTON))
+		buttons |= 2;
+	if (pMouse->IsPressed(MOUSE_SIDEBUTTON))
+		buttons |= 4;
 	return TRUE;
 }
 
@@ -694,11 +760,10 @@ void S9xParseArg (char **argv, int &i, int argc)
 
 }
 
-bool8 S9xOpenSoundDevice (int mode, bool8 pStereo, int BufferSize)
+bool8 S9xOpenSoundDevice (int mode, int BufferSize)
 {
-	so.playback_rate = SUPER_FAMICAST_FREQ;
-    so.stereo = Settings.Stereo;
-    so.sixteen_bit = Settings.SixteenBitSound;
+	so.playback_rate = g_soundModes[g_sound_mode];
+    //so.sixteen_bit = Settings.SixteenBitSound;
     so.buffer_size = SFCAST_SOUND_BUF_SIZE;
     so.mute_sound = FALSE;
     so.encoded = 0;
@@ -709,9 +774,11 @@ bool8 S9xOpenSoundDevice (int mode, bool8 pStereo, int BufferSize)
 	return TRUE;
 }
 
+uint32 last_sound_pos = 0;
+
 void S9xGenerateSound ()
 {
-	snd_stream_poll();
+	scherzo_snd_stream_poll();
 }
 
 bool first_sfcastGetSound = false;
@@ -733,15 +800,6 @@ void* sfcastGetSound(int samples_requested, int* samples_returned)
 
 void* interfaceGetSound(int samples_requested, int* samples_returned)
 {
-	/*
-	if ((samples_requested / 2) > (SFCAST_SOUND_BUF_SIZE / 4))
-		samples_requested = SFCAST_SOUND_BUF_SIZE / 4;
-	
-	*samples_returned = samples_requested;
-	
-	return sound_buf;
-	*/
-	
 	if (samples_requested > OGG_BUF_SIZE)
 		samples_requested = OGG_BUF_SIZE;
 	if (last_read > 0)
@@ -816,9 +874,9 @@ void S9xInitDisplay()
 	GFX.Pitch = IMAGE_WIDTH * 2;
 	GFX_Screen_Size = GFX.Pitch * IMAGE_HEIGHT;
 	GFX.Screen = (uint8 *) memalign(32, GFX_Screen_Size);
-	GFX.SubScreen = (uint8 *) malloc (GFX_Screen_Size);
-	GFX.ZBuffer = (uint8 *) malloc ((GFX.Pitch >> 1) * IMAGE_HEIGHT);
-	GFX.SubZBuffer = (uint8 *) malloc ((GFX.Pitch >> 1) * IMAGE_HEIGHT);
+	GFX.SubScreen = (uint8 *) memalign(32, GFX_Screen_Size);
+	GFX.ZBuffer = (uint8 *) memalign(32, (GFX.Pitch >> 1) * IMAGE_HEIGHT);
+	GFX.SubZBuffer = (uint8 *) memalign(32, (GFX.Pitch >> 1) * IMAGE_HEIGHT);
 	
 	clear_cache_size = GFX.Pitch * (IMAGE_HEIGHT / 2);
 	clear_cache_start = GFX.Screen + (GFX_Screen_Size - clear_cache_size);
@@ -944,7 +1002,7 @@ void OnAdjustScreen(DCMenu* pMenu, DCMenuItem* pItem, int value)
 		pvr_scene_finish ();
 		
 		if (in_main_menu_system)
-			snd_stream_poll();
+			scherzo_snd_stream_poll();
 		
 		DCController* controller = g_controllers;
 		controller->Poll();
@@ -1136,6 +1194,48 @@ void OnLoadState(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 	choose_state_menu.Run();
 }
 */
+
+void OnChangeRender(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
+{
+	int whichbg = (int) pMenuItem->user_data;
+	PPU.BG_Forced ^= whichbg;
+	//S9xMainLoop();
+	//display_snes_screen();
+}
+
+void OnRenderOptions(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
+{
+	DCMenu render_options_menu(cxt, pMenu);
+	DCMenuItem* render_item;
+	
+	render_item = render_options_menu.AddItem("Enable BG0", OnChangeRender);
+	render_item->AddChoice("Yes", 1, !(PPU.BG_Forced & 1));
+	render_item->AddChoice("No", 0, PPU.BG_Forced & 1);
+	render_item->user_data = (void*) 1;
+	
+	render_item = render_options_menu.AddItem("Enable BG1", OnChangeRender);
+	render_item->AddChoice("Yes", 1, !(PPU.BG_Forced & 2));
+	render_item->AddChoice("No", 0, PPU.BG_Forced & 2);
+	render_item->user_data = (void*) 2;
+	
+	render_item = render_options_menu.AddItem("Enable BG2", OnChangeRender);
+	render_item->AddChoice("Yes", 1, !(PPU.BG_Forced & 4));
+	render_item->AddChoice("No", 0, PPU.BG_Forced & 4);
+	render_item->user_data = (void*) 4;
+	
+	render_item = render_options_menu.AddItem("Enable BG3", OnChangeRender);
+	render_item->AddChoice("Yes", 1, !(PPU.BG_Forced & 8));
+	render_item->AddChoice("No", 0, PPU.BG_Forced & 8);
+	render_item->user_data = (void*) 8;
+	
+	render_item = render_options_menu.AddItem("Enable Sprites", OnChangeRender);
+	render_item->AddChoice("Yes", 1, !(PPU.BG_Forced & 16));
+	render_item->AddChoice("No", 0, PPU.BG_Forced & 16);
+	render_item->user_data = (void*) 16;
+	
+	render_options_menu.Run();
+}
+
 void InGameMenu()
 {
 	DCMenu in_game_menu(cxt);
@@ -1151,6 +1251,7 @@ void InGameMenu()
 	//in_game_menu.AddItem("Load State", OnLoadState);
 	DCMenuItem* adjust_item = in_game_menu.AddItem("Adjust Screen", OnAdjustScreen);
 	adjust_item->user_data = (void*) 1;
+	in_game_menu.AddItem("Render Options", OnRenderOptions);
 	in_game_menu.AddItem("Reset Emulation", OnReset);
 	in_game_menu.Run();
 }
@@ -1204,14 +1305,14 @@ void ReadJoysticks ()
 					}
 					else if (controller->IsPressed(CONT_Y))
 					{
-						if (sound_enabled)
-  							snd_stream_stop();
+						if (g_sound_mode)
+  							scherzo_snd_stream_stop();
 						InGameMenu();
 						memset(sound_buf, 0, OGG_BUF_SIZE);
-						if (sound_enabled)
+						if (g_sound_mode)
 						{
 							first_sfcastGetSound = true;
-  							snd_stream_start(SUPER_FAMICAST_FREQ, 1);
+  							scherzo_snd_stream_start(g_soundModes[g_sound_mode], 1);
 						}
 					}
 				}
@@ -1247,14 +1348,14 @@ void ReadJoysticks ()
 					}
 					else if (controller->IsPressed(CONT_Y))
 					{
-						if (sound_enabled)
-  							snd_stream_stop();
+						if (g_sound_mode)
+  							scherzo_snd_stream_stop();
 						InGameMenu();
 						memset(sound_buf, 0, OGG_BUF_SIZE);
-						if (sound_enabled)
+						if (g_sound_mode)
 						{
 							first_sfcastGetSound = true;
-  							snd_stream_start(SUPER_FAMICAST_FREQ, 1);
+  							scherzo_snd_stream_start(g_soundModes[g_sound_mode], 1);
 						}
 					}
 				}
@@ -1546,48 +1647,9 @@ void OnChangeSoundDoReset(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 
 void OnChangeSoundEnabled(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 {
-	if (game_loaded)
-	{
-		float old_font_size = cxt->size;
-		cxt->size = cxt->size / 2;
-		ShowMsg("WARNING: Enabling/Disabling sound requires a soft reset");
-		go_through_with_it = false;
-		
-		float outleft, outup, outright, outdown;
-		plx_fcxt_str_metrics(cxt, "Toggle sound anyways?", &outleft, &outup, &outright, &outdown);
-		
-		DCMenu confirm_reset_menu(cxt);
-		//confirm_reset_menu.poll_sound_stream = true;
-		confirm_reset_menu.force_callback_on_select = true;
-		confirm_reset_menu.x = ((640.0f * screen_adjustments.xscale) - outright) / 2;
-		confirm_reset_menu.y = (((480.0f * screen_adjustments.yscale) - outup) / 2) + (outup + 10);
-		DCMenuItem* yes_no_item = confirm_reset_menu.AddItem("Toggle sound anyways?", OnChangeSoundDoReset);
-		yes_no_item->AddChoice("Yes", 1);
-		yes_no_item->AddChoice("No", 0, true);
-		if (!confirm_reset_menu.Run() || !go_through_with_it)
-		{
-			pMenuItem->m_current_choice = pMenuItem->m_current_choice ? 0 : 1;
-			cxt->size = old_font_size;
-			return;
-		}
-		cxt->size = old_font_size;
-	}
+	g_sound_mode = Settings.SoundPlaybackRate = value;
 	if (value)
-	{
-		Settings.NextAPUEnabled = TRUE;
-		Settings.SoundSync = TRUE;
-		sound_enabled = true;
-		S9xSetSoundMute(FALSE);
-	}
-	else
-	{
-		Settings.NextAPUEnabled = FALSE;
-		Settings.SoundSync = FALSE;
-		sound_enabled = false;
-		S9xSetSoundMute(TRUE);
-	}
-	//if (game_loaded)
-		S9xSoftReset();
+		S9xInitSound (Settings.SoundPlaybackRate, Settings.SoundBufferSize);
 }
 
 void OnOptions(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
@@ -1616,9 +1678,15 @@ void OnOptions(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 	testchoice->AddChoice("On", 1, auto_save_sram);
 	testchoice->AddChoice("Off", 0, !auto_save_sram);
 	
-	testchoice = options_menu.AddItem("Enable Sound", OnChangeSoundEnabled);
-	testchoice->AddChoice("On", 1, sound_enabled);
-	testchoice->AddChoice("Off", 0, !sound_enabled);
+	testchoice = options_menu.AddItem("Sound Quality", OnChangeSoundEnabled);
+	testchoice->AddChoice("Off", 0, g_sound_mode == 0);
+	testchoice->AddChoice("1", 1, g_sound_mode == 1);
+	testchoice->AddChoice("2", 2, g_sound_mode == 2);
+	testchoice->AddChoice("3", 3, g_sound_mode == 3);
+	testchoice->AddChoice("4", 4, g_sound_mode == 4);
+	testchoice->AddChoice("5", 5, g_sound_mode == 5);
+	testchoice->AddChoice("6", 6, g_sound_mode == 6);
+	testchoice->AddChoice("7", 7, g_sound_mode == 7);
 	
 	DCMenuItem* adjust_item = options_menu.AddItem("Adjust Screen", OnAdjustScreen);
 	adjust_item->user_data = (void*) 0;
@@ -1632,6 +1700,15 @@ void OnCredits(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 }
 
 uint8 cur_controller_detail = 0;
+
+void OnChangeMouseEnabled(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
+{
+	mouse_enabled = (value ? true : false);
+	if (mouse_enabled)
+		IPPU.Controller = Settings.ControllerOption = SNES_MOUSE_SWAPPED;
+	else
+		IPPU.Controller = Settings.ControllerOption = SNES_JOYPAD;
+}
 
 void OnChangeDirectionalPad(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 {
@@ -1660,6 +1737,9 @@ void OnConfigureControllers(DCMenu* pMenu, DCMenuItem* pMenuItem, int value)
 	controller_menu.AddItem("Player 2", OnConfigureControllerPlayer);
 	controller_menu.AddItem("Player 3", OnConfigureControllerPlayer);
 	controller_menu.AddItem("Player 4", OnConfigureControllerPlayer);
+	DCMenuItem* tempitem = controller_menu.AddItem("Enable Mouse", OnChangeMouseEnabled);
+	tempitem->AddChoice("Yes", 1, mouse_enabled);
+	tempitem->AddChoice("No", 0, !mouse_enabled);
 	controller_menu.Run();
 }
 
@@ -1779,7 +1859,7 @@ void ShowMsg(const char* str)
 		pvr_scene_finish ();
 		
 		if (in_main_menu_system)
-			snd_stream_poll();
+			scherzo_snd_stream_poll();
 		
 		g_controllers[0].Poll();
 		if (g_controllers[0].JustPressed(CONT_A) || g_controllers[0].JustPressed(CONT_B))
@@ -2121,8 +2201,54 @@ void CheckSingleGame()
 	checking_single = false;
 }
 
+//KOS_INIT_FLAGS(INIT_DEFAULT);
+
+void InitDefaultSettings()
+{
+	ZeroMemory (&Settings, sizeof (Settings));
+	
+	Settings.SoundSkipMethod = 0; // uint8  INTERESTING!
+	Settings.H_Max = SNES_CYCLES_PER_SCANLINE; // long   
+	Settings.HBlankStart = (256 * Settings.H_Max) / SNES_HCOUNTER_MAX; // long   
+	Settings.CyclesPercentage = 100; // long   
+	//Settings.DisableIRQ = FALSE; // bool8  
+	Settings.Paused = FALSE; // bool8  
+	Settings.SwapJoypads = FALSE;
+	Settings.JoystickEnabled = TRUE; 
+	Settings.FrameTimePAL = 20000;
+	Settings.FrameTimeNTSC = 16667;
+	Settings.FrameTime = Settings.FrameTimeNTSC;
+	Settings.SkipFrames = AUTO_FRAMERATE;
+	Settings.MultiPlayer5 = TRUE;
+	Settings.Mouse = FALSE;
+	Settings.SuperScope = TRUE;
+	Settings.ControllerOption = SNES_JOYPAD;
+	Settings.ShutdownMaster = TRUE;
+	Settings.SoundPlaybackRate = 2;
+	//Settings.SixteenBitSound = TRUE;
+	Settings.SoundBufferSize = 0;
+	Settings.DisableSoundEcho = FALSE;
+	Settings.DisableSampleCaching = FALSE;
+	Settings.DisableMasterVolume = FALSE;
+	//Settings.SoundSync = TRUE;
+	Settings.InterpolatedSound = FALSE;
+	Settings.ThreadSound = FALSE;
+	Settings.Mute = FALSE;
+	//Settings.Transparency = TRUE;
+	//Settings.SupportHiRes = FALSE;
+	//Settings.Mode7Interpolate = FALSE;
+	Settings.DisplayFrameRate = FALSE;
+	Settings.AutoSaveDelay = 30;
+	Settings.ApplyCheats = FALSE;
+	Settings.TurboMode = FALSE;
+	Settings.TurboSkipFrames = 15;
+    Settings.StretchScreenshots = 1;
+}
+
 extern "C" int main()
 {
+	//PrintOffsetsAsm();
+
 	strcpy(theme_dir, "default");
 	vid_init(DM_640x480, PM_RGB565);
 	pvr_init(&pvr_params);
@@ -2130,67 +2256,28 @@ extern "C" int main()
 	texture_init();
 	pvr_mem_stats();
 	dc_maple_init();
+	pvr_dma_init();
+	
 	for (int k = 0; k < 4; ++k)
     	g_controllers[k].SetDevice(dc_maple_controller_info[k].dev);
+    
+    for (int k = 0; k < 4; ++k)
+    	g_mice[k].SetDevice(dc_maple_mouse_info[k].dev);
 	
 	fnt = plx_font_load("/rd/fonts/handelgothic.txf");
 	printf("fnt->txr->w = %u, fnt->txr->h = %u\n", fnt->txr->w, fnt->txr->h);
 	cxt = plx_fcxt_create(fnt, PVR_LIST_TR_POLY);
 	cxt->size = cxt->size * 2.0f;
 	rom_filename[0] = '\0';
-	ZeroMemory (&Settings, sizeof (Settings));
-	Settings.SkipFrames = AUTO_FRAMERATE;
-    Settings.DisplayFrameRate = FALSE;
+	
+	InitDefaultSettings();
 	LoadSettings();
-	if (sound_enabled)
-	{
-		Settings.APUEnabled = Settings.NextAPUEnabled = TRUE;
-		Settings.SoundSync = TRUE;
-	}
-	else
-	{
-		Settings.APUEnabled = Settings.NextAPUEnabled = FALSE;
-		Settings.SoundSync = FALSE;
-	}
-	Settings.SoundPlaybackRate = 4;
-    Settings.Stereo = TRUE;
-    Settings.SoundBufferSize = 0;
-    //Settings.InterpolatedSound = FALSE;
-	Settings.JoystickEnabled = TRUE;
-    Settings.CyclesPercentage = 100;
-    Settings.DisableSoundEcho = FALSE;
-    Settings.H_Max = SNES_CYCLES_PER_SCANLINE;
-    Settings.ShutdownMaster = TRUE;
-    Settings.FrameTimePAL = 20000;
-    Settings.FrameTimeNTSC = 16667;
-    Settings.FrameTime = Settings.FrameTimeNTSC;
-    Settings.DisableSampleCaching = FALSE;
-    Settings.DisableMasterVolume = FALSE;
-    Settings.Mouse = TRUE;
-    Settings.SuperScope = TRUE;
-    Settings.MultiPlayer5 = TRUE;
-    Settings.ControllerOption = SNES_JOYPAD;
-    Settings.SixteenBit = TRUE;
-    Settings.SixteenBitSound = TRUE;
-    Settings.SupportHiRes = FALSE;
-    Settings.NetPlay = FALSE;
-    Settings.ServerName [0] = 0;
-    Settings.ThreadSound = FALSE;
-    Settings.AutoSaveDelay = 30;
-    Settings.ApplyCheats = FALSE;
-    Settings.TurboMode = FALSE;
-    Settings.TurboSkipFrames = 15;
-    Settings.StretchScreenshots = 1;
-    Settings.ForceTransparency = TRUE;
-    Settings.Transparency = TRUE;
-    Settings.HBlankStart = (256 * Settings.H_Max) / SNES_HCOUNTER_MAX;
+	Settings.SoundPlaybackRate = g_sound_mode;
+	
     if (!Memory.Init () || !S9xInitAPU())
     	OutOfMemory ();
-   	S9xInitSound (Settings.SoundPlaybackRate, Settings.Stereo, Settings.SoundBufferSize);
-   	if (!Settings.APUEnabled)
-   		S9xSetSoundMute(TRUE);
-	else
-		S9xSetSoundMute(FALSE);
+    
+   	S9xInitSound (Settings.SoundPlaybackRate, Settings.SoundBufferSize);
    	S9xSetRenderPixelFormat (RGB565);
    	S9xInitInputDevices ();
    	S9xInitDisplay ();
@@ -2205,12 +2292,13 @@ extern "C" int main()
    		Settings.Paused = TRUE;
 	}
    	bool first_time_through = true;
+   	printf("sizeof(bool) = %d\n", sizeof(bool));
    	while (1)
     {
     	if (!single_game_mode && Settings.Paused)
     	{
-  			if (sound_enabled && !first_time_through)
-  				snd_stream_shutdown();
+  			if (g_sound_mode && !first_time_through)
+  				scherzo_snd_stream_shutdown();
 			first_time_through = false;
 			in_main_menu_system = true;
 			StartMusic();
@@ -2218,15 +2306,15 @@ extern "C" int main()
 			StopMusic();
 			in_main_menu_system = false;
 			Settings.Paused = FALSE;
-			if (sound_enabled)
+			if (g_sound_mode)
 			{
-				memset(sound_buf, 0, OGG_BUF_SIZE);
+				memset(sound_buf, 0, SFCAST_SOUND_BUF_SIZE);
 				first_sfcastGetSound = true;
-				snd_stream_init(sfcastGetSound);
-				snd_stream_start(SUPER_FAMICAST_FREQ, 1);
+				scherzo_snd_stream_init(sfcastGetSound);
+				scherzo_snd_stream_start(g_soundModes[g_sound_mode], 1);
 			}
 		}
-    	S9xMainLoop ();
+    	S9xMainLoop();
     	if (Settings.JoystickEnabled)
 	    	ReadJoysticks();
     }
@@ -2234,3 +2322,7 @@ extern "C" int main()
 	return 0;
 }
 
+extern "C" void reportf(const char*, ...)
+{
+	
+}

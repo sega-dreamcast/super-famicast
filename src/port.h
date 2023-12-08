@@ -78,6 +78,14 @@
 
 #define SCHERZO_INLINE	inline
 
+#ifdef __GNUC__
+#define LIKELY(expression) (__builtin_expect(!!(expression), 1))
+#define UNLIKELY(expression) (__builtin_expect(!!(expression), 0))
+#else
+#define LIKELY(expression) (expression)
+#define UNLIKELY(expression) (expression)
+#endif
+
 #if 0
 #define SCHERZO_PRINT(str)	printf(str)
 #define SCHERZO_PRINT1(str, arg1)	printf(str, arg1)
@@ -119,9 +127,9 @@
 #define ZLIB
 #define EXECUTE_SUPERFX_PER_LINE
 #define SOUND
-#define VAR_CYCLES
-#define CPU_SHUTDOWN
-#define SPC700_SHUTDOWN
+//#define VAR_CYCLES
+//#define CPU_SHUTDOWN
+//#define SPC700_SHUTDOWN
 #define PIXEL_FORMAT RGB555
 #define CHECK_SOUND()
 #define M_PI 3.14159265359
@@ -143,6 +151,9 @@ int    strcasecmp(const char *s1, const char *s2 );
 #define snes9x_types_defined
 
 typedef unsigned char bool8;
+// Changed to get rid of some extu.b bullcrap
+// on the SH4
+//typedef unsigned long bool8;
 
 #ifndef __WIN32__
 /* SCHERZO
@@ -156,7 +167,7 @@ typedef unsigned int uint32;
 #ifdef __GNUC__  /* long long is not part of ISO C++ */
 __extension__
 #endif
-typedef long long int64;
+//typedef long long int64;
 #else /* __WIN32__ */
 
 #ifdef __BORLANDC__
@@ -243,7 +254,7 @@ EXTERN_C void S9xGenerateSound ();
 EXTERN_C int soundsignal;
 EXTERN_C void MixSound(void);
 /* Yes, CHECK_SOUND is getting defined correctly! */
-#define CHECK_SOUND if (Settings.APUEnabled) if(SetSignalPPC(0L, soundsignal) & soundsignal) MixSound
+#define CHECK_SOUND if(SetSignalPPC(0L, soundsignal) & soundsignal) MixSound
 #else
 #define CHECK_SOUND()
 #endif

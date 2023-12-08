@@ -103,11 +103,11 @@ typedef int int32;
 struct FxInit_s
 {
     uint32	vFlags;
-    uint8 *	pvRegisters;	/* 768 bytes located in the memory at address 0x3000 */
+    uint8*	pvRegisters;	/* 768 bytes located in the memory at address 0x3000 */
     uint32	nRamBanks;	/* Number of 64kb-banks in GSU-RAM/BackupRAM (banks 0x70-0x73) */
-    uint8 *	pvRam;		/* Pointer to GSU-RAM */
+    uint8*	pvRam;		/* Pointer to GSU-RAM */
     uint32	nRomBanks;	/* Number of 32kb-banks in Cart-ROM */
-    uint8 *	pvRom;		/* Pointer to Cart-ROM */
+    uint8*	pvRom;		/* Pointer to Cart-ROM */
 };
 
 /* Reset the FxChip */

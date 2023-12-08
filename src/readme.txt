@@ -1,10 +1,12 @@
-_/\/\/\/ Super Famicast 1.0 \/\/\/\_
-http://www.sch3rz0.com/superfamicast/
+_/\/\/\/ Super Famicast 2.0 \/\/\/\_
+http://www.superfamicast.com/
 
 A Super Nintendo Entertainment System Emulator for the Sega Dreamcast
 ported and coded by Scherzo using GCC and the KOS Development Library.
 Super Famicast is a port of Snes9x, the great SNES emulator for PC. The
-current version of snes9x code used is v1.42.
+current version of snes9x code used is v1.42. It also makes use of the same
+SH4 assembler CPU core found in DreamSNES courtesy of Marcus Comstedt and
+the DreamSNES team. A huge thanks to them!
 
 -=< Feature Summary >=-
 
@@ -70,7 +72,7 @@ the theme) than that of files. All files are shown and are allowed to be
 chosen. Loading something other than a known ROM can possibly cause the
 emulator to crash. So please don't do it.
 
-You can swap the Super Famicast CD for another CD that has your ROMs.Do the
+You can swap the Super Famicast CD for another CD that has your ROMs. Do the
 swap before entering the ROM browser. Removing the CD stops the theme's music
 if it has it.
 
@@ -95,7 +97,7 @@ Frameskip:
 
 Display Frame Rate:
 	Enabling this feature will display the current frame rate during emulation.
-	is auto frame skipping is not enabled, then this feature will always read
+	If auto frame skipping is not enabled, then this feature will always read
 	the same ratio and is not a true indicator of frame rate.
 
 Auto Save SRAM:
@@ -119,7 +121,9 @@ Adjust Screen:
 -=< Configure Controllers >=-
 
 This currently allows you to configure whether the analog stick or D-Pad are
-used for SNES D-Pad input for each of the 4 players.
+used for SNES D-Pad input for each of the 4 players. You may also the Dreamcast
+mouse for SNES games that support the mouse. Currently, you must have the mouse
+plugged in before starting Super Famicast.
 
 -=< Save Settings >=-
 
@@ -151,8 +155,12 @@ Adjust Screen:
 	the current game frame is used as the background. White lines are drawn
 	on the edges of the frame in case black borders the edges.
 
+Render Options:
+	Toggle the display of various layers including backgrounds and sprites.
+
 -=< Credits >=-
 Snes9x Team - for over 95% of the source used in Super Famicast
+DreamSNES team - for providing the cpu core
 mastakilla - for his Bowser theme
 Mikey - for the clean theme
 Rigor Mortis - for the first theme music
@@ -165,7 +173,7 @@ made development faster and less stressful.
 
 -=< Links >=-
 
-Super Famicast: http://www.sch3rz0.com/superfamicast/
+Super Famicast: http://www.superfamicast.com/
 Snes9x: http://www.snes9x.com/
 KOS: http://cadcdev.sourceforge.net/
 DC Emulation: http://www.dcemulation.com/
@@ -173,6 +181,5 @@ DC Emulation: http://www.dcemulation.com/
 -=< Contact >=-
 
 I frequently check the DCEmu message boards.
-Email: scherzo@sch3rz0.com
 AIM: ScherzoQ2
 

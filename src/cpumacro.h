@@ -90,134 +90,114 @@ STATIC SCHERZO_INLINE void SetZN8 (uint8 Work)
 
 STATIC SCHERZO_INLINE void ADC8 ()
 {
-    Work8 = S9xGetByte (OpAddress);
-    
-    if (CheckDecimal ())
+    Work8 = S9xGetByte(OpAddress);
+    if (CheckDecimal())
     {
-	A1 = (Registers.A.W) & 0xF;
-	A2 = (Registers.A.W >> 4) & 0xF;
-	W1 = Work8 & 0xF;
-	W2 = (Work8 >> 4) & 0xF;
-
-	A1 += W1 + CheckCarry();
-	if (A1 > 9)
-	{
-	    A1 -= 10;
-	    A1 &= 0xF;
-	    A2++;
-	}
-
-	A2 += W2;
-	if (A2 > 9)
-	{
-	    A2 -= 10;
-	    A2 &= 0xF;
-	    SetCarry ();
-	}
-	else
-	{
-	    ClearCarry ();
-	}
-
-	Ans8 = (A2 << 4) | A1;
-	if (~(Registers.AL ^ Work8) &
-	    (Work8 ^ Ans8) & 0x80)
-	    SetOverflow();
-	else
-	    ClearOverflow();
-	Registers.AL = Ans8;
-	SetZN8 (Registers.AL);
+		A1 = (Registers.A.W) & 0xF;
+		A2 = (Registers.A.W >> 4) & 0xF;
+		W1 = Work8 & 0xF;
+		W2 = (Work8 >> 4) & 0xF;
+		A1 += W1 + CheckCarry();
+		if (A1 > 9)
+		{
+			A1 -= 10;
+			A1 &= 0xF;
+			A2++;
+		}
+		A2 += W2;
+		if (A2 > 9)
+		{
+			A2 -= 10;
+			A2 &= 0xF;
+			SetCarry();
+		}
+		else
+			ClearCarry();
+		Ans8 = (A2 << 4) | A1;
+		if (~(Registers.AL ^ Work8) & (Work8 ^ Ans8) & 0x80)
+	    	SetOverflow();
+		else
+		    ClearOverflow();
+		Registers.AL = Ans8;
+		SetZN8(Registers.AL);
     }
     else
     {
-	Ans16 = Registers.AL + Work8 + CheckCarry();
+		Ans16 = Registers.AL + Work8 + CheckCarry();
+		ICPU._Carry = Ans16 >= 0x100;
 
-	ICPU._Carry = Ans16 >= 0x100;
-
-	if (~(Registers.AL ^ Work8) & 
-	     (Work8 ^ (uint8) Ans16) & 0x80)
-	    SetOverflow();
-	else
-	    ClearOverflow();
-	Registers.AL = (uint8) Ans16;
-	SetZN8 (Registers.AL);
-
+		if (~(Registers.AL ^ Work8) & (Work8 ^ (uint8) Ans16) & 0x80)
+			SetOverflow();
+		else
+			ClearOverflow();
+		Registers.AL = (uint8) Ans16;
+		SetZN8(Registers.AL);
     }
 }
 
-STATIC SCHERZO_INLINE void ADC16 ()
+STATIC SCHERZO_INLINE void ADC16()
 {
-    Work16 = S9xGetWord (OpAddress);
-
+    Work16 = S9xGetWord(OpAddress);
     if (CheckDecimal ())
     {
-	A1 = (Registers.A.W) & 0xF;
-	A2 = (Registers.A.W >> 4) & 0xF;
-	A3 = (Registers.A.W >> 8) & 0xF;
-	A4 = (Registers.A.W >> 12) & 0xF;
-	W1 = Work16 & 0xF;
-	W2 = (Work16 >> 4) & 0xF;
-	W3 = (Work16 >> 8) & 0xF;
-	W4 = (Work16 >> 12) & 0xF;
-
-	A1 += W1 + CheckCarry ();
-	if (A1 > 9)
-	{
-	    A1 -= 10;
-	    A1 &= 0xF;
-	    A2++;
-	}
-
-	A2 += W2;
-	if (A2 > 9)
-	{
-	    A2 -= 10;
-	    A2 &= 0xF;
-	    A3++;
-	}
-
-	A3 += W3;
-	if (A3 > 9)
-	{
-	    A3 -= 10;
-	    A3 &= 0xF;
-	    A4++;
-	}
-
-	A4 += W4;
-	if (A4 > 9)
-	{
-	    A4 -= 10;
-	    A4 &= 0xF;
-	    SetCarry ();
-	}
-	else
-	{
-	    ClearCarry ();
-	}
-
-	Ans16 = (A4 << 12) | (A3 << 8) | (A2 << 4) | (A1);
-	if (~(Registers.A.W ^ Work16) &
-	    (Work16 ^ Ans16) & 0x8000)
-	    SetOverflow();
-	else
-	    ClearOverflow();
-	Registers.A.W = Ans16;
-	SetZN16 (Registers.A.W);
+		A1 = (Registers.A.W) & 0xF;
+		A2 = (Registers.A.W >> 4) & 0xF;
+		A3 = (Registers.A.W >> 8) & 0xF;
+		A4 = (Registers.A.W >> 12) & 0xF;
+		W1 = Work16 & 0xF;
+		W2 = (Work16 >> 4) & 0xF;
+		W3 = (Work16 >> 8) & 0xF;
+		W4 = (Work16 >> 12) & 0xF;
+		A1 += W1 + CheckCarry ();
+		if (A1 > 9)
+		{
+			A1 -= 10;
+			A1 &= 0xF;
+			A2++;
+		}
+		A2 += W2;
+		if (A2 > 9)
+		{
+			A2 -= 10;
+			A2 &= 0xF;
+			A3++;
+		}
+		A3 += W3;
+		if (A3 > 9)
+		{
+			A3 -= 10;
+			A3 &= 0xF;
+			A4++;
+		}
+		A4 += W4;
+		if (A4 > 9)
+		{
+			A4 -= 10;
+			A4 &= 0xF;
+			SetCarry();
+		}
+		else
+			ClearCarry();
+		Ans16 = (A4 << 12) | (A3 << 8) | (A2 << 4) | (A1);
+		if (~(Registers.A.W ^ Work16) &
+			(Work16 ^ Ans16) & 0x8000)
+			SetOverflow();
+		else
+			ClearOverflow();
+		Registers.A.W = Ans16;
+		SetZN16(Registers.A.W);
     }
     else
     {
-	Ans32 = Registers.A.W + Work16 + CheckCarry();
-
-	ICPU._Carry = Ans32 >= 0x10000;
-
-	if (~(Registers.A.W ^ Work16) &
-	    (Work16 ^ (uint16) Ans32) & 0x8000)
-	    SetOverflow();
-	else
-	    ClearOverflow();
-	Registers.A.W = (uint16) Ans32;
-	SetZN16 (Registers.A.W);
+		Ans32 = Registers.A.W + Work16 + CheckCarry();
+		ICPU._Carry = Ans32 >= 0x10000;
+		if (~(Registers.A.W ^ Work16) &
+			(Work16 ^ (uint16) Ans32) & 0x8000)
+			SetOverflow();
+		else
+			ClearOverflow();
+		Registers.A.W = (uint16) Ans32;
+		SetZN16(Registers.A.W);
     }
 }
 

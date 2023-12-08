@@ -206,7 +206,8 @@ STATIC SCHERZO_INLINE void AbsoluteLong (AccessMode a)
 
 STATIC SCHERZO_INLINE void Direct(AccessMode a)
 {
-    if(a&READ) OpenBus = *CPU.PC;
+    if(a & READ)
+    	OpenBus = *CPU.PC;
     OpAddress = (*CPU.PC++ + Registers.D.W) & 0xffff;
 #ifndef SA1_OPCODES
     CPU.Cycles += CPU.MemSpeed;
@@ -223,7 +224,8 @@ STATIC SCHERZO_INLINE void DirectIndirectIndexed (AccessMode a)
 #endif
 
     OpAddress = S9xGetWord (OpAddress);
-    if(a&READ) OpenBus = (uint8)(OpAddress>>8);
+    if(a & READ)
+    	OpenBus = (uint8)(OpAddress >> 8);
     OpAddress += ICPU.ShiftedDB + Registers.Y.W;
 
 //    if (Registers.DL != 0) CPU.Cycles += ONE_CYCLE;

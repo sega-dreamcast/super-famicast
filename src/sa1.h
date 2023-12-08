@@ -91,43 +91,79 @@ struct SSA1Registers {
 };
 
 struct SSA1 {
-    struct  SOpcodes *S9xOpcodes;
-    uint8   _Carry;
-    uint8   _Zero;
-    uint8   _Negative;
+	struct  SOpcodes *S9xOpcodes;
+	uint8   _Carry;
+	uint8   _Zero;
+	uint8   _Negative;
     uint8   _Overflow;
     bool8   CPUExecuting;
-    uint32  ShiftedPB;
-    uint32  ShiftedDB;
-    uint32  Flags;
     bool8   Executing;
     bool8   NMIActive;
     bool8   IRQActive;
-    bool8   WaitingForInterrupt;
-    bool8   Waiting;
-//    uint8   WhichEvent;
+	bool8   WaitingForInterrupt;
+	uint32  ShiftedPB;
+    uint32  ShiftedDB;
+    uint32  Flags;
     uint8   *PC;
     uint8   *PCBase;
     uint8   *BWRAM;
     uint8   *PCAtOpcodeStart;
     uint8   *WaitAddress;
     uint32  WaitCounter;
-    uint8   *WaitByteAddress1;
+	uint8   *WaitByteAddress1;
     uint8   *WaitByteAddress2;
-//    long    Cycles;
-//    long    NextEvent;
-//    long    V_Counter;
     uint8   *Map [MEMMAP_NUM_BLOCKS];
     uint8   *WriteMap [MEMMAP_NUM_BLOCKS];
     int16   op1;
     int16   op2;
     int     arithmetic_op;
-    int64   sum;
-    bool8   overflow;
-    uint8   VirtualBitmapFormat;
-    bool8   in_char_dma;
+	int64   sum;
+	bool8   overflow;
+	uint8   VirtualBitmapFormat;
+	bool8   in_char_dma;
     uint8   variable_bit_pos;
+    
+    
+    bool8   Waiting;
+//    uint8   WhichEvent;
+//    long    Cycles;
+//    long    NextEvent;
+//    long    V_Counter;
 };
+
+/* ASM
+#define SA1Opcodes @(0,SA1REG)
+#define SA1_Carry @(4,SA1REG)
+#define SA1_Zero @(5,SA1REG)
+#define SA1_Negative @(6,SA1REG)
+#define SA1_Overflow @(7,SA1REG)
+#define SA1CPUExecuting @(8,SA1REG)
+#define SA1Executing @(9,SA1REG)
+#define SA1NMIActive @(10,SA1REG)
+#define SA1IRQActive @(11,SA1REG)
+#define SA1WaitingForInterrupt @(12,SA1REG)
+#define SA1ShiftedPB @(16,SA1REG)
+#define SA1ShiftedDB @(20,SA1REG)
+#define SA1Flags @(24,SA1REG)
+#define SA1PCS @(28,SA1REG)
+#define SA1PCBase @(32,SA1REG)
+#define SA1BWRAM @(36,SA1REG)
+#define SA1PCAtOpcodeStart @(40,SA1REG)
+#define SA1WaitAddress @(44,SA1REG)
+#define SA1WaitCounter @(48,SA1REG)
+#define SA1WaitByteAddress1 @(52,SA1REG)
+#define SA1WaitByteAddress2 @(56,SA1REG)
+#define SA1Map @(60,SA1REG)
+#define SA1WriteMap @(16444,SA1REG)
+#define SA1op1 @(32828,SA1REG)
+#define SA1op2 @(32830,SA1REG)
+#define SA1arithmetic_op @(32832,SA1REG)
+#define SA1sum @(32836,SA1REG)
+#define SA1overflow @(32844,SA1REG)
+#define VirtualBitmapFormat @(32845,SA1REG)
+#define SA1_in_char_dma @(32846,SA1REG)
+#define SA1variable_bit_pos @(32847,SA1REG)
+*/
 
 #define SA1CheckZero() (SA1._Zero == 0)
 #define SA1CheckCarry() (SA1._Carry)
@@ -170,7 +206,7 @@ END_EXTERN_C
 #define TIMER_IRQ_SOURCE    (1 << 6)
 #define DMA_IRQ_SOURCE	    (1 << 5)
 
-STATIC SCHERZO_INLINE void S9xSA1UnpackStatus()
+STATIC inline void S9xSA1UnpackStatus()
 {
     SA1._Zero = (SA1Registers.PL & Zero) == 0;
     SA1._Negative = (SA1Registers.PL & Negative);
@@ -178,14 +214,14 @@ STATIC SCHERZO_INLINE void S9xSA1UnpackStatus()
     SA1._Overflow = (SA1Registers.PL & Overflow) >> 6;
 }
 
-STATIC SCHERZO_INLINE void S9xSA1PackStatus()
+STATIC inline void S9xSA1PackStatus()
 {
     SA1Registers.PL &= ~(Zero | Negative | Carry | Overflow);
     SA1Registers.PL |= SA1._Carry | ((SA1._Zero == 0) << 1) |
 		       (SA1._Negative & 0x80) | (SA1._Overflow << 6);
 }
 
-STATIC SCHERZO_INLINE void S9xSA1FixCycles ()
+STATIC inline void S9xSA1FixCycles ()
 {
     if (SA1CheckEmulation ())
 	SA1.S9xOpcodes = S9xSA1OpcodesM1X1;

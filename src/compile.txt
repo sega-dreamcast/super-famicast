@@ -1,0 +1,1259 @@
+rm -f superfamicast.elf  romdisk.*
+/usr/local/dc/sh-elf/bin/sh-elf-gcc -Wa,-little -DSPC700_C -DVAR_CYCLES -DCPU_SHUTDOWN -c sh/cpuexec.S
+/usr/local/dc/sh-elf/bin/sh-elf-gcc -Wa,-little -DSPC700_C -DVAR_CYCLES -DCPU_SHUTDOWN -c sh/cpuops.S
+/usr/local/dc/sh-elf/bin/sh-elf-as -little sh/sa1ops.S -o sh/sa1ops.o
+sh/sa1ops.S: Assembler messages:
+sh/sa1ops.S:154: Error: unknown opcode
+sh/sa1ops.S:155: Error: unknown opcode
+sh/sa1ops.S:160: Error: invalid operands for opcode
+sh/sa1ops.S:166: Error: invalid operands for opcode
+sh/sa1ops.S:168: Error: invalid operands for opcode
+sh/sa1ops.S:172: Error: invalid operands for opcode
+sh/sa1ops.S:173: Error: invalid operands for opcode
+sh/sa1ops.S:181: Error: invalid operands for opcode
+sh/sa1ops.S:185: Error: invalid operands for opcode
+sh/sa1ops.S:190: Error: unknown opcode
+sh/sa1ops.S:191: Error: unknown opcode
+sh/sa1ops.S:192: Error: unknown opcode
+sh/sa1ops.S:193: Error: unknown opcode
+sh/sa1ops.S:194: Error: unknown opcode
+sh/sa1ops.S:198: Error: unknown opcode
+sh/sa1ops.S:199: Error: unknown opcode
+sh/sa1ops.S:200: Error: unknown opcode
+sh/sa1ops.S:202: Error: invalid operands for opcode
+sh/sa1ops.S:204: Error: invalid operands for opcode
+sh/sa1ops.S:205: Error: invalid operands for opcode
+sh/sa1ops.S:209: Error: invalid operands for opcode
+sh/sa1ops.S:212: Error: unknown opcode
+sh/sa1ops.S:213: Error: unknown opcode
+sh/sa1ops.S:216: Error: invalid operands for opcode
+sh/sa1ops.S:218: Error: illegal register after @
+sh/sa1ops.S:231: Error: unknown opcode
+sh/sa1ops.S:246: Error: unknown opcode
+sh/sa1ops.S:257: Error: unknown opcode
+sh/sa1ops.S:258: Error: unknown opcode
+sh/sa1ops.S:261: Error: unknown opcode
+sh/sa1ops.S:262: Error: unknown opcode
+sh/sa1ops.S:265: Error: unknown opcode
+sh/sa1ops.S:267: Error: unknown opcode
+sh/sa1ops.S:270: Error: unknown opcode
+sh/sa1ops.S:272: Error: unknown opcode
+sh/sa1ops.S:275: Error: unknown opcode
+sh/sa1ops.S:277: Error: unknown opcode
+sh/sa1ops.S:280: Error: unknown opcode
+sh/sa1ops.S:282: Error: unknown opcode
+sh/sa1ops.S:285: Error: unknown opcode
+sh/sa1ops.S:287: Error: unknown opcode
+sh/sa1ops.S:290: Error: unknown opcode
+sh/sa1ops.S:292: Error: unknown opcode
+sh/sa1ops.S:295: Error: unknown opcode
+sh/sa1ops.S:297: Error: unknown opcode
+sh/sa1ops.S:300: Error: unknown opcode
+sh/sa1ops.S:302: Error: unknown opcode
+sh/sa1ops.S:305: Error: unknown opcode
+sh/sa1ops.S:307: Error: unknown opcode
+sh/sa1ops.S:310: Error: unknown opcode
+sh/sa1ops.S:312: Error: unknown opcode
+sh/sa1ops.S:315: Error: unknown opcode
+sh/sa1ops.S:317: Error: unknown opcode
+sh/sa1ops.S:320: Error: unknown opcode
+sh/sa1ops.S:322: Error: unknown opcode
+sh/sa1ops.S:325: Error: unknown opcode
+sh/sa1ops.S:327: Error: unknown opcode
+sh/sa1ops.S:330: Error: unknown opcode
+sh/sa1ops.S:332: Error: unknown opcode
+sh/sa1ops.S:335: Error: unknown opcode
+sh/sa1ops.S:337: Error: unknown opcode
+sh/sa1ops.S:340: Error: unknown opcode
+sh/sa1ops.S:342: Error: unknown opcode
+sh/sa1ops.S:345: Error: unknown opcode
+sh/sa1ops.S:347: Error: unknown opcode
+sh/sa1ops.S:350: Error: unknown opcode
+sh/sa1ops.S:352: Error: unknown opcode
+sh/sa1ops.S:355: Error: unknown opcode
+sh/sa1ops.S:357: Error: unknown opcode
+sh/sa1ops.S:360: Error: unknown opcode
+sh/sa1ops.S:362: Error: unknown opcode
+sh/sa1ops.S:365: Error: unknown opcode
+sh/sa1ops.S:367: Error: unknown opcode
+sh/sa1ops.S:370: Error: unknown opcode
+sh/sa1ops.S:372: Error: unknown opcode
+sh/sa1ops.S:375: Error: unknown opcode
+sh/sa1ops.S:377: Error: unknown opcode
+sh/sa1ops.S:380: Error: unknown opcode
+sh/sa1ops.S:382: Error: unknown opcode
+sh/sa1ops.S:385: Error: unknown opcode
+sh/sa1ops.S:387: Error: unknown opcode
+sh/sa1ops.S:390: Error: unknown opcode
+sh/sa1ops.S:392: Error: unknown opcode
+sh/sa1ops.S:395: Error: unknown opcode
+sh/sa1ops.S:397: Error: unknown opcode
+sh/sa1ops.S:400: Error: unknown opcode
+sh/sa1ops.S:402: Error: unknown opcode
+sh/sa1ops.S:406: Error: unknown opcode
+sh/sa1ops.S:407: Error: unknown opcode
+sh/sa1ops.S:410: Error: unknown opcode
+sh/sa1ops.S:411: Error: unknown opcode
+sh/sa1ops.S:414: Error: unknown opcode
+sh/sa1ops.S:416: Error: unknown opcode
+sh/sa1ops.S:419: Error: unknown opcode
+sh/sa1ops.S:421: Error: unknown opcode
+sh/sa1ops.S:424: Error: unknown opcode
+sh/sa1ops.S:426: Error: unknown opcode
+sh/sa1ops.S:429: Error: unknown opcode
+sh/sa1ops.S:431: Error: unknown opcode
+sh/sa1ops.S:434: Error: unknown opcode
+sh/sa1ops.S:436: Error: unknown opcode
+sh/sa1ops.S:439: Error: unknown opcode
+sh/sa1ops.S:441: Error: unknown opcode
+sh/sa1ops.S:444: Error: unknown opcode
+sh/sa1ops.S:446: Error: unknown opcode
+sh/sa1ops.S:449: Error: unknown opcode
+sh/sa1ops.S:451: Error: unknown opcode
+sh/sa1ops.S:454: Error: unknown opcode
+sh/sa1ops.S:456: Error: unknown opcode
+sh/sa1ops.S:459: Error: unknown opcode
+sh/sa1ops.S:461: Error: unknown opcode
+sh/sa1ops.S:464: Error: unknown opcode
+sh/sa1ops.S:466: Error: unknown opcode
+sh/sa1ops.S:469: Error: unknown opcode
+sh/sa1ops.S:471: Error: unknown opcode
+sh/sa1ops.S:474: Error: unknown opcode
+sh/sa1ops.S:476: Error: unknown opcode
+sh/sa1ops.S:479: Error: unknown opcode
+sh/sa1ops.S:481: Error: unknown opcode
+sh/sa1ops.S:484: Error: unknown opcode
+sh/sa1ops.S:486: Error: unknown opcode
+sh/sa1ops.S:489: Error: unknown opcode
+sh/sa1ops.S:491: Error: unknown opcode
+sh/sa1ops.S:494: Error: unknown opcode
+sh/sa1ops.S:496: Error: unknown opcode
+sh/sa1ops.S:499: Error: unknown opcode
+sh/sa1ops.S:501: Error: unknown opcode
+sh/sa1ops.S:504: Error: unknown opcode
+sh/sa1ops.S:506: Error: unknown opcode
+sh/sa1ops.S:509: Error: unknown opcode
+sh/sa1ops.S:511: Error: unknown opcode
+sh/sa1ops.S:514: Error: unknown opcode
+sh/sa1ops.S:516: Error: unknown opcode
+sh/sa1ops.S:519: Error: unknown opcode
+sh/sa1ops.S:521: Error: unknown opcode
+sh/sa1ops.S:524: Error: unknown opcode
+sh/sa1ops.S:526: Error: unknown opcode
+sh/sa1ops.S:529: Error: unknown opcode
+sh/sa1ops.S:531: Error: unknown opcode
+sh/sa1ops.S:534: Error: unknown opcode
+sh/sa1ops.S:536: Error: unknown opcode
+sh/sa1ops.S:539: Error: unknown opcode
+sh/sa1ops.S:541: Error: unknown opcode
+sh/sa1ops.S:544: Error: unknown opcode
+sh/sa1ops.S:546: Error: unknown opcode
+sh/sa1ops.S:549: Error: unknown opcode
+sh/sa1ops.S:551: Error: unknown opcode
+sh/sa1ops.S:555: Error: invalid operands for opcode
+sh/sa1ops.S:556: Error: invalid operands for opcode
+sh/sa1ops.S:560: Error: invalid operands for opcode
+sh/sa1ops.S:563: Error: invalid operands for opcode
+sh/sa1ops.S:564: Error: invalid operands for opcode
+sh/sa1ops.S:566: Error: unknown opcode
+sh/sa1ops.S:569: Error: invalid operands for opcode
+sh/sa1ops.S:572: Error: invalid operands for opcode
+sh/sa1ops.S:573: Error: invalid operands for opcode
+sh/sa1ops.S:575: Error: invalid operands for opcode
+sh/sa1ops.S:576: Error: invalid operands for opcode
+sh/sa1ops.S:578: Error: unknown opcode
+sh/sa1ops.S:581: Error: unknown opcode
+sh/sa1ops.S:582: Error: unknown opcode
+sh/sa1ops.S:585: Error: unknown opcode
+sh/sa1ops.S:586: Error: unknown opcode
+sh/sa1ops.S:589: Error: unknown opcode
+sh/sa1ops.S:590: Error: unknown opcode
+sh/sa1ops.S:593: Error: unknown opcode
+sh/sa1ops.S:594: Error: unknown opcode
+sh/sa1ops.S:597: Error: unknown opcode
+sh/sa1ops.S:598: Error: unknown opcode
+sh/sa1ops.S:601: Error: unknown opcode
+sh/sa1ops.S:602: Error: unknown opcode
+sh/sa1ops.S:605: Error: unknown opcode
+sh/sa1ops.S:606: Error: unknown opcode
+sh/sa1ops.S:609: Error: unknown opcode
+sh/sa1ops.S:610: Error: unknown opcode
+sh/sa1ops.S:614: Error: unknown opcode
+sh/sa1ops.S:615: Error: invalid operands for opcode
+sh/sa1ops.S:622: Error: unknown opcode
+sh/sa1ops.S:623: Error: invalid operands for opcode
+sh/sa1ops.S:630: Error: unknown opcode
+sh/sa1ops.S:631: Error: unknown opcode
+sh/sa1ops.S:634: Error: unknown opcode
+sh/sa1ops.S:635: Error: unknown opcode
+sh/sa1ops.S:638: Error: unknown opcode
+sh/sa1ops.S:639: Error: unknown opcode
+sh/sa1ops.S:642: Error: unknown opcode
+sh/sa1ops.S:643: Error: unknown opcode
+sh/sa1ops.S:646: Error: unknown opcode
+sh/sa1ops.S:647: Error: unknown opcode
+sh/sa1ops.S:650: Error: unknown opcode
+sh/sa1ops.S:651: Error: unknown opcode
+sh/sa1ops.S:654: Error: unknown opcode
+sh/sa1ops.S:655: Error: unknown opcode
+sh/sa1ops.S:658: Error: unknown opcode
+sh/sa1ops.S:659: Error: unknown opcode
+sh/sa1ops.S:663: Error: unknown opcode
+sh/sa1ops.S:664: Error: unknown opcode
+sh/sa1ops.S:667: Error: unknown opcode
+sh/sa1ops.S:668: Error: unknown opcode
+sh/sa1ops.S:671: Error: unknown opcode
+sh/sa1ops.S:673: Error: unknown opcode
+sh/sa1ops.S:676: Error: unknown opcode
+sh/sa1ops.S:678: Error: unknown opcode
+sh/sa1ops.S:681: Error: unknown opcode
+sh/sa1ops.S:683: Error: unknown opcode
+sh/sa1ops.S:686: Error: unknown opcode
+sh/sa1ops.S:688: Error: unknown opcode
+sh/sa1ops.S:691: Error: unknown opcode
+sh/sa1ops.S:693: Error: unknown opcode
+sh/sa1ops.S:696: Error: unknown opcode
+sh/sa1ops.S:698: Error: unknown opcode
+sh/sa1ops.S:701: Error: unknown opcode
+sh/sa1ops.S:703: Error: unknown opcode
+sh/sa1ops.S:706: Error: unknown opcode
+sh/sa1ops.S:708: Error: unknown opcode
+sh/sa1ops.S:711: Error: unknown opcode
+sh/sa1ops.S:713: Error: unknown opcode
+sh/sa1ops.S:716: Error: unknown opcode
+sh/sa1ops.S:718: Error: unknown opcode
+sh/sa1ops.S:721: Error: unknown opcode
+sh/sa1ops.S:723: Error: unknown opcode
+sh/sa1ops.S:726: Error: unknown opcode
+sh/sa1ops.S:728: Error: unknown opcode
+sh/sa1ops.S:731: Error: unknown opcode
+sh/sa1ops.S:733: Error: unknown opcode
+sh/sa1ops.S:736: Error: unknown opcode
+sh/sa1ops.S:738: Error: unknown opcode
+sh/sa1ops.S:741: Error: unknown opcode
+sh/sa1ops.S:743: Error: unknown opcode
+sh/sa1ops.S:746: Error: unknown opcode
+sh/sa1ops.S:748: Error: unknown opcode
+sh/sa1ops.S:751: Error: unknown opcode
+sh/sa1ops.S:753: Error: unknown opcode
+sh/sa1ops.S:756: Error: unknown opcode
+sh/sa1ops.S:758: Error: unknown opcode
+sh/sa1ops.S:761: Error: unknown opcode
+sh/sa1ops.S:763: Error: unknown opcode
+sh/sa1ops.S:766: Error: unknown opcode
+sh/sa1ops.S:768: Error: unknown opcode
+sh/sa1ops.S:771: Error: unknown opcode
+sh/sa1ops.S:773: Error: unknown opcode
+sh/sa1ops.S:776: Error: unknown opcode
+sh/sa1ops.S:778: Error: unknown opcode
+sh/sa1ops.S:781: Error: unknown opcode
+sh/sa1ops.S:783: Error: unknown opcode
+sh/sa1ops.S:786: Error: unknown opcode
+sh/sa1ops.S:788: Error: unknown opcode
+sh/sa1ops.S:791: Error: unknown opcode
+sh/sa1ops.S:793: Error: unknown opcode
+sh/sa1ops.S:796: Error: unknown opcode
+sh/sa1ops.S:798: Error: unknown opcode
+sh/sa1ops.S:801: Error: unknown opcode
+sh/sa1ops.S:803: Error: unknown opcode
+sh/sa1ops.S:806: Error: unknown opcode
+sh/sa1ops.S:808: Error: unknown opcode
+sh/sa1ops.S:812: Error: unknown opcode
+sh/sa1ops.S:813: Error: unknown opcode
+sh/sa1ops.S:816: Error: unknown opcode
+sh/sa1ops.S:817: Error: unknown opcode
+sh/sa1ops.S:820: Error: unknown opcode
+sh/sa1ops.S:822: Error: unknown opcode
+sh/sa1ops.S:825: Error: unknown opcode
+sh/sa1ops.S:827: Error: unknown opcode
+sh/sa1ops.S:830: Error: unknown opcode
+sh/sa1ops.S:832: Error: unknown opcode
+sh/sa1ops.S:835: Error: unknown opcode
+sh/sa1ops.S:837: Error: unknown opcode
+sh/sa1ops.S:842: Error: unknown opcode
+sh/sa1ops.S:843: Error: unknown opcode
+sh/sa1ops.S:846: Error: unknown opcode
+sh/sa1ops.S:847: Error: unknown opcode
+sh/sa1ops.S:850: Error: unknown opcode
+sh/sa1ops.S:852: Error: unknown opcode
+sh/sa1ops.S:855: Error: unknown opcode
+sh/sa1ops.S:857: Error: unknown opcode
+sh/sa1ops.S:860: Error: unknown opcode
+sh/sa1ops.S:862: Error: unknown opcode
+sh/sa1ops.S:865: Error: unknown opcode
+sh/sa1ops.S:867: Error: unknown opcode
+sh/sa1ops.S:871: Error: invalid operands for opcode
+sh/sa1ops.S:872: Error: invalid operands for opcode
+sh/sa1ops.S:875: Error: invalid operands for opcode
+sh/sa1ops.S:876: Error: unknown opcode
+sh/sa1ops.S:879: Error: invalid operands for opcode
+sh/sa1ops.S:880: Error: invalid operands for opcode
+sh/sa1ops.S:881: Error: unknown opcode
+sh/sa1ops.S:884: Error: unknown opcode
+sh/sa1ops.S:885: Error: unknown opcode
+sh/sa1ops.S:888: Error: unknown opcode
+sh/sa1ops.S:889: Error: unknown opcode
+sh/sa1ops.S:892: Error: unknown opcode
+sh/sa1ops.S:893: Error: unknown opcode
+sh/sa1ops.S:896: Error: unknown opcode
+sh/sa1ops.S:897: Error: unknown opcode
+sh/sa1ops.S:900: Error: unknown opcode
+sh/sa1ops.S:901: Error: unknown opcode
+sh/sa1ops.S:904: Error: unknown opcode
+sh/sa1ops.S:905: Error: unknown opcode
+sh/sa1ops.S:908: Error: unknown opcode
+sh/sa1ops.S:910: Error: unknown opcode
+sh/sa1ops.S:913: Error: unknown opcode
+sh/sa1ops.S:914: Error: unknown opcode
+sh/sa1ops.S:918: Error: unknown opcode
+sh/sa1ops.S:919: Error: unknown opcode
+sh/sa1ops.S:922: Error: unknown opcode
+sh/sa1ops.S:923: Error: unknown opcode
+sh/sa1ops.S:926: Error: unknown opcode
+sh/sa1ops.S:928: Error: unknown opcode
+sh/sa1ops.S:931: Error: unknown opcode
+sh/sa1ops.S:933: Error: unknown opcode
+sh/sa1ops.S:936: Error: unknown opcode
+sh/sa1ops.S:938: Error: unknown opcode
+sh/sa1ops.S:941: Error: unknown opcode
+sh/sa1ops.S:943: Error: unknown opcode
+sh/sa1ops.S:946: Error: unknown opcode
+sh/sa1ops.S:948: Error: unknown opcode
+sh/sa1ops.S:951: Error: unknown opcode
+sh/sa1ops.S:953: Error: unknown opcode
+sh/sa1ops.S:956: Error: unknown opcode
+sh/sa1ops.S:958: Error: unknown opcode
+sh/sa1ops.S:961: Error: unknown opcode
+sh/sa1ops.S:963: Error: unknown opcode
+sh/sa1ops.S:966: Error: unknown opcode
+sh/sa1ops.S:968: Error: unknown opcode
+sh/sa1ops.S:971: Error: unknown opcode
+sh/sa1ops.S:973: Error: unknown opcode
+sh/sa1ops.S:976: Error: unknown opcode
+sh/sa1ops.S:978: Error: unknown opcode
+sh/sa1ops.S:981: Error: unknown opcode
+sh/sa1ops.S:983: Error: unknown opcode
+sh/sa1ops.S:986: Error: unknown opcode
+sh/sa1ops.S:988: Error: unknown opcode
+sh/sa1ops.S:991: Error: unknown opcode
+sh/sa1ops.S:993: Error: unknown opcode
+sh/sa1ops.S:996: Error: unknown opcode
+sh/sa1ops.S:998: Error: unknown opcode
+sh/sa1ops.S:1001: Error: unknown opcode
+sh/sa1ops.S:1003: Error: unknown opcode
+sh/sa1ops.S:1006: Error: unknown opcode
+sh/sa1ops.S:1008: Error: unknown opcode
+sh/sa1ops.S:1011: Error: unknown opcode
+sh/sa1ops.S:1013: Error: unknown opcode
+sh/sa1ops.S:1016: Error: unknown opcode
+sh/sa1ops.S:1018: Error: unknown opcode
+sh/sa1ops.S:1021: Error: unknown opcode
+sh/sa1ops.S:1023: Error: unknown opcode
+sh/sa1ops.S:1026: Error: unknown opcode
+sh/sa1ops.S:1028: Error: unknown opcode
+sh/sa1ops.S:1031: Error: unknown opcode
+sh/sa1ops.S:1033: Error: unknown opcode
+sh/sa1ops.S:1036: Error: unknown opcode
+sh/sa1ops.S:1038: Error: unknown opcode
+sh/sa1ops.S:1041: Error: unknown opcode
+sh/sa1ops.S:1043: Error: unknown opcode
+sh/sa1ops.S:1046: Error: unknown opcode
+sh/sa1ops.S:1048: Error: unknown opcode
+sh/sa1ops.S:1051: Error: unknown opcode
+sh/sa1ops.S:1053: Error: unknown opcode
+sh/sa1ops.S:1056: Error: unknown opcode
+sh/sa1ops.S:1058: Error: unknown opcode
+sh/sa1ops.S:1061: Error: unknown opcode
+sh/sa1ops.S:1063: Error: unknown opcode
+sh/sa1ops.S:1067: Error: invalid operands for opcode
+sh/sa1ops.S:1068: Error: invalid operands for opcode
+sh/sa1ops.S:1071: Error: invalid operands for opcode
+sh/sa1ops.S:1072: Error: unknown opcode
+sh/sa1ops.S:1075: Error: invalid operands for opcode
+sh/sa1ops.S:1076: Error: invalid operands for opcode
+sh/sa1ops.S:1077: Error: unknown opcode
+sh/sa1ops.S:1080: Error: unknown opcode
+sh/sa1ops.S:1081: Error: unknown opcode
+sh/sa1ops.S:1084: Error: unknown opcode
+sh/sa1ops.S:1085: Error: unknown opcode
+sh/sa1ops.S:1088: Error: unknown opcode
+sh/sa1ops.S:1089: Error: unknown opcode
+sh/sa1ops.S:1092: Error: unknown opcode
+sh/sa1ops.S:1093: Error: unknown opcode
+sh/sa1ops.S:1096: Error: unknown opcode
+sh/sa1ops.S:1097: Error: unknown opcode
+sh/sa1ops.S:1100: Error: unknown opcode
+sh/sa1ops.S:1101: Error: unknown opcode
+sh/sa1ops.S:1104: Error: unknown opcode
+sh/sa1ops.S:1105: Error: unknown opcode
+sh/sa1ops.S:1108: Error: unknown opcode
+sh/sa1ops.S:1109: Error: unknown opcode
+sh/sa1ops.S:1113: Error: unknown opcode
+sh/sa1ops.S:1114: Error: unknown opcode
+sh/sa1ops.S:1117: Error: unknown opcode
+sh/sa1ops.S:1118: Error: unknown opcode
+sh/sa1ops.S:1121: Error: unknown opcode
+sh/sa1ops.S:1123: Error: unknown opcode
+sh/sa1ops.S:1126: Error: unknown opcode
+sh/sa1ops.S:1128: Error: unknown opcode
+sh/sa1ops.S:1131: Error: unknown opcode
+sh/sa1ops.S:1133: Error: unknown opcode
+sh/sa1ops.S:1136: Error: unknown opcode
+sh/sa1ops.S:1138: Error: unknown opcode
+sh/sa1ops.S:1141: Error: unknown opcode
+sh/sa1ops.S:1143: Error: unknown opcode
+sh/sa1ops.S:1146: Error: unknown opcode
+sh/sa1ops.S:1148: Error: unknown opcode
+sh/sa1ops.S:1151: Error: unknown opcode
+sh/sa1ops.S:1153: Error: unknown opcode
+sh/sa1ops.S:1156: Error: unknown opcode
+sh/sa1ops.S:1158: Error: unknown opcode
+sh/sa1ops.S:1161: Error: unknown opcode
+sh/sa1ops.S:1163: Error: unknown opcode
+sh/sa1ops.S:1166: Error: unknown opcode
+sh/sa1ops.S:1168: Error: unknown opcode
+sh/sa1ops.S:1171: Error: unknown opcode
+sh/sa1ops.S:1173: Error: unknown opcode
+sh/sa1ops.S:1176: Error: unknown opcode
+sh/sa1ops.S:1178: Error: unknown opcode
+sh/sa1ops.S:1181: Error: unknown opcode
+sh/sa1ops.S:1183: Error: unknown opcode
+sh/sa1ops.S:1186: Error: unknown opcode
+sh/sa1ops.S:1188: Error: unknown opcode
+sh/sa1ops.S:1191: Error: unknown opcode
+sh/sa1ops.S:1193: Error: unknown opcode
+sh/sa1ops.S:1196: Error: unknown opcode
+sh/sa1ops.S:1198: Error: unknown opcode
+sh/sa1ops.S:1201: Error: unknown opcode
+sh/sa1ops.S:1203: Error: unknown opcode
+sh/sa1ops.S:1206: Error: unknown opcode
+sh/sa1ops.S:1208: Error: unknown opcode
+sh/sa1ops.S:1211: Error: unknown opcode
+sh/sa1ops.S:1213: Error: unknown opcode
+sh/sa1ops.S:1216: Error: unknown opcode
+sh/sa1ops.S:1218: Error: unknown opcode
+sh/sa1ops.S:1221: Error: unknown opcode
+sh/sa1ops.S:1223: Error: unknown opcode
+sh/sa1ops.S:1226: Error: unknown opcode
+sh/sa1ops.S:1228: Error: unknown opcode
+sh/sa1ops.S:1231: Error: unknown opcode
+sh/sa1ops.S:1233: Error: unknown opcode
+sh/sa1ops.S:1236: Error: unknown opcode
+sh/sa1ops.S:1238: Error: unknown opcode
+sh/sa1ops.S:1241: Error: unknown opcode
+sh/sa1ops.S:1243: Error: unknown opcode
+sh/sa1ops.S:1246: Error: unknown opcode
+sh/sa1ops.S:1248: Error: unknown opcode
+sh/sa1ops.S:1251: Error: unknown opcode
+sh/sa1ops.S:1253: Error: unknown opcode
+sh/sa1ops.S:1256: Error: unknown opcode
+sh/sa1ops.S:1258: Error: unknown opcode
+sh/sa1ops.S:1262: Error: unknown opcode
+sh/sa1ops.S:1263: Error: unknown opcode
+sh/sa1ops.S:1266: Error: unknown opcode
+sh/sa1ops.S:1267: Error: unknown opcode
+sh/sa1ops.S:1270: Error: unknown opcode
+sh/sa1ops.S:1272: Error: unknown opcode
+sh/sa1ops.S:1275: Error: unknown opcode
+sh/sa1ops.S:1277: Error: unknown opcode
+sh/sa1ops.S:1280: Error: unknown opcode
+sh/sa1ops.S:1282: Error: unknown opcode
+sh/sa1ops.S:1285: Error: unknown opcode
+sh/sa1ops.S:1287: Error: unknown opcode
+sh/sa1ops.S:1290: Error: unknown opcode
+sh/sa1ops.S:1292: Error: unknown opcode
+sh/sa1ops.S:1295: Error: unknown opcode
+sh/sa1ops.S:1297: Error: unknown opcode
+sh/sa1ops.S:1300: Error: unknown opcode
+sh/sa1ops.S:1302: Error: unknown opcode
+sh/sa1ops.S:1305: Error: unknown opcode
+sh/sa1ops.S:1307: Error: unknown opcode
+sh/sa1ops.S:1311: Error: unknown opcode
+sh/sa1ops.S:1312: Error: unknown opcode
+sh/sa1ops.S:1315: Error: unknown opcode
+sh/sa1ops.S:1316: Error: unknown opcode
+sh/sa1ops.S:1319: Error: unknown opcode
+sh/sa1ops.S:1321: Error: unknown opcode
+sh/sa1ops.S:1324: Error: unknown opcode
+sh/sa1ops.S:1326: Error: unknown opcode
+sh/sa1ops.S:1329: Error: unknown opcode
+sh/sa1ops.S:1331: Error: unknown opcode
+sh/sa1ops.S:1334: Error: unknown opcode
+sh/sa1ops.S:1336: Error: unknown opcode
+sh/sa1ops.S:1339: Error: unknown opcode
+sh/sa1ops.S:1341: Error: unknown opcode
+sh/sa1ops.S:1344: Error: unknown opcode
+sh/sa1ops.S:1346: Error: unknown opcode
+sh/sa1ops.S:1349: Error: unknown opcode
+sh/sa1ops.S:1351: Error: unknown opcode
+sh/sa1ops.S:1354: Error: unknown opcode
+sh/sa1ops.S:1356: Error: unknown opcode
+sh/sa1ops.S:1360: Error: invalid operands for opcode
+sh/sa1ops.S:1361: Error: invalid operands for opcode
+sh/sa1ops.S:1365: Error: invalid operands for opcode
+sh/sa1ops.S:1366: Error: invalid operands for opcode
+sh/sa1ops.S:1368: Error: invalid operands for opcode
+sh/sa1ops.S:1369: Error: unknown opcode
+sh/sa1ops.S:1372: Error: invalid operands for opcode
+sh/sa1ops.S:1373: Error: invalid operands for opcode
+sh/sa1ops.S:1376: Error: invalid operands for opcode
+sh/sa1ops.S:1377: Error: invalid operands for opcode
+sh/sa1ops.S:1379: Error: unknown opcode
+sh/sa1ops.S:1382: Error: unknown opcode
+sh/sa1ops.S:1383: Error: unknown opcode
+sh/sa1ops.S:1386: Error: unknown opcode
+sh/sa1ops.S:1387: Error: unknown opcode
+sh/sa1ops.S:1390: Error: unknown opcode
+sh/sa1ops.S:1391: Error: unknown opcode
+sh/sa1ops.S:1394: Error: unknown opcode
+sh/sa1ops.S:1395: Error: unknown opcode
+sh/sa1ops.S:1398: Error: unknown opcode
+sh/sa1ops.S:1399: Error: unknown opcode
+sh/sa1ops.S:1402: Error: unknown opcode
+sh/sa1ops.S:1403: Error: unknown opcode
+sh/sa1ops.S:1406: Error: unknown opcode
+sh/sa1ops.S:1407: Error: unknown opcode
+sh/sa1ops.S:1410: Error: unknown opcode
+sh/sa1ops.S:1411: Error: unknown opcode
+sh/sa1ops.S:1415: Error: unknown opcode
+sh/sa1ops.S:1416: Error: unknown opcode
+sh/sa1ops.S:1419: Error: unknown opcode
+sh/sa1ops.S:1420: Error: unknown opcode
+sh/sa1ops.S:1423: Error: unknown opcode
+sh/sa1ops.S:1425: Error: unknown opcode
+sh/sa1ops.S:1428: Error: unknown opcode
+sh/sa1ops.S:1430: Error: unknown opcode
+sh/sa1ops.S:1433: Error: unknown opcode
+sh/sa1ops.S:1435: Error: unknown opcode
+sh/sa1ops.S:1438: Error: unknown opcode
+sh/sa1ops.S:1440: Error: unknown opcode
+sh/sa1ops.S:1443: Error: unknown opcode
+sh/sa1ops.S:1445: Error: unknown opcode
+sh/sa1ops.S:1448: Error: unknown opcode
+sh/sa1ops.S:1450: Error: unknown opcode
+sh/sa1ops.S:1453: Error: unknown opcode
+sh/sa1ops.S:1455: Error: unknown opcode
+sh/sa1ops.S:1458: Error: unknown opcode
+sh/sa1ops.S:1460: Error: unknown opcode
+sh/sa1ops.S:1463: Error: unknown opcode
+sh/sa1ops.S:1465: Error: unknown opcode
+sh/sa1ops.S:1468: Error: unknown opcode
+sh/sa1ops.S:1470: Error: unknown opcode
+sh/sa1ops.S:1473: Error: unknown opcode
+sh/sa1ops.S:1475: Error: unknown opcode
+sh/sa1ops.S:1478: Error: unknown opcode
+sh/sa1ops.S:1480: Error: unknown opcode
+sh/sa1ops.S:1483: Error: unknown opcode
+sh/sa1ops.S:1485: Error: unknown opcode
+sh/sa1ops.S:1488: Error: unknown opcode
+sh/sa1ops.S:1490: Error: unknown opcode
+sh/sa1ops.S:1493: Error: unknown opcode
+sh/sa1ops.S:1495: Error: unknown opcode
+sh/sa1ops.S:1498: Error: unknown opcode
+sh/sa1ops.S:1500: Error: unknown opcode
+sh/sa1ops.S:1503: Error: unknown opcode
+sh/sa1ops.S:1505: Error: unknown opcode
+sh/sa1ops.S:1508: Error: unknown opcode
+sh/sa1ops.S:1510: Error: unknown opcode
+sh/sa1ops.S:1513: Error: unknown opcode
+sh/sa1ops.S:1515: Error: unknown opcode
+sh/sa1ops.S:1518: Error: unknown opcode
+sh/sa1ops.S:1520: Error: unknown opcode
+sh/sa1ops.S:1523: Error: unknown opcode
+sh/sa1ops.S:1525: Error: unknown opcode
+sh/sa1ops.S:1528: Error: unknown opcode
+sh/sa1ops.S:1530: Error: unknown opcode
+sh/sa1ops.S:1533: Error: unknown opcode
+sh/sa1ops.S:1535: Error: unknown opcode
+sh/sa1ops.S:1538: Error: unknown opcode
+sh/sa1ops.S:1540: Error: unknown opcode
+sh/sa1ops.S:1543: Error: unknown opcode
+sh/sa1ops.S:1545: Error: unknown opcode
+sh/sa1ops.S:1548: Error: unknown opcode
+sh/sa1ops.S:1550: Error: unknown opcode
+sh/sa1ops.S:1553: Error: unknown opcode
+sh/sa1ops.S:1555: Error: unknown opcode
+sh/sa1ops.S:1558: Error: unknown opcode
+sh/sa1ops.S:1560: Error: unknown opcode
+sh/sa1ops.S:1564: Error: unknown opcode
+sh/sa1ops.S:1565: Error: invalid operands for opcode
+sh/sa1ops.S:1567: Error: invalid operands for opcode
+sh/sa1ops.S:1568: Error: invalid operands for opcode
+sh/sa1ops.S:1574: Error: invalid operands for opcode
+sh/sa1ops.S:1575: Error: invalid operands for opcode
+sh/sa1ops.S:1577: Error: unknown opcode
+sh/sa1ops.S:1580: Error: unknown opcode
+sh/sa1ops.S:1582: Error: invalid operands for opcode
+sh/sa1ops.S:1583: Error: invalid operands for opcode
+sh/sa1ops.S:1585: Error: invalid operands for opcode
+sh/sa1ops.S:1587: Error: invalid operands for opcode
+sh/sa1ops.S:1588: Error: invalid operands for opcode
+sh/sa1ops.S:1590: Error: unknown opcode
+sh/sa1ops.S:1593: Error: unknown opcode
+sh/sa1ops.S:1594: Error: unknown opcode
+sh/sa1ops.S:1597: Error: unknown opcode
+sh/sa1ops.S:1598: Error: unknown opcode
+sh/sa1ops.S:1601: Error: unknown opcode
+sh/sa1ops.S:1602: Error: unknown opcode
+sh/sa1ops.S:1605: Error: unknown opcode
+sh/sa1ops.S:1606: Error: unknown opcode
+sh/sa1ops.S:1609: Error: unknown opcode
+sh/sa1ops.S:1610: Error: unknown opcode
+sh/sa1ops.S:1613: Error: unknown opcode
+sh/sa1ops.S:1614: Error: unknown opcode
+sh/sa1ops.S:1617: Error: unknown opcode
+sh/sa1ops.S:1618: Error: unknown opcode
+sh/sa1ops.S:1621: Error: unknown opcode
+sh/sa1ops.S:1622: Error: unknown opcode
+sh/sa1ops.S:1627: Error: invalid operands for opcode
+sh/sa1ops.S:1628: Error: invalid operands for opcode
+sh/sa1ops.S:1630: Error: invalid operands for opcode
+sh/sa1ops.S:1635: Error: invalid operands for opcode
+sh/sa1ops.S:1636: Error: invalid operands for opcode
+sh/sa1ops.S:1638: Error: invalid operands for opcode
+sh/sa1ops.S:1639: Error: unknown opcode
+sh/sa1ops.S:1643: Error: invalid operands for opcode
+sh/sa1ops.S:1644: Error: invalid operands for opcode
+sh/sa1ops.S:1646: Error: invalid operands for opcode
+sh/sa1ops.S:1647: Error: invalid operands for opcode
+sh/sa1ops.S:1650: Error: invalid operands for opcode
+sh/sa1ops.S:1651: Error: invalid operands for opcode
+sh/sa1ops.S:1653: Error: unknown opcode
+sh/sa1ops.S:1656: Error: unknown opcode
+sh/sa1ops.S:1657: Error: unknown opcode
+sh/sa1ops.S:1660: Error: unknown opcode
+sh/sa1ops.S:1661: Error: unknown opcode
+sh/sa1ops.S:1664: Error: unknown opcode
+sh/sa1ops.S:1665: Error: unknown opcode
+sh/sa1ops.S:1668: Error: unknown opcode
+sh/sa1ops.S:1669: Error: unknown opcode
+sh/sa1ops.S:1672: Error: unknown opcode
+sh/sa1ops.S:1673: Error: unknown opcode
+sh/sa1ops.S:1676: Error: unknown opcode
+sh/sa1ops.S:1677: Error: unknown opcode
+sh/sa1ops.S:1680: Error: unknown opcode
+sh/sa1ops.S:1681: Error: unknown opcode
+sh/sa1ops.S:1684: Error: unknown opcode
+sh/sa1ops.S:1685: Error: unknown opcode
+sh/sa1ops.S:1689: Error: unknown opcode
+sh/sa1ops.S:1690: Error: unknown opcode
+sh/sa1ops.S:1693: Error: unknown opcode
+sh/sa1ops.S:1694: Error: unknown opcode
+sh/sa1ops.S:1697: Error: unknown opcode
+sh/sa1ops.S:1699: Error: unknown opcode
+sh/sa1ops.S:1702: Error: unknown opcode
+sh/sa1ops.S:1704: Error: unknown opcode
+sh/sa1ops.S:1707: Error: unknown opcode
+sh/sa1ops.S:1709: Error: unknown opcode
+sh/sa1ops.S:1712: Error: unknown opcode
+sh/sa1ops.S:1714: Error: unknown opcode
+sh/sa1ops.S:1717: Error: unknown opcode
+sh/sa1ops.S:1719: Error: unknown opcode
+sh/sa1ops.S:1722: Error: unknown opcode
+sh/sa1ops.S:1724: Error: unknown opcode
+sh/sa1ops.S:1727: Error: unknown opcode
+sh/sa1ops.S:1729: Error: unknown opcode
+sh/sa1ops.S:1732: Error: unknown opcode
+sh/sa1ops.S:1734: Error: unknown opcode
+sh/sa1ops.S:1737: Error: unknown opcode
+sh/sa1ops.S:1739: Error: unknown opcode
+sh/sa1ops.S:1742: Error: unknown opcode
+sh/sa1ops.S:1744: Error: unknown opcode
+sh/sa1ops.S:1747: Error: unknown opcode
+sh/sa1ops.S:1749: Error: unknown opcode
+sh/sa1ops.S:1752: Error: unknown opcode
+sh/sa1ops.S:1754: Error: unknown opcode
+sh/sa1ops.S:1757: Error: unknown opcode
+sh/sa1ops.S:1759: Error: unknown opcode
+sh/sa1ops.S:1762: Error: unknown opcode
+sh/sa1ops.S:1764: Error: unknown opcode
+sh/sa1ops.S:1767: Error: unknown opcode
+sh/sa1ops.S:1769: Error: unknown opcode
+sh/sa1ops.S:1772: Error: unknown opcode
+sh/sa1ops.S:1774: Error: unknown opcode
+sh/sa1ops.S:1777: Error: unknown opcode
+sh/sa1ops.S:1779: Error: unknown opcode
+sh/sa1ops.S:1782: Error: unknown opcode
+sh/sa1ops.S:1784: Error: unknown opcode
+sh/sa1ops.S:1787: Error: unknown opcode
+sh/sa1ops.S:1789: Error: unknown opcode
+sh/sa1ops.S:1792: Error: unknown opcode
+sh/sa1ops.S:1794: Error: unknown opcode
+sh/sa1ops.S:1797: Error: unknown opcode
+sh/sa1ops.S:1799: Error: unknown opcode
+sh/sa1ops.S:1802: Error: unknown opcode
+sh/sa1ops.S:1804: Error: unknown opcode
+sh/sa1ops.S:1807: Error: unknown opcode
+sh/sa1ops.S:1809: Error: unknown opcode
+sh/sa1ops.S:1812: Error: unknown opcode
+sh/sa1ops.S:1814: Error: unknown opcode
+sh/sa1ops.S:1817: Error: unknown opcode
+sh/sa1ops.S:1819: Error: unknown opcode
+sh/sa1ops.S:1822: Error: unknown opcode
+sh/sa1ops.S:1824: Error: unknown opcode
+sh/sa1ops.S:1827: Error: unknown opcode
+sh/sa1ops.S:1829: Error: unknown opcode
+sh/sa1ops.S:1832: Error: unknown opcode
+sh/sa1ops.S:1834: Error: unknown opcode
+sh/sa1ops.S:1838: Error: unknown opcode
+sh/sa1ops.S:1839: Error: unknown opcode
+sh/sa1ops.S:1842: Error: unknown opcode
+sh/sa1ops.S:1843: Error: unknown opcode
+sh/sa1ops.S:1846: Error: unknown opcode
+sh/sa1ops.S:1847: Error: unknown opcode
+sh/sa1ops.S:1850: Error: unknown opcode
+sh/sa1ops.S:1851: Error: unknown opcode
+sh/sa1ops.S:1854: Error: unknown opcode
+sh/sa1ops.S:1855: Error: unknown opcode
+sh/sa1ops.S:1858: Error: unknown opcode
+sh/sa1ops.S:1859: Error: unknown opcode
+sh/sa1ops.S:1862: Error: unknown opcode
+sh/sa1ops.S:1863: Error: unknown opcode
+sh/sa1ops.S:1866: Error: unknown opcode
+sh/sa1ops.S:1867: Error: unknown opcode
+sh/sa1ops.S:1870: Error: unknown opcode
+sh/sa1ops.S:1871: Error: unknown opcode
+sh/sa1ops.S:1874: Error: unknown opcode
+sh/sa1ops.S:1875: Error: unknown opcode
+sh/sa1ops.S:1878: Error: unknown opcode
+sh/sa1ops.S:1879: Error: unknown opcode
+sh/sa1ops.S:1882: Error: unknown opcode
+sh/sa1ops.S:1883: Error: unknown opcode
+sh/sa1ops.S:1886: Error: unknown opcode
+sh/sa1ops.S:1887: Error: unknown opcode
+sh/sa1ops.S:1890: Error: unknown opcode
+sh/sa1ops.S:1891: Error: unknown opcode
+sh/sa1ops.S:1894: Error: unknown opcode
+sh/sa1ops.S:1895: Error: unknown opcode
+sh/sa1ops.S:1898: Error: unknown opcode
+sh/sa1ops.S:1899: Error: unknown opcode
+sh/sa1ops.S:1902: Error: unknown opcode
+sh/sa1ops.S:1903: Error: unknown opcode
+sh/sa1ops.S:1906: Error: unknown opcode
+sh/sa1ops.S:1907: Error: unknown opcode
+sh/sa1ops.S:1910: Error: unknown opcode
+sh/sa1ops.S:1911: Error: unknown opcode
+sh/sa1ops.S:1914: Error: unknown opcode
+sh/sa1ops.S:1915: Error: unknown opcode
+sh/sa1ops.S:1918: Error: unknown opcode
+sh/sa1ops.S:1919: Error: unknown opcode
+sh/sa1ops.S:1922: Error: unknown opcode
+sh/sa1ops.S:1923: Error: unknown opcode
+sh/sa1ops.S:1926: Error: unknown opcode
+sh/sa1ops.S:1927: Error: unknown opcode
+sh/sa1ops.S:1930: Error: unknown opcode
+sh/sa1ops.S:1931: Error: unknown opcode
+sh/sa1ops.S:1934: Error: unknown opcode
+sh/sa1ops.S:1935: Error: unknown opcode
+sh/sa1ops.S:1938: Error: unknown opcode
+sh/sa1ops.S:1939: Error: unknown opcode
+sh/sa1ops.S:1942: Error: unknown opcode
+sh/sa1ops.S:1943: Error: unknown opcode
+sh/sa1ops.S:1946: Error: unknown opcode
+sh/sa1ops.S:1947: Error: unknown opcode
+sh/sa1ops.S:1951: Error: unknown opcode
+sh/sa1ops.S:1952: Error: unknown opcode
+sh/sa1ops.S:1955: Error: unknown opcode
+sh/sa1ops.S:1956: Error: unknown opcode
+sh/sa1ops.S:1959: Error: unknown opcode
+sh/sa1ops.S:1960: Error: unknown opcode
+sh/sa1ops.S:1963: Error: unknown opcode
+sh/sa1ops.S:1964: Error: unknown opcode
+sh/sa1ops.S:1967: Error: unknown opcode
+sh/sa1ops.S:1968: Error: unknown opcode
+sh/sa1ops.S:1971: Error: unknown opcode
+sh/sa1ops.S:1972: Error: unknown opcode
+sh/sa1ops.S:1976: Error: unknown opcode
+sh/sa1ops.S:1977: Error: unknown opcode
+sh/sa1ops.S:1980: Error: unknown opcode
+sh/sa1ops.S:1981: Error: unknown opcode
+sh/sa1ops.S:1984: Error: unknown opcode
+sh/sa1ops.S:1985: Error: unknown opcode
+sh/sa1ops.S:1988: Error: unknown opcode
+sh/sa1ops.S:1989: Error: unknown opcode
+sh/sa1ops.S:1992: Error: unknown opcode
+sh/sa1ops.S:1993: Error: unknown opcode
+sh/sa1ops.S:1996: Error: unknown opcode
+sh/sa1ops.S:1997: Error: unknown opcode
+sh/sa1ops.S:2001: Error: unknown opcode
+sh/sa1ops.S:2002: Error: unknown opcode
+sh/sa1ops.S:2005: Error: unknown opcode
+sh/sa1ops.S:2006: Error: unknown opcode
+sh/sa1ops.S:2009: Error: unknown opcode
+sh/sa1ops.S:2010: Error: unknown opcode
+sh/sa1ops.S:2013: Error: unknown opcode
+sh/sa1ops.S:2014: Error: unknown opcode
+sh/sa1ops.S:2017: Error: unknown opcode
+sh/sa1ops.S:2018: Error: unknown opcode
+sh/sa1ops.S:2021: Error: unknown opcode
+sh/sa1ops.S:2022: Error: unknown opcode
+sh/sa1ops.S:2025: Error: unknown opcode
+sh/sa1ops.S:2026: Error: unknown opcode
+sh/sa1ops.S:2029: Error: unknown opcode
+sh/sa1ops.S:2030: Error: unknown opcode
+sh/sa1ops.S:2034: Error: unknown opcode
+sh/sa1ops.S:2035: Error: unknown opcode
+sh/sa1ops.S:2038: Error: unknown opcode
+sh/sa1ops.S:2039: Error: unknown opcode
+sh/sa1ops.S:2042: Error: unknown opcode
+sh/sa1ops.S:2043: Error: unknown opcode
+sh/sa1ops.S:2046: Error: unknown opcode
+sh/sa1ops.S:2047: Error: unknown opcode
+sh/sa1ops.S:2051: Error: unknown opcode
+sh/sa1ops.S:2052: Error: unknown opcode
+sh/sa1ops.S:2055: Error: unknown opcode
+sh/sa1ops.S:2056: Error: unknown opcode
+sh/sa1ops.S:2059: Error: unknown opcode
+sh/sa1ops.S:2060: Error: unknown opcode
+sh/sa1ops.S:2063: Error: unknown opcode
+sh/sa1ops.S:2064: Error: unknown opcode
+sh/sa1ops.S:2068: Error: unknown opcode
+sh/sa1ops.S:2069: Error: unknown opcode
+sh/sa1ops.S:2071: Error: invalid operands for opcode
+sh/sa1ops.S:2074: Error: invalid operands for opcode
+sh/sa1ops.S:2081: Error: unknown opcode
+sh/sa1ops.S:2082: Error: unknown opcode
+sh/sa1ops.S:2084: Error: invalid operands for opcode
+sh/sa1ops.S:2087: Error: invalid operands for opcode
+sh/sa1ops.S:2094: Error: unknown opcode
+sh/sa1ops.S:2098: Error: invalid operands for opcode
+sh/sa1ops.S:2101: Error: invalid operands for opcode
+sh/sa1ops.S:2108: Error: unknown opcode
+sh/sa1ops.S:2111: Error: invalid operands for opcode
+sh/sa1ops.S:2114: Error: invalid operands for opcode
+sh/sa1ops.S:2121: Error: unknown opcode
+sh/sa1ops.S:2125: Error: invalid operands for opcode
+sh/sa1ops.S:2128: Error: invalid operands for opcode
+sh/sa1ops.S:2135: Error: unknown opcode
+sh/sa1ops.S:2138: Error: invalid operands for opcode
+sh/sa1ops.S:2141: Error: invalid operands for opcode
+sh/sa1ops.S:2148: Error: unknown opcode
+sh/sa1ops.S:2149: Error: invalid operands for opcode
+sh/sa1ops.S:2152: Error: invalid operands for opcode
+sh/sa1ops.S:2156: Error: unknown opcode
+sh/sa1ops.S:2158: Error: invalid operands for opcode
+sh/sa1ops.S:2160: Error: invalid operands for opcode
+sh/sa1ops.S:2163: Error: invalid operands for opcode
+sh/sa1ops.S:2170: Error: unknown opcode
+sh/sa1ops.S:2172: Error: invalid operands for opcode
+sh/sa1ops.S:2174: Error: invalid operands for opcode
+sh/sa1ops.S:2177: Error: invalid operands for opcode
+sh/sa1ops.S:2184: Error: unknown opcode
+sh/sa1ops.S:2189: Error: unknown opcode
+sh/sa1ops.S:2195: Error: invalid operands for opcode
+sh/sa1ops.S:2201: Error: invalid operands for opcode
+sh/sa1ops.S:2206: Error: invalid operands for opcode
+sh/sa1ops.S:2211: Error: invalid operands for opcode
+sh/sa1ops.S:2212: Error: unknown opcode
+sh/sa1ops.S:2215: Error: invalid operands for opcode
+sh/sa1ops.S:2221: Error: invalid operands for opcode
+sh/sa1ops.S:2225: Error: invalid operands for opcode
+sh/sa1ops.S:2227: Error: invalid operands for opcode
+sh/sa1ops.S:2228: Error: unknown opcode
+sh/sa1ops.S:2233: Error: invalid operands for opcode
+sh/sa1ops.S:2234: Error: unknown opcode
+sh/sa1ops.S:2238: Error: invalid operands for opcode
+sh/sa1ops.S:2240: Error: invalid operands for opcode
+sh/sa1ops.S:2241: Error: unknown opcode
+sh/sa1ops.S:2246: Error: invalid operands for opcode
+sh/sa1ops.S:2247: Error: unknown opcode
+sh/sa1ops.S:2251: Error: invalid operands for opcode
+sh/sa1ops.S:2253: Error: invalid operands for opcode
+sh/sa1ops.S:2254: Error: unknown opcode
+sh/sa1ops.S:2259: Error: invalid operands for opcode
+sh/sa1ops.S:2260: Error: unknown opcode
+sh/sa1ops.S:2264: Error: invalid operands for opcode
+sh/sa1ops.S:2266: Error: invalid operands for opcode
+sh/sa1ops.S:2267: Error: unknown opcode
+sh/sa1ops.S:2272: Error: invalid operands for opcode
+sh/sa1ops.S:2273: Error: unknown opcode
+sh/sa1ops.S:2282: Error: unknown opcode
+sh/sa1ops.S:2283: Error: unknown opcode
+sh/sa1ops.S:2287: Error: unknown opcode
+sh/sa1ops.S:2289: Error: unknown opcode
+sh/sa1ops.S:2293: Error: unknown opcode
+sh/sa1ops.S:2295: Error: unknown opcode
+sh/sa1ops.S:2299: Error: invalid operands for opcode
+sh/sa1ops.S:2300: Error: unknown opcode
+sh/sa1ops.S:2303: Error: invalid operands for opcode
+sh/sa1ops.S:2304: Error: unknown opcode
+sh/sa1ops.S:2308: Error: invalid operands for opcode
+sh/sa1ops.S:2309: Error: unknown opcode
+sh/sa1ops.S:2314: Error: unknown opcode
+sh/sa1ops.S:2318: Error: invalid operands for opcode
+sh/sa1ops.S:2319: Error: unknown opcode
+sh/sa1ops.S:2323: Error: unknown opcode
+sh/sa1ops.S:2324: Error: invalid operands for opcode
+sh/sa1ops.S:2325: Error: unknown opcode
+sh/sa1ops.S:2329: Error: invalid operands for opcode
+sh/sa1ops.S:2330: Error: unknown opcode
+sh/sa1ops.S:2334: Error: unknown opcode
+sh/sa1ops.S:2338: Error: invalid operands for opcode
+sh/sa1ops.S:2339: Error: unknown opcode
+sh/sa1ops.S:2343: Error: unknown opcode
+sh/sa1ops.S:2347: Error: unknown opcode
+sh/sa1ops.S:2348: Error: invalid operands for opcode
+sh/sa1ops.S:2349: Error: invalid operands for opcode
+sh/sa1ops.S:2350: Error: invalid operands for opcode
+sh/sa1ops.S:2351: Error: unknown opcode
+sh/sa1ops.S:2354: Error: unknown opcode
+sh/sa1ops.S:2355: Error: invalid operands for opcode
+sh/sa1ops.S:2356: Error: unknown opcode
+sh/sa1ops.S:2360: Error: unknown opcode
+sh/sa1ops.S:2361: Error: invalid operands for opcode
+sh/sa1ops.S:2364: Error: invalid operands for opcode
+sh/sa1ops.S:2365: Error: unknown opcode
+sh/sa1ops.S:2369: Error: unknown opcode
+sh/sa1ops.S:2370: Error: invalid operands for opcode
+sh/sa1ops.S:2371: Error: unknown opcode
+sh/sa1ops.S:2375: Error: unknown opcode
+sh/sa1ops.S:2376: Error: invalid operands for opcode
+sh/sa1ops.S:2377: Error: invalid operands for opcode
+sh/sa1ops.S:2379: Error: invalid operands for opcode
+sh/sa1ops.S:2383: Error: invalid operands for opcode
+sh/sa1ops.S:2384: Error: invalid operands for opcode
+sh/sa1ops.S:2386: Error: unknown opcode
+sh/sa1ops.S:2387: Error: unknown opcode
+sh/sa1ops.S:2388: Error: unknown opcode
+sh/sa1ops.S:2392: Error: unknown opcode
+sh/sa1ops.S:2393: Error: invalid operands for opcode
+sh/sa1ops.S:2394: Error: unknown opcode
+sh/sa1ops.S:2397: Error: unknown opcode
+sh/sa1ops.S:2398: Error: invalid operands for opcode
+sh/sa1ops.S:2399: Error: unknown opcode
+sh/sa1ops.S:2403: Error: unknown opcode
+sh/sa1ops.S:2404: Error: invalid operands for opcode
+sh/sa1ops.S:2405: Error: unknown opcode
+sh/sa1ops.S:2408: Error: unknown opcode
+sh/sa1ops.S:2409: Error: invalid operands for opcode
+sh/sa1ops.S:2410: Error: unknown opcode
+sh/sa1ops.S:2416: Error: invalid operands for opcode
+sh/sa1ops.S:2423: Error: invalid operands for opcode
+sh/sa1ops.S:2429: Error: invalid operands for opcode
+sh/sa1ops.S:2433: Error: invalid operands for opcode
+sh/sa1ops.S:2434: Error: invalid operands for opcode
+sh/sa1ops.S:2435: Error: unknown opcode
+sh/sa1ops.S:2438: Error: invalid operands for opcode
+sh/sa1ops.S:2439: Error: invalid operands for opcode
+sh/sa1ops.S:2440: Error: unknown opcode
+sh/sa1ops.S:2444: Error: invalid operands for opcode
+sh/sa1ops.S:2445: Error: invalid operands for opcode
+sh/sa1ops.S:2446: Error: unknown opcode
+sh/sa1ops.S:2449: Error: invalid operands for opcode
+sh/sa1ops.S:2450: Error: invalid operands for opcode
+sh/sa1ops.S:2451: Error: unknown opcode
+sh/sa1ops.S:2455: Error: invalid operands for opcode
+sh/sa1ops.S:2456: Error: invalid operands for opcode
+sh/sa1ops.S:2457: Error: unknown opcode
+sh/sa1ops.S:2461: Error: invalid operands for opcode
+sh/sa1ops.S:2463: Error: invalid operands for opcode
+sh/sa1ops.S:2465: Error: invalid operands for opcode
+sh/sa1ops.S:2468: Error: invalid operands for opcode
+sh/sa1ops.S:2476: Error: invalid operands for opcode
+sh/sa1ops.S:2477: Error: unknown opcode
+sh/sa1ops.S:2482: Error: invalid operands for opcode
+sh/sa1ops.S:2483: Error: unknown opcode
+sh/sa1ops.S:2487: Error: invalid operands for opcode
+sh/sa1ops.S:2488: Error: invalid operands for opcode
+sh/sa1ops.S:2489: Error: unknown opcode
+sh/sa1ops.S:2493: Error: invalid operands for opcode
+sh/sa1ops.S:2494: Error: unknown opcode
+sh/sa1ops.S:2498: Error: invalid operands for opcode
+sh/sa1ops.S:2499: Error: invalid operands for opcode
+sh/sa1ops.S:2501: Error: invalid operands for opcode
+sh/sa1ops.S:2502: Error: invalid operands for opcode
+sh/sa1ops.S:2503: Error: unknown opcode
+sh/sa1ops.S:2507: Error: invalid operands for opcode
+sh/sa1ops.S:2508: Error: unknown opcode
+sh/sa1ops.S:2514: Error: invalid operands for opcode
+sh/sa1ops.S:2516: Error: invalid operands for opcode
+sh/sa1ops.S:2519: Error: invalid operands for opcode
+sh/sa1ops.S:2526: Error: invalid operands for opcode
+sh/sa1ops.S:2527: Error: invalid operands for opcode
+sh/sa1ops.S:2528: Error: unknown opcode
+sh/sa1ops.S:2532: Error: invalid operands for opcode
+sh/sa1ops.S:2533: Error: unknown opcode
+sh/sa1ops.S:2537: Error: invalid operands for opcode
+sh/sa1ops.S:2538: Error: invalid operands for opcode
+sh/sa1ops.S:2540: Error: invalid operands for opcode
+sh/sa1ops.S:2541: Error: invalid operands for opcode
+sh/sa1ops.S:2542: Error: unknown opcode
+sh/sa1ops.S:2546: Error: invalid operands for opcode
+sh/sa1ops.S:2547: Error: unknown opcode
+sh/sa1ops.S:2551: Error: invalid operands for opcode
+sh/sa1ops.S:2552: Error: invalid operands for opcode
+sh/sa1ops.S:2553: Error: unknown opcode
+sh/sa1ops.S:2557: Error: invalid operands for opcode
+sh/sa1ops.S:2558: Error: unknown opcode
+sh/sa1ops.S:2562: Error: invalid operands for opcode
+sh/sa1ops.S:2564: Error: invalid operands for opcode
+sh/sa1ops.S:2568: Error: invalid operands for opcode
+sh/sa1ops.S:2572: Error: invalid operands for opcode
+sh/sa1ops.S:2573: Error: invalid operands for opcode
+sh/sa1ops.S:2578: Error: invalid operands for opcode
+sh/sa1ops.S:2580: Error: invalid operands for opcode
+sh/sa1ops.S:2582: Error: invalid operands for opcode
+sh/sa1ops.S:2585: Error: invalid operands for opcode
+sh/sa1ops.S:2586: Error: invalid operands for opcode
+sh/sa1ops.S:2588: Error: unknown opcode
+sh/sa1ops.S:2597: Error: unknown opcode
+sh/sa1ops.S:2598: Error: unknown opcode
+sh/sa1ops.S:2599: Error: unknown opcode
+sh/sa1ops.S:2600: Error: unknown opcode
+sh/sa1ops.S:2601: Error: unknown opcode
+sh/sa1ops.S:2605: Error: invalid operands for opcode
+sh/sa1ops.S:2607: Error: invalid operands for opcode
+sh/sa1ops.S:2608: Error: unknown opcode
+sh/sa1ops.S:2611: Error: invalid operands for opcode
+sh/sa1ops.S:2613: Error: unknown opcode
+sh/sa1ops.S:2615: Error: unknown opcode
+sh/sa1ops.S:2616: Error: invalid operands for opcode
+sh/sa1ops.S:2618: Error: invalid operands for opcode
+sh/sa1ops.S:2619: Error: invalid operands for opcode
+sh/sa1ops.S:2621: Error: unknown opcode
+sh/sa1ops.S:2623: Error: invalid operands for opcode
+sh/sa1ops.S:2624: Error: invalid operands for opcode
+sh/sa1ops.S:2631: Error: unknown opcode
+sh/sa1ops.S:2635: Error: invalid operands for opcode
+sh/sa1ops.S:2637: Error: unknown opcode
+sh/sa1ops.S:2639: Error: unknown opcode
+sh/sa1ops.S:2640: Error: invalid operands for opcode
+sh/sa1ops.S:2642: Error: invalid operands for opcode
+sh/sa1ops.S:2643: Error: invalid operands for opcode
+sh/sa1ops.S:2645: Error: unknown opcode
+sh/sa1ops.S:2647: Error: invalid operands for opcode
+sh/sa1ops.S:2648: Error: invalid operands for opcode
+sh/sa1ops.S:2655: Error: unknown opcode
+sh/sa1ops.S:2673: Error: unknown opcode
+sh/sa1ops.S:2674: Error: unknown opcode
+sh/sa1ops.S:2675: Error: unknown opcode
+sh/sa1ops.S:2676: Error: unknown opcode
+sh/sa1ops.S:2677: Error: unknown opcode
+sh/sa1ops.S:2682: Error: invalid operands for opcode
+sh/sa1ops.S:2684: Error: invalid operands for opcode
+sh/sa1ops.S:2685: Error: unknown opcode
+sh/sa1ops.S:2688: Error: invalid operands for opcode
+sh/sa1ops.S:2689: Error: unknown opcode
+sh/sa1ops.S:2691: Error: unknown opcode
+sh/sa1ops.S:2692: Error: invalid operands for opcode
+sh/sa1ops.S:2694: Error: invalid operands for opcode
+sh/sa1ops.S:2695: Error: invalid operands for opcode
+sh/sa1ops.S:2697: Error: unknown opcode
+sh/sa1ops.S:2699: Error: invalid operands for opcode
+sh/sa1ops.S:2700: Error: invalid operands for opcode
+sh/sa1ops.S:2701: Error: Rest of line ignored. First ignored character is `/'.
+sh/sa1ops.S:2717: Error: invalid operands for opcode
+sh/sa1ops.S:2718: Error: unknown opcode
+sh/sa1ops.S:2720: Error: unknown opcode
+sh/sa1ops.S:2721: Error: invalid operands for opcode
+sh/sa1ops.S:2723: Error: invalid operands for opcode
+sh/sa1ops.S:2724: Error: invalid operands for opcode
+sh/sa1ops.S:2726: Error: unknown opcode
+sh/sa1ops.S:2728: Error: invalid operands for opcode
+sh/sa1ops.S:2729: Error: invalid operands for opcode
+sh/sa1ops.S:2730: Error: Rest of line ignored. First ignored character is `/'.
+sh/sa1ops.S:2765: Error: unknown opcode
+sh/sa1ops.S:2766: Error: unknown opcode
+sh/sa1ops.S:2767: Error: unknown opcode
+sh/sa1ops.S:2768: Error: unknown opcode
+sh/sa1ops.S:2769: Error: unknown opcode
+sh/sa1ops.S:2774: Error: invalid operands for opcode
+sh/sa1ops.S:2776: Error: invalid operands for opcode
+sh/sa1ops.S:2777: Error: unknown opcode
+sh/sa1ops.S:2780: Error: invalid operands for opcode
+sh/sa1ops.S:2781: Error: unknown opcode
+sh/sa1ops.S:2783: Error: unknown opcode
+sh/sa1ops.S:2784: Error: invalid operands for opcode
+sh/sa1ops.S:2786: Error: invalid operands for opcode
+sh/sa1ops.S:2787: Error: invalid operands for opcode
+sh/sa1ops.S:2789: Error: unknown opcode
+sh/sa1ops.S:2791: Error: invalid operands for opcode
+sh/sa1ops.S:2792: Error: invalid operands for opcode
+sh/sa1ops.S:2793: Error: Rest of line ignored. First ignored character is `/'.
+sh/sa1ops.S:2809: Error: invalid operands for opcode
+sh/sa1ops.S:2810: Error: unknown opcode
+sh/sa1ops.S:2812: Error: unknown opcode
+sh/sa1ops.S:2813: Error: invalid operands for opcode
+sh/sa1ops.S:2815: Error: invalid operands for opcode
+sh/sa1ops.S:2816: Error: invalid operands for opcode
+sh/sa1ops.S:2818: Error: unknown opcode
+sh/sa1ops.S:2820: Error: invalid operands for opcode
+sh/sa1ops.S:2821: Error: invalid operands for opcode
+sh/sa1ops.S:2822: Error: Rest of line ignored. First ignored character is `/'.
+sh/sa1ops.S:2854: Error: unknown opcode
+sh/sa1ops.S:2855: Error: unknown opcode
+sh/sa1ops.S:2856: Error: unknown opcode
+sh/sa1ops.S:2857: Error: unknown opcode
+sh/sa1ops.S:2858: Error: unknown opcode
+sh/sa1ops.S:2862: Error: invalid operands for opcode
+sh/sa1ops.S:2864: Error: invalid operands for opcode
+sh/sa1ops.S:2865: Error: unknown opcode
+sh/sa1ops.S:2868: Error: invalid operands for opcode
+sh/sa1ops.S:2870: Error: unknown opcode
+sh/sa1ops.S:2872: Error: unknown opcode
+sh/sa1ops.S:2873: Error: invalid operands for opcode
+sh/sa1ops.S:2875: Error: invalid operands for opcode
+sh/sa1ops.S:2876: Error: invalid operands for opcode
+sh/sa1ops.S:2878: Error: unknown opcode
+sh/sa1ops.S:2880: Error: invalid operands for opcode
+sh/sa1ops.S:2881: Error: invalid operands for opcode
+sh/sa1ops.S:2888: Error: unknown opcode
+sh/sa1ops.S:2892: Error: invalid operands for opcode
+sh/sa1ops.S:2894: Error: unknown opcode
+sh/sa1ops.S:2896: Error: unknown opcode
+sh/sa1ops.S:2897: Error: invalid operands for opcode
+sh/sa1ops.S:2899: Error: invalid operands for opcode
+sh/sa1ops.S:2900: Error: invalid operands for opcode
+sh/sa1ops.S:2902: Error: unknown opcode
+sh/sa1ops.S:2904: Error: invalid operands for opcode
+sh/sa1ops.S:2905: Error: invalid operands for opcode
+sh/sa1ops.S:2912: Error: unknown opcode
+sh/sa1ops.S:2928: Error: unknown opcode
+sh/sa1ops.S:2929: Error: invalid operands for opcode
+sh/sa1ops.S:2932: Error: invalid operands for opcode
+sh/sa1ops.S:2933: Error: unknown opcode
+sh/sa1ops.S:2936: Error: unknown opcode
+sh/sa1ops.S:2937: Error: invalid operands for opcode
+sh/sa1ops.S:2940: Error: invalid operands for opcode
+sh/sa1ops.S:2941: Error: unknown opcode
+sh/sa1ops.S:2945: Error: unknown opcode
+sh/sa1ops.S:2950: Error: unknown opcode
+sh/sa1ops.S:2953: Error: unknown opcode
+sh/sa1ops.S:2958: Error: unknown opcode
+sh/sa1ops.S:2961: Error: unknown opcode
+sh/sa1ops.S:2966: Error: unknown opcode
+sh/sa1ops.S:2970: Error: invalid operands for opcode
+sh/sa1ops.S:2971: Error: unknown opcode
+sh/sa1ops.S:2974: Error: invalid operands for opcode
+sh/sa1ops.S:2976: Error: unknown opcode
+sh/sa1ops.S:2977: Error: unknown opcode
+sh/sa1ops.S:2978: Error: invalid operands for opcode
+sh/sa1ops.S:2981: Error: invalid operands for opcode
+sh/sa1ops.S:2982: Error: unknown opcode
+sh/sa1ops.S:2986: Error: unknown opcode
+sh/sa1ops.S:2988: Error: unknown opcode
+sh/sa1ops.S:2990: Error: invalid operands for opcode
+sh/sa1ops.S:2994: Error: invalid operands for opcode
+sh/sa1ops.S:2997: Error: unknown opcode
+sh/sa1ops.S:3003: Error: invalid operands for opcode
+sh/sa1ops.S:3005: Error: unknown opcode
+sh/sa1ops.S:3006: Error: unknown opcode
+sh/sa1ops.S:3011: Error: unknown opcode
+sh/sa1ops.S:3017: Error: invalid operands for opcode
+sh/sa1ops.S:3019: Error: unknown opcode
+sh/sa1ops.S:3020: Error: unknown opcode
+sh/sa1ops.S:3025: Error: unknown opcode
+sh/sa1ops.S:3029: Error: unknown opcode
+sh/sa1ops.S:3035: Error: unknown opcode
+sh/sa1ops.S:3039: Error: illegal register after @
+sh/sa1ops.S:3040: Error: invalid operands for opcode
+sh/sa1ops.S:3043: Error: invalid operands for opcode
+sh/sa1ops.S:3045: Error: illegal register after @
+sh/sa1ops.S:3061: Error: invalid operands for opcode
+sh/sa1ops.S:3063: Error: invalid operands for opcode
+sh/sa1ops.S:3064: Error: invalid operands for opcode
+sh/sa1ops.S:3066: Error: invalid operands for opcode
+sh/sa1ops.S:3067: Error: invalid operands for opcode
+sh/sa1ops.S:3068: Error: invalid operands for opcode
+sh/sa1ops.S:3070: Error: invalid operands for opcode
+sh/sa1ops.S:3072: Error: invalid operands for opcode
+sh/sa1ops.S:3078: Error: illegal register after @
+sh/sa1ops.S:3079: Error: invalid operands for opcode
+sh/sa1ops.S:3082: Error: invalid operands for opcode
+sh/sa1ops.S:3084: Error: illegal register after @
+sh/sa1ops.S:3093: Error: invalid operands for opcode
+sh/sa1ops.S:3101: Error: invalid operands for opcode
+sh/sa1ops.S:3104: Error: invalid operands for opcode
+sh/sa1ops.S:3105: Error: invalid operands for opcode
+sh/sa1ops.S:3107: Error: invalid operands for opcode
+sh/sa1ops.S:3109: Error: invalid operands for opcode
+sh/sa1ops.S:3116: Error: illegal register after @
+sh/sa1ops.S:3117: Error: invalid operands for opcode
+sh/sa1ops.S:3120: Error: invalid operands for opcode
+sh/sa1ops.S:3122: Error: illegal register after @
+sh/sa1ops.S:3138: Error: invalid operands for opcode
+sh/sa1ops.S:3140: Error: invalid operands for opcode
+sh/sa1ops.S:3141: Error: invalid operands for opcode
+sh/sa1ops.S:3143: Error: invalid operands for opcode
+sh/sa1ops.S:3144: Error: invalid operands for opcode
+sh/sa1ops.S:3145: Error: invalid operands for opcode
+sh/sa1ops.S:3147: Error: invalid operands for opcode
+sh/sa1ops.S:3149: Error: invalid operands for opcode
+sh/sa1ops.S:3155: Error: illegal register after @
+sh/sa1ops.S:3156: Error: invalid operands for opcode
+sh/sa1ops.S:3159: Error: invalid operands for opcode
+sh/sa1ops.S:3161: Error: illegal register after @
+sh/sa1ops.S:3170: Error: invalid operands for opcode
+sh/sa1ops.S:3178: Error: invalid operands for opcode
+sh/sa1ops.S:3181: Error: invalid operands for opcode
+sh/sa1ops.S:3182: Error: invalid operands for opcode
+sh/sa1ops.S:3184: Error: invalid operands for opcode
+sh/sa1ops.S:3186: Error: invalid operands for opcode
+sh/sa1ops.S:3193: Error: illegal register after @
+sh/sa1ops.S:3200: Error: invalid operands for opcode
+sh/sa1ops.S:3205: Error: invalid operands for opcode
+sh/sa1ops.S:3209: Error: invalid operands for opcode
+sh/sa1ops.S:3213: Error: invalid operands for opcode
+sh/sa1ops.S:3216: Error: invalid operands for opcode
+sh/sa1ops.S:3217: Error: invalid operands for opcode
+sh/sa1ops.S:3219: Error: unknown opcode
+sh/sa1ops.S:3220: Error: unknown opcode
+sh/sa1ops.S:3224: Error: illegal register after @
+sh/sa1ops.S:3230: Error: invalid operands for opcode
+sh/sa1ops.S:3239: Error: invalid operands for opcode
+sh/sa1ops.S:3244: Error: invalid operands for opcode
+sh/sa1ops.S:3248: Error: invalid operands for opcode
+sh/sa1ops.S:3251: Error: invalid operands for opcode
+sh/sa1ops.S:3252: Error: invalid operands for opcode
+sh/sa1ops.S:3254: Error: unknown opcode
+sh/sa1ops.S:3261: Error: invalid operands for opcode
+sh/sa1ops.S:3262: Error: unknown opcode
+sh/sa1ops.S:3266: Error: unknown opcode
+sh/sa1ops.S:3267: Error: invalid operands for opcode
+sh/sa1ops.S:3268: Error: invalid operands for opcode
+sh/sa1ops.S:3269: Error: invalid operands for opcode
+sh/sa1ops.S:3270: Error: unknown opcode
+sh/sa1ops.S:3273: Error: invalid operands for opcode
+sh/sa1ops.S:3275: Error: unknown opcode
+sh/sa1ops.S:3280: Error: invalid operands for opcode
+sh/sa1ops.S:3285: Error: invalid operands for opcode
+sh/sa1ops.S:3288: Error: invalid operands for opcode
+sh/sa1ops.S:3294: Error: invalid operands for opcode
+sh/sa1ops.S:3297: Error: invalid operands for opcode
+sh/sa1ops.S:3298: Error: invalid operands for opcode
+sh/sa1ops.S:3300: Error: unknown opcode
+sh/sa1ops.S:3301: Error: unknown opcode
+sh/sa1ops.S:3302: Error: unknown opcode
+sh/sa1ops.S:3310: Error: invalid operands for opcode
+sh/sa1ops.S:3311: Error: invalid operands for opcode
+sh/sa1ops.S:3313: Error: Rest of line ignored. First ignored character is `/'.
+sh/sa1ops.S:3314: Error: unknown opcode
+sh/sa1ops.S:3315: Error: unknown opcode
+sh/sa1ops.S:3316: Error: unknown opcode
+sh/sa1ops.S:3317: Error: unknown opcode
+sh/sa1ops.S:3318: Error: unknown opcode
+sh/sa1ops.S:3319: Error: unknown opcode
+sh/sa1ops.S:3320: Error: unknown opcode
+sh/sa1ops.S:3323: Error: unknown opcode
+sh/sa1ops.S:3324: Error: unknown opcode
+sh/sa1ops.S:3325: Error: unknown opcode
+sh/sa1ops.S:3326: Error: unknown opcode
+sh/sa1ops.S:3327: Error: unknown opcode
+sh/sa1ops.S:3330: Error: unknown opcode
+sh/sa1ops.S:3332: Error: unknown opcode
+sh/sa1ops.S:3333: Error: unknown opcode
+sh/sa1ops.S:3334: Error: unknown opcode
+sh/sa1ops.S:3336: Error: unknown opcode
+sh/sa1ops.S:3338: Error: unknown opcode
+sh/sa1ops.S:3339: Error: unknown opcode
+sh/sa1ops.S:3340: Error: unknown opcode
+sh/sa1ops.S:3341: Error: unknown opcode
+sh/sa1ops.S:3343: Error: unknown opcode
+sh/sa1ops.S:3345: Error: unknown opcode
+sh/sa1ops.S:3346: Error: unknown opcode
+sh/sa1ops.S:3347: Error: unknown opcode
+sh/sa1ops.S:3348: Error: unknown opcode
+sh/sa1ops.S:3349: Error: invalid operands for opcode
+sh/sa1ops.S:3358: Error: invalid operands for opcode
+sh/sa1ops.S:3361: Error: invalid operands for opcode
+make: *** [sh/sa1ops.o] Error 1

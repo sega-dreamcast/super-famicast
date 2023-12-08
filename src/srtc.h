@@ -117,14 +117,14 @@ Index Description     Range (nibble)
 
 typedef struct
 {
+	int8  index;
+	time_t system_timestamp;	// Of latest RTC load time
+    uint32 pad;
+	
     bool8 needs_init;
     bool8 count_enable;	// Does RTC mark time or is it frozen
     uint8 data [MAX_RTC_INDEX+1];
-    int8  index;
     uint8 mode;
-
-    time_t system_timestamp;	// Of latest RTC load time
-    uint32 pad;
 } SRTC_DATA;
 
 extern SRTC_DATA           rtc;

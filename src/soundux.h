@@ -104,25 +104,25 @@ enum { MODE_NONE = SOUND_SILENT, MODE_ADSR, MODE_RELEASE = SOUND_RELEASE,
 #endif /* __sgi */
 
 typedef struct {
+	int32  samples_mixed_so_far;
+    int32  play_position;
+	uint32 err_counter;
+    uint32 err_rate;
     int sound_fd;
     int sound_switch;
     int playback_rate;
     int buffer_size;
     int noise_gen;
-    bool8 mute_sound;
     int stereo;
-    bool8 sixteen_bit;
-    bool8 encoded;
 #ifdef __sun
     int last_eof;
 #endif
 #ifdef __sgi
     ALport al_port;
 #endif /* __sgi */
-    int32  samples_mixed_so_far;
-    int32  play_position;
-    uint32 err_counter;
-    uint32 err_rate;
+    bool8 mute_sound;
+    bool8 sixteen_bit;
+    bool8 encoded;
 } SoundStatus;
 
 EXTERN_C volatile SoundStatus so;
@@ -130,64 +130,65 @@ EXTERN_C volatile SoundStatus so;
 typedef struct {
     int state;
     int type;
+    uint32 hertz;
+	uint32 frequency;
+    uint32 count;
+    uint32 dummy [8];
+    int envx;
+    unsigned long int env_error;
+	unsigned long erate;
+	int direction;
+	unsigned long attack_rate;
+	unsigned long decay_rate;
+	unsigned long sustain_rate;
+	unsigned long release_rate;
+    unsigned long sustain_level;
+    uint32 block_pointer;
+    uint32 sample_pointer;
+    int*	echo_buf_ptr;
+	int mode;
+    int32 envxx;
+    int32 interpolate;
+    int32 previous [2];
+    
     short volume_left;
     short volume_right;
-    uint32 hertz;
-    uint32 frequency;
-    uint32 count;
-    bool8 loop;
-    int envx;
     short left_vol_level;
     short right_vol_level;
     short envx_target;
-    unsigned long int env_error;
-    unsigned long erate;
-    int direction;
-    unsigned long attack_rate;
-    unsigned long decay_rate;
-    unsigned long sustain_rate;
-    unsigned long release_rate;
-    unsigned long sustain_level;
     signed short sample;
     signed short decoded [16];
     signed short previous16 [2];
     signed short *block;
     uint16 sample_number;
-    bool8 last_block;
-    bool8 needs_decode;
-    uint32 block_pointer;
-    uint32 sample_pointer;
-    int *echo_buf_ptr;
-    int mode;
-    int32 envxx;
     signed short next_sample;
-    int32 interpolate;
-    int32 previous [2];
-    // Just incase they are needed in the future, for snapshot compatibility.
-    uint32 dummy [8];
-//	unsigned short last_valid_header;
+	
+	bool8 last_block;
+    bool8 needs_decode;
+	bool8 loop;
 } Channel;
 
 typedef struct
 {
+	Channel channels [NUM_CHANNELS] __attribute__ ((aligned (32)));
+	int echo_enable;
+	int echo_feedback;
+	int echo_ptr;
+	int echo_buffer_size;
+	int echo_write_enabled;
+	int echo_channel_enable;
+    int pitch_mod;
+    uint32 dummy [3];
+    int master_volume [2];
+	int echo_volume [2];
+    int noise_hertz;
+	
     short master_volume_left;
     short master_volume_right;
     short echo_volume_left;
     short echo_volume_right;
-    int echo_enable;
-    int echo_feedback;
-    int echo_ptr;
-    int echo_buffer_size;
-    int echo_write_enabled;
-    int echo_channel_enable;
-    int pitch_mod;
-    // Just incase they are needed in the future, for snapshot compatibility.
-    uint32 dummy [3];
-    Channel channels [NUM_CHANNELS];
+    
     bool8 no_filter;
-    int master_volume [2];
-    int echo_volume [2];
-    int noise_hertz;
 } SSoundData;
 
 EXTERN_C SSoundData SoundData;
@@ -227,6 +228,6 @@ void S9xStartSample (int channel);
 
 EXTERN_C void S9xMixSamples (uint8 *buffer, int sample_count);
 EXTERN_C void S9xMixSamplesO (uint8 *buffer, int sample_count, int byte_offset);
-bool8 S9xOpenSoundDevice (int, bool8, int);
+bool8 S9xOpenSoundDevice (int, int);
 void S9xSetPlaybackRate (uint32 rate);
 #endif

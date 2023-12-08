@@ -200,7 +200,7 @@ void S9xDeinterleaveType1(int TotalFileSize, uint8 * base)
 		blocks [i * 2] = i + nblocks;
 		blocks [i * 2 + 1] = i;
 	}
-	uint8 *tmp = (uint8 *) malloc (0x8000);
+	uint8 *tmp = (uint8 *) memalign(32, 0x8000);
 	if (tmp)
 	{
 		for (i = 0; i < nblocks * 2; i++)
@@ -340,7 +340,7 @@ char *CMemory::Safe (const char *s)
     {
 		if (safe)
 			free ((char *) safe);
-		safe = (char *) malloc (safe_len = len + 1);
+		safe = (char *) memalign(32, safe_len = len + 1);
     }
 	
     for (int i = 0; i < len; i++)
@@ -360,23 +360,23 @@ char *CMemory::Safe (const char *s)
 /**********************************************************************************************/
 bool8 CMemory::Init ()
 {
-    RAM	    = (uint8 *) malloc (0x20000);
-    SRAM    = (uint8 *) malloc (0x20000);
-    VRAM    = (uint8 *) malloc (0x10000);
-    ROM     = (uint8 *) malloc (MAX_ROM_SIZE + 0x200 + 0x8000);
+    RAM	    = (uint8 *) memalign(32, 0x20000);
+    SRAM    = (uint8 *) memalign(32, 0x20000);
+    VRAM    = (uint8 *) memalign(32, 0x10000);
+    ROM     = (uint8 *) memalign(32, MAX_ROM_SIZE + 0x200 + 0x8000);
     
-	BSRAM	= (uint8 *) malloc (0x80000);
+	BSRAM	= (uint8 *) memalign(32, 0x80000);
 	memset (BSRAM, 0, 0x80000);
 
 	FillRAM = NULL;
 	
-    IPPU.TileCache [TILE_2BIT] = (uint8 *) malloc (MAX_2BIT_TILES * 128);
-    IPPU.TileCache [TILE_4BIT] = (uint8 *) malloc (MAX_4BIT_TILES * 128);
-    IPPU.TileCache [TILE_8BIT] = (uint8 *) malloc (MAX_8BIT_TILES * 128);
+    IPPU.TileCache [TILE_2BIT] = (uint8 *) memalign(32, MAX_2BIT_TILES * 128);
+    IPPU.TileCache [TILE_4BIT] = (uint8 *) memalign(32, MAX_4BIT_TILES * 128);
+    IPPU.TileCache [TILE_8BIT] = (uint8 *) memalign(32, MAX_8BIT_TILES * 128);
     
-    IPPU.TileCached [TILE_2BIT] = (uint8 *) malloc (MAX_2BIT_TILES);
-    IPPU.TileCached [TILE_4BIT] = (uint8 *) malloc (MAX_4BIT_TILES);
-    IPPU.TileCached [TILE_8BIT] = (uint8 *) malloc (MAX_8BIT_TILES);
+    IPPU.TileCached [TILE_2BIT] = (uint8 *) memalign(32, MAX_2BIT_TILES);
+    IPPU.TileCached [TILE_4BIT] = (uint8 *) memalign(32, MAX_4BIT_TILES);
+    IPPU.TileCached [TILE_8BIT] = (uint8 *) memalign(32, MAX_8BIT_TILES);
     
     if (!RAM || !SRAM || !VRAM || !ROM || !BSRAM ||
         !IPPU.TileCache [TILE_2BIT] || !IPPU.TileCache [TILE_4BIT] ||

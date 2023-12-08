@@ -107,6 +107,20 @@ struct SICPU
     uint32 FrameAdvanceCount;
 };
 
+/*
+#define CPUSpeed @r1
+#define CPUOpcodes @(4,r1)
+#define _Carry @(8,r1)
+#define _Zero @(9,r1)
+#define _Negative @(10,r1)
+#define _Overflow @(11,r1)
+#define CPUExecuting @(12,r1)
+#define ShiftedPB @(16,r1)
+#define ShiftedDB @(20,r1)
+#define Frame @(24,r1)
+#define Scanline @(28,r1)
+*/
+
 START_EXTERN_C
 void S9xMainLoop (void);
 void S9xReset (void);
@@ -123,7 +137,7 @@ extern struct SOpcodes S9xOpcodesM0X0 [256];
 extern struct SICPU ICPU;
 END_EXTERN_C
 
-STATIC SCHERZO_INLINE void S9xUnpackStatus()
+STATIC inline void S9xUnpackStatus()
 {
     ICPU._Zero = (Registers.PL & Zero) == 0;
     ICPU._Negative = (Registers.PL & Negative);
@@ -131,51 +145,52 @@ STATIC SCHERZO_INLINE void S9xUnpackStatus()
     ICPU._Overflow = (Registers.PL & Overflow) >> 6;
 }
 
-STATIC SCHERZO_INLINE void S9xPackStatus()
+STATIC inline void S9xPackStatus()
 {
     Registers.PL &= ~(Zero | Negative | Carry | Overflow);
     Registers.PL |= ICPU._Carry | ((ICPU._Zero == 0) << 1) |
 		    (ICPU._Negative & 0x80) | (ICPU._Overflow << 6);
 }
 
-STATIC SCHERZO_INLINE void CLEAR_IRQ_SOURCE (uint32 M)
+STATIC inline void CLEAR_IRQ_SOURCE (uint32 M)
 {
     CPU.IRQActive &= ~M;
     if (!CPU.IRQActive)
 	CPU.Flags &= ~IRQ_PENDING_FLAG;
 }
 	
-STATIC SCHERZO_INLINE void S9xFixCycles ()
+STATIC inline void S9xFixCycles ()
 {
     if (CheckEmulation ())
     {
-		ICPU.S9xOpcodes = S9xOpcodesM1X1;
+	ICPU.S9xOpcodes = S9xOpcodesM1X1;
     }
-    else if (CheckMemory ())
+    else
+    if (CheckMemory ())
     {
-		if (CheckIndex ())
-		{
-			ICPU.S9xOpcodes = S9xOpcodesM1X1;
-		}
-		else
-		{
-			ICPU.S9xOpcodes = S9xOpcodesM1X0;
-		}
+	if (CheckIndex ())
+	{
+	    ICPU.S9xOpcodes = S9xOpcodesM1X1;
+	}
+	else
+	{
+	    ICPU.S9xOpcodes = S9xOpcodesM1X0;
+	}
     }
     else
     {
-		if (CheckIndex ())
-		{
-			ICPU.S9xOpcodes = S9xOpcodesM0X1;
-		}
-		else
-		{
-			ICPU.S9xOpcodes = S9xOpcodesM0X0;
-		}
+	if (CheckIndex ())
+	{
+	    ICPU.S9xOpcodes = S9xOpcodesM0X1;
+	}
+	else
+	{
+	    ICPU.S9xOpcodes = S9xOpcodesM0X0;
+	}
     }
 }
 
-STATIC SCHERZO_INLINE void S9xReschedule ()
+STATIC inline void S9xReschedule ()
 {
     uint8 which;
     long max;

@@ -80,10 +80,6 @@
 #include "gfx.h"
 #include "tile.h"
 
-#ifdef USE_GLIDE
-#include "3d.h"
-#endif
-
 extern uint32 HeadMask [4];
 extern uint32 TailMask [5];
 
@@ -97,111 +93,111 @@ uint8 ConvertTile (uint8 *pCache, uint32 TileAddr)
     switch (BG.BitShift)
     {
     case 8:
-	for (line = 8; line != 0; line--, tp += 2)
-	{
-	    uint32 p1 = 0;
-	    uint32 p2 = 0;
-	    register uint8 pix;
+		for (line = 8; line != 0; line--, tp += 2)
+		{
+			uint32 p1 = 0;
+			uint32 p2 = 0;
+			register uint8 pix;
 
-	    if ((pix = *(tp + 0)))
-	    {
-		p1 |= odd_high[0][pix >> 4];
-		p2 |= odd_low[0][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 1)))
-	    {
-		p1 |= even_high[0][pix >> 4];
-		p2 |= even_low[0][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 16)))
-	    {
-		p1 |= odd_high[1][pix >> 4];
-		p2 |= odd_low[1][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 17)))
-	    {
-		p1 |= even_high[1][pix >> 4];
-		p2 |= even_low[1][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 32)))
-	    {
-		p1 |= odd_high[2][pix >> 4];
-		p2 |= odd_low[2][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 33)))
-	    {
-		p1 |= even_high[2][pix >> 4];
-		p2 |= even_low[2][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 48)))
-	    {
-		p1 |= odd_high[3][pix >> 4];
-		p2 |= odd_low[3][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 49)))
-	    {
-		p1 |= even_high[3][pix >> 4];
-		p2 |= even_low[3][pix & 0xf];
-	    }
-	    *p++ = p1;
-	    *p++ = p2;
-	    non_zero |= p1 | p2;
-	}
-	break;
+			if ((pix = *(tp + 0)))
+			{
+				p1 |= odd_high[0][pix >> 4];
+				p2 |= odd_low[0][pix & 0xf];
+			}
+			if ((pix = *(tp + 1)))
+			{
+				p1 |= even_high[0][pix >> 4];
+				p2 |= even_low[0][pix & 0xf];
+			}
+			if ((pix = *(tp + 16)))
+			{
+				p1 |= odd_high[1][pix >> 4];
+				p2 |= odd_low[1][pix & 0xf];
+			}
+			if ((pix = *(tp + 17)))
+			{
+				p1 |= even_high[1][pix >> 4];
+				p2 |= even_low[1][pix & 0xf];
+			}
+			if ((pix = *(tp + 32)))
+			{
+				p1 |= odd_high[2][pix >> 4];
+				p2 |= odd_low[2][pix & 0xf];
+			}
+			if ((pix = *(tp + 33)))
+			{
+				p1 |= even_high[2][pix >> 4];
+				p2 |= even_low[2][pix & 0xf];
+			}
+			if ((pix = *(tp + 48)))
+			{
+				p1 |= odd_high[3][pix >> 4];
+				p2 |= odd_low[3][pix & 0xf];
+			}
+			if ((pix = *(tp + 49)))
+			{
+				p1 |= even_high[3][pix >> 4];
+				p2 |= even_low[3][pix & 0xf];
+			}
+			*p++ = p1;
+			*p++ = p2;
+			non_zero |= p1 | p2;
+		}
+		break;
 
     case 4:
-	for (line = 8; line != 0; line--, tp += 2)
-	{
-	    uint32 p1 = 0;
-	    uint32 p2 = 0;
-	    register uint8 pix;
-	    if ((pix = *(tp + 0)))
-	    {
-		p1 |= odd_high[0][pix >> 4];
-		p2 |= odd_low[0][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 1)))
-	    {
-		p1 |= even_high[0][pix >> 4];
-		p2 |= even_low[0][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 16)))
-	    {
-		p1 |= odd_high[1][pix >> 4];
-		p2 |= odd_low[1][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 17)))
-	    {
-		p1 |= even_high[1][pix >> 4];
-		p2 |= even_low[1][pix & 0xf];
-	    }
-	    *p++ = p1;
-	    *p++ = p2;
-	    non_zero |= p1 | p2;
-	}
-	break;
+		for (line = 8; line != 0; line--, tp += 2)
+		{
+			uint32 p1 = 0;
+			uint32 p2 = 0;
+			register uint8 pix;
+			if ((pix = *(tp + 0)))
+			{
+				p1 |= odd_high[0][pix >> 4];
+				p2 |= odd_low[0][pix & 0xf];
+			}
+			if ((pix = *(tp + 1)))
+			{
+				p1 |= even_high[0][pix >> 4];
+				p2 |= even_low[0][pix & 0xf];
+			}
+			if ((pix = *(tp + 16)))
+			{
+				p1 |= odd_high[1][pix >> 4];
+				p2 |= odd_low[1][pix & 0xf];
+			}
+			if ((pix = *(tp + 17)))
+			{
+				p1 |= even_high[1][pix >> 4];
+				p2 |= even_low[1][pix & 0xf];
+			}
+			*p++ = p1;
+			*p++ = p2;
+			non_zero |= p1 | p2;
+		}
+		break;
 
     case 2:
-	for (line = 8; line != 0; line--, tp += 2)
-	{
-	    uint32 p1 = 0;
-	    uint32 p2 = 0;
-	    register uint8 pix;
-	    if ((pix = *(tp + 0)))
-	    {
-		p1 |= odd_high[0][pix >> 4];
-		p2 |= odd_low[0][pix & 0xf];
-	    }
-	    if ((pix = *(tp + 1)))
-	    {
-		p1 |= even_high[0][pix >> 4];
-		p2 |= even_low[0][pix & 0xf];
-	    }
-	    *p++ = p1;
-	    *p++ = p2;
-	    non_zero |= p1 | p2;
-	}
-	break;
+		for (line = 8; line != 0; line--, tp += 2)
+		{
+			uint32 p1 = 0;
+			uint32 p2 = 0;
+			register uint8 pix;
+			if ((pix = *(tp + 0)))
+			{
+				p1 |= odd_high[0][pix >> 4];
+				p2 |= odd_low[0][pix & 0xf];
+			}
+			if ((pix = *(tp + 1)))
+			{
+				p1 |= even_high[0][pix >> 4];
+				p2 |= even_low[0][pix & 0xf];
+			}
+			*p++ = p1;
+			*p++ = p2;
+			non_zero |= p1 | p2;
+		}
+		break;
     }
     return (non_zero ? TRUE : BLANK_TILE);
 }
@@ -215,8 +211,8 @@ SCHERZO_INLINE void WRITE_4PIXELS (uint32 Offset, uint8 *Pixels)
 #define FN(N) \
     if (GFX.Z1 > Depth [N] && (Pixel = Pixels[N])) \
     { \
-	Screen [N] = (uint8) GFX.ScreenColors [Pixel]; \
-	Depth [N] = GFX.Z2; \
+		Screen [N] = (uint8) GFX.ScreenColors [Pixel]; \
+		Depth [N] = GFX.Z2; \
     }
 
     FN(0)
@@ -235,8 +231,8 @@ SCHERZO_INLINE void WRITE_4PIXELS_FLIPPED (uint32 Offset, uint8 *Pixels)
 #define FN(N) \
     if (GFX.Z1 > Depth [N] && (Pixel = Pixels[3 - N])) \
     { \
-	Screen [N] = (uint8) GFX.ScreenColors [Pixel]; \
-	Depth [N] = GFX.Z2; \
+		Screen [N] = (uint8) GFX.ScreenColors [Pixel]; \
+		Depth [N] = GFX.Z2; \
     }
 
     FN(0)
@@ -255,8 +251,8 @@ SCHERZO_INLINE void WRITE_4PIXELSx2 (uint32 Offset, uint8 *Pixels)
 #define FN(N) \
     if (GFX.Z1 > Depth [N * 2] && (Pixel = Pixels[N])) \
     { \
-	Screen [N * 2] = Screen [N * 2 + 1] = (uint8) GFX.ScreenColors [Pixel]; \
-	Depth [N * 2] = Depth [N * 2 + 1] = GFX.Z2; \
+		Screen [N * 2] = Screen [N * 2 + 1] = (uint8) GFX.ScreenColors [Pixel]; \
+		Depth [N * 2] = Depth [N * 2 + 1] = GFX.Z2; \
     }
 
     FN(0)
@@ -275,8 +271,8 @@ SCHERZO_INLINE void WRITE_4PIXELS_FLIPPEDx2 (uint32 Offset, uint8 *Pixels)
 #define FN(N) \
     if (GFX.Z1 > Depth [N * 2] && (Pixel = Pixels[3 - N])) \
     { \
-	Screen [N * 2] = Screen [N * 2 + 1] = (uint8) GFX.ScreenColors [Pixel]; \
-	Depth [N * 2] = Depth [N * 2 + 1] = GFX.Z2; \
+		Screen [N * 2] = Screen [N * 2 + 1] = (uint8) GFX.ScreenColors [Pixel]; \
+		Depth [N * 2] = Depth [N * 2 + 1] = GFX.Z2; \
     }
 
     FN(0)
@@ -295,10 +291,10 @@ SCHERZO_INLINE void WRITE_4PIXELSx2x2 (uint32 Offset, uint8 *Pixels)
 #define FN(N) \
     if (GFX.Z1 > Depth [N * 2] && (Pixel = Pixels[N])) \
     { \
-	Screen [N * 2] = Screen [N * 2 + 1] = Screen [GFX.RealPitch + N * 2] =  \
-	    Screen [GFX.RealPitch + N * 2 + 1] = (uint8) GFX.ScreenColors [Pixel]; \
-	Depth [N * 2] = Depth [N * 2 + 1] = Depth [GFX.RealPitch + N * 2] = \
-	    Depth [GFX.RealPitch + N * 2 + 1] = GFX.Z2; \
+		Screen [N * 2] = Screen [N * 2 + 1] = Screen [GFX.RealPitch + N * 2] =  \
+			Screen [GFX.RealPitch + N * 2 + 1] = (uint8) GFX.ScreenColors [Pixel]; \
+		Depth [N * 2] = Depth [N * 2 + 1] = Depth [GFX.RealPitch + N * 2] = \
+			Depth [GFX.RealPitch + N * 2 + 1] = GFX.Z2; \
     }
 
     FN(0)
@@ -1162,96 +1158,3 @@ void DrawLargePixel16Sub1_2 (uint32 Tile, uint32 Offset,
 			      
     RENDER_TILE_LARGE (GFX.ScreenColors [pixel], LARGE_SUB_PIXEL1_2)
 }
-
-#ifdef USE_GLIDE
-#if 0
-void DrawTile3dfx (uint32 Tile, uint32 Offset, uint32 StartLine,
-		   uint32 LineCount)
-{
-    TILE_PREAMBLE
-
-    float x = Offset % GFX.Pitch;
-    float y = Offset / GFX.Pitch;
-
-    Glide.sq [0].x = Glide.x_offset + x * Glide.x_scale;
-    Glide.sq [0].y = Glide.y_offset + y * Glide.y_scale;
-    Glide.sq [1].x = Glide.x_offset + (x + 8.0) * Glide.x_scale;
-    Glide.sq [1].y = Glide.y_offset + y * Glide.y_scale;
-    Glide.sq [2].x = Glide.x_offset + (x + 8.0) * Glide.x_scale;
-    Glide.sq [2].y = Glide.y_offset + (y + LineCount) * Glide.y_scale;
-    Glide.sq [3].x = Glide.x_offset + x * Glide.x_scale;
-    Glide.sq [3].y = Glide.y_offset + (y + LineCount) * Glide.y_scale;
-
-    if (!(Tile & (V_FLIP | H_FLIP)))
-    {
-	// Normal
-	Glide.sq [0].tmuvtx [0].sow = 0.0;
-	Glide.sq [0].tmuvtx [0].tow = StartLine;
-	Glide.sq [1].tmuvtx [0].sow = 8.0;
-	Glide.sq [1].tmuvtx [0].tow = StartLine;
-	Glide.sq [2].tmuvtx [0].sow = 8.0;
-	Glide.sq [2].tmuvtx [0].tow = StartLine + LineCount;
-	Glide.sq [3].tmuvtx [0].sow = 0.0;
-	Glide.sq [3].tmuvtx [0].tow = StartLine + LineCount;
-    }
-    else
-    if (!(Tile & V_FLIP))
-    {
-	// Flipped
-	Glide.sq [0].tmuvtx [0].sow = 8.0;
-	Glide.sq [0].tmuvtx [0].tow = StartLine;
-	Glide.sq [1].tmuvtx [0].sow = 0.0;
-	Glide.sq [1].tmuvtx [0].tow = StartLine;
-	Glide.sq [2].tmuvtx [0].sow = 0.0;
-	Glide.sq [2].tmuvtx [0].tow = StartLine + LineCount;
-	Glide.sq [3].tmuvtx [0].sow = 8.0;
-	Glide.sq [3].tmuvtx [0].tow = StartLine + LineCount;
-    }
-    else
-    if (Tile & H_FLIP)
-    {
-	// Horizontal and vertical flip
-	Glide.sq [0].tmuvtx [0].sow = 8.0;
-	Glide.sq [0].tmuvtx [0].tow = StartLine + LineCount;
-	Glide.sq [1].tmuvtx [0].sow = 0.0;
-	Glide.sq [1].tmuvtx [0].tow = StartLine + LineCount;
-	Glide.sq [2].tmuvtx [0].sow = 0.0;
-	Glide.sq [2].tmuvtx [0].tow = StartLine;
-	Glide.sq [3].tmuvtx [0].sow = 8.0;
-	Glide.sq [3].tmuvtx [0].tow = StartLine;
-    }
-    else
-    {
-	// Vertical flip only
-	Glide.sq [0].tmuvtx [0].sow = 0.0;
-	Glide.sq [0].tmuvtx [0].tow = StartLine + LineCount;
-	Glide.sq [1].tmuvtx [0].sow = 8.0;
-	Glide.sq [1].tmuvtx [0].tow = StartLine + LineCount;
-	Glide.sq [2].tmuvtx [0].sow = 8.0;
-	Glide.sq [2].tmuvtx [0].tow = StartLine;
-	Glide.sq [3].tmuvtx [0].sow = 0.0;
-	Glide.sq [3].tmuvtx [0].tow = StartLine;
-    }
-    grTexDownloadMipMapLevel (GR_TMU0, Glide.texture_mem_start,
-			      GR_LOD_8, GR_LOD_8, GR_ASPECT_1x1,
-			      GR_TEXFMT_RGB_565,
-			      GR_MIPMAPLEVELMASK_BOTH,
-			      (void *) pCache);
-    grTexSource (GR_TMU0, Glide.texture_mem_start,
-		 GR_MIPMAPLEVELMASK_BOTH, &Glide.texture);
-    grDrawTriangle (&Glide.sq [0], &Glide.sq [3], &Glide.sq [2]);
-    grDrawTriangle (&Glide.sq [0], &Glide.sq [1], &Glide.sq [2]);
-}
-
-void DrawClippedTile3dfx (uint32 Tile, uint32 Offset,
-			  uint32 StartPixel, uint32 Width,
-			  uint32 StartLine, uint32 LineCount)
-{
-    TILE_PREAMBLE
-    register uint8 *bp;
-
-    TILE_CLIP_PREAMBLE
-    RENDER_CLIPPED_TILE(WRITE_4PIXELS16_SUB, WRITE_4PIXELS16_FLIPPED_SUB, 4)
-}
-#endif
-#endif

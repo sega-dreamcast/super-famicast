@@ -88,12 +88,20 @@
 #include "sa1.h"
 #include "spc7110.h"
 
+//uint32 g_code_counts[0x100];
+
+inline void ExecOpCode()
+{
+	
+}
+
 void S9xMainLoop (void)
 {
+	//uint32 times_through = 0;
     for (;;)
     {
-		APU_EXECUTE ();
-        SCHERZO_PRINT1("S9xMainLoop: CPU.Flags = %X\n", CPU.Flags);
+    	//++times_through;
+		APU_EXECUTE();
 		if (CPU.Flags)
 		{
 	    	if (CPU.Flags & NMI_FLAG)
@@ -106,25 +114,10 @@ void S9xMainLoop (void)
 						CPU.WaitingForInterrupt = FALSE;
 						CPU.PC++;
 		    		}
-		    		S9xOpcode_NMI ();
+		    		S9xOpcode_NMI();
 				}
 	    	}
-
-#ifdef DEBUGGER
-			if ((CPU.Flags & BREAK_FLAG) && !(CPU.Flags & SINGLE_STEP_FLAG))
-			{
-				for (int Break = 0; Break != 6; Break++)
-				{
-		    		if (S9xBreakpoint[Break].Enabled && S9xBreakpoint[Break].Bank == Registers.PB && S9xBreakpoint[Break].Address == CPU.PC - CPU.PCBase)
-		    		{
-						if (S9xBreakpoint[Break].Enabled == 2)
-			    			S9xBreakpoint[Break].Enabled = TRUE;
-						else
-			    			CPU.Flags |= DEBUG_MODE_FLAG;
-		    		}
-				}
-	    	}
-#endif
+			
 	    	CHECK_SOUND ();
 
 	    	if (CPU.Flags & IRQ_PENDING_FLAG)
@@ -136,10 +129,10 @@ void S9xMainLoop (void)
 						CPU.WaitingForInterrupt = FALSE;
 						CPU.PC++;
 		    		}
-		    		if (CPU.IRQActive && !Settings.DisableIRQ)
+		    		if (CPU.IRQActive)
 		    		{
 						if (!CheckFlag (IRQ))
-							S9xOpcode_IRQ ();
+							S9xOpcode_IRQ();
 		    		}
 		    		else
 						CPU.Flags &= ~IRQ_PENDING_FLAG;
@@ -150,54 +143,42 @@ void S9xMainLoop (void)
 						CPU.IRQCycleCount=1;
 				}
 	    	}
-#ifdef DEBUGGER
-			if (CPU.Flags & DEBUG_MODE_FLAG)
-				break;
-#endif
+
 			if (CPU.Flags & SCAN_KEYS_FLAG)
 				break;
-#ifdef DEBUGGER
-			if (CPU.Flags & TRACE_FLAG)
-				S9xTrace ();
-
-			if (CPU.Flags & SINGLE_STEP_FLAG)
-			{
-				CPU.Flags &= ~SINGLE_STEP_FLAG;
-				CPU.Flags |= DEBUG_MODE_FLAG;
-			}
-#endif
 		}
 #ifdef CPU_SHUTDOWN
 		CPU.PCAtOpcodeStart = CPU.PC;
 #endif
 		CPU.Cycles += CPU.MemSpeed;
+		
+		//g_code_counts[*CPU.PC] += 1;
 
-		(*ICPU.S9xOpcodes [*CPU.PC++].S9xOpcode) ();
-		SCHERZO_PRINT1("*S9xMainLoop: CPU.PC = %X\n", CPU.PC);
+		(*ICPU.S9xOpcodes[*CPU.PC++].S9xOpcode) ();
 	
 		if (SA1.Executing)
-			S9xSA1MainLoop ();
+			S9xSA1MainLoop();
 		DO_HBLANK_CHECK();
     }
+    //printf("times_through = %u\n", times_through);
     Registers.PC = CPU.PC - CPU.PCBase;
-    S9xPackStatus ();
+    S9xPackStatus();
     APURegisters.PC = IAPU.PC - IAPU.RAM;
-    S9xAPUPackStatus ();
+    S9xAPUPackStatus();
     if (CPU.Flags & SCAN_KEYS_FLAG)
     {
-#ifdef DEBUGGER
-		if (!(CPU.Flags & FRAME_ADVANCE_FLAG))
-#endif
-	    	S9xSyncSpeed ();
+	    S9xSyncSpeed();
 		CPU.Flags &= ~SCAN_KEYS_FLAG;
     }
     if (CPU.BRKTriggered && Settings.SuperFX && !CPU.TriedInterleavedMode2)
     {
 		CPU.TriedInterleavedMode2 = TRUE;
 		CPU.BRKTriggered = FALSE;
-		S9xDeinterleaveMode2 ();
+		S9xDeinterleaveMode2();
     }
 }
+
+
 
 void S9xSetIRQ (uint32 source)
 {
@@ -235,10 +216,7 @@ void S9xDoHBlankProcessing ()
     case HBLANK_END_EVENT:
 	S9xSuperFXExec ();
 
-#ifndef STORM
-	if (Settings.SoundSync)
-	    S9xGenerateSound ();
-#endif
+	S9xGenerateSound ();
 
 	CPU.Cycles -= Settings.H_Max;
 	if (IAPU.APUExecuting)

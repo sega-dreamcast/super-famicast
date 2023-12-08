@@ -1,5 +1,6 @@
 #include "dc_menu.h"
 #include "dc_controller.h"
+#include "scherzo_snd_stream.h"
 
 extern struct
 {
@@ -471,7 +472,7 @@ bool DCMenu::Run()
 		Draw();
 		pvr_scene_finish();
 		if (poll_sound_stream)
-			snd_stream_poll();
+			scherzo_snd_stream_poll();
 		success = PollController();
 	}
 	return success;

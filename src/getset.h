@@ -92,7 +92,7 @@ extern "C"
 INLINE uint8 S9xGetByte (uint32 Address)
 {
     int block;
-    uint8 *GetAddress = Memory.Map [block = (Address >> MEMMAP_SHIFT) & MEMMAP_MASK];
+    uint8* GetAddress = Memory.Map [block = (Address >> MEMMAP_SHIFT) & MEMMAP_MASK];
 
 	if(!CPU.InDMA)
 		CPU.Cycles += Memory.MemorySpeed [block];
@@ -119,12 +119,7 @@ INLINE uint8 S9xGetByte (uint32 Address)
 		return (S9xGetDSP (Address & 0xffff));
     case CMemory::MAP_SA1RAM:
     case CMemory::MAP_LOROM_SRAM:
-		//Address &0x7FFF -offset into bank
-		//Address&0xFF0000 -bank
-		//bank>>1 | offset = s-ram address, unbound
-		//unbound & SRAMMask = Sram offset
 		return (*(Memory.SRAM + ((((Address&0xFF0000)>>1) |(Address&0x7FFF)) &Memory.SRAMMask)));
-//		return (*(Memory.SRAM + ((Address & Memory.SRAMMask))));
 		
 	case CMemory::MAP_RONLY_SRAM:
     case CMemory::MAP_HIROM_SRAM:
@@ -158,16 +153,12 @@ INLINE uint8 S9xGetByte (uint32 Address)
 	case CMemory::MAP_SETA_RISC:
 		return S9xGetST018(Address);
 
-
- 
      case CMemory::MAP_DEBUG:
  #ifdef DEBUGGER
  		printf ("DEBUG R(B) %06x\n", Address);
  #endif
  		return OpenBus;
  
-
-
 	default:
     case CMemory::MAP_NONE:
 #ifdef MK_TRACE_BAD_READS
@@ -227,23 +218,12 @@ INLINE uint16 S9xGetWord (uint32 Address)
 			(S9xGetDSP ((Address + 1) & 0xffff) << 8));
     case CMemory::MAP_SA1RAM:
     case CMemory::MAP_LOROM_SRAM:
-		//Address &0x7FFF -offset into bank
-		//Address&0xFF0000 -bank
-		//bank>>1 | offset = s-ram address, unbound
-		//unbound & SRAMMask = Sram offset
-		/* BJ: no FAST_LSB_WORD_ACCESS here, since if Memory.SRAMMask=0x7ff
-		 * then the high byte doesn't follow the low byte. */
 		return 
 			(*(Memory.SRAM + ((((Address&0xFF0000)>>1) |(Address&0x7FFF)) &Memory.SRAMMask)))|
 			((*(Memory.SRAM + (((((Address+1)&0xFF0000)>>1) |((Address+1)&0x7FFF)) &Memory.SRAMMask)))<<8);
-
-		//return (*(uint16*)(Memory.SRAM + ((((Address&0xFF0000)>>1)|(Address&0x7FFF)) & Memory.SRAMMask));// |
-	//		(*(Memory.SRAM + ((Address + 1) & Memory.SRAMMask)) << 8));
 		
 	case CMemory::MAP_RONLY_SRAM:
     case CMemory::MAP_HIROM_SRAM:
-		/* BJ: no FAST_LSB_WORD_ACCESS here, since if Memory.SRAMMask=0x7ff
-		 * then the high byte doesn't follow the low byte. */
 		return (*(Memory.SRAM +
 			(((Address & 0x7fff) - 0x6000 +
 			((Address & 0xf0000) >> 3)) & Memory.SRAMMask)) |
@@ -356,7 +336,6 @@ INLINE void S9xSetByte (uint8 Byte, uint32 Address)
 		if (Memory.SRAMMask)
 		{
 			*(Memory.SRAM + ((((Address&0xFF0000)>>1)|(Address&0x7FFF))& Memory.SRAMMask))=Byte;
-//			*(Memory.SRAM + (Address & Memory.SRAMMask)) = Byte;
 			CPU.SRAMModified = TRUE;
 		}
 		return;
@@ -491,13 +470,8 @@ INLINE void S9xSetWord (uint16 Word, uint32 Address)
     case CMemory::MAP_LOROM_SRAM:
 		if (Memory.SRAMMask)
 		{
-			/* BJ: no FAST_LSB_WORD_ACCESS here, since if Memory.SRAMMask=0x7ff
-			 * then the high byte doesn't follow the low byte. */
 			*(Memory.SRAM + ((((Address&0xFF0000)>>1)|(Address&0x7FFF))& Memory.SRAMMask)) = (uint8) Word;
 			*(Memory.SRAM + (((((Address+1)&0xFF0000)>>1)|((Address+1)&0x7FFF))& Memory.SRAMMask)) = Word >> 8;
-
-//			*(Memory.SRAM + (Address & Memory.SRAMMask)) = (uint8) Word;
-//			*(Memory.SRAM + ((Address + 1) & Memory.SRAMMask)) = Word >> 8;
 			CPU.SRAMModified = TRUE;
 		}
 		return;
@@ -505,8 +479,6 @@ INLINE void S9xSetWord (uint16 Word, uint32 Address)
     case CMemory::MAP_HIROM_SRAM:
 		if (Memory.SRAMMask)
 		{
-			/* BJ: no FAST_LSB_WORD_ACCESS here, since if Memory.SRAMMask=0x7ff
-			 * then the high byte doesn't follow the low byte. */
 			*(Memory.SRAM + 
 				(((Address & 0x7fff) - 0x6000 +
 				((Address & 0xf0000) >> 3) & Memory.SRAMMask))) = (uint8) Word;
@@ -604,13 +576,9 @@ INLINE uint8 *GetBasePointer (uint32 Address)
 #endif
 		return Get7110BasePtr(Address);
     case CMemory::MAP_PPU:
-//just a guess, but it looks like this should match the CPU as a source.
 		return (Memory.FillRAM);
-//		return (Memory.FillRAM - 0x2000);
     case CMemory::MAP_CPU:
-//fixes Ogre Battle's green lines
 		return (Memory.FillRAM);
-//		return (Memory.FillRAM - 0x4000);
     case CMemory::MAP_DSP:
 		return (Memory.FillRAM - 0x6000);
     case CMemory::MAP_SA1RAM:

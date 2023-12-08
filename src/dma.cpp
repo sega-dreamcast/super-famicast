@@ -835,7 +835,7 @@ void S9xDoDMA (uint8 Channel)
     }
     
 #ifdef SPC700_C
-    IAPU.APUExecuting = Settings.APUEnabled;
+    IAPU.APUExecuting = TRUE;
     APU_EXECUTE ();
 #endif
     while (CPU.Cycles > CPU.NextEvent)

@@ -99,13 +99,13 @@ typedef double VECTOR[3];
 enum AttitudeMatrix { MatrixA, MatrixB, MatrixC };
 
 struct SDSP1 {
+	uint32 in_count;
+	uint32 in_index;
+	uint32 out_count;
+    uint32 out_index;
     bool8 waiting4command;
     bool8 first_parameter;
     uint8 command;
-    uint32 in_count;
-    uint32 in_index;
-    uint32 out_count;
-    uint32 out_index;
     uint8 parameters [512];
 //output was 512 for DSP-2 work, updated to reflect current thinking on DSP-3
     uint8 output [512];

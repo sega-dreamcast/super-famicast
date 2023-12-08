@@ -89,10 +89,6 @@
 #include "65c816.h"
 #include "messages.h"
 
-#if defined(USE_GLIDE) && !defined(GFX_MULTI_FORMAT)
-#define GFX_MULTI_FORMAT
-#endif
-
 #define ROM_NAME_LEN 23
 
 #ifdef ZLIB
@@ -121,8 +117,8 @@
 #define SNES_WIDTH		256
 #define SNES_HEIGHT		224
 #define SNES_HEIGHT_EXTENDED	239
-#define IMAGE_WIDTH		(Settings.SupportHiRes ? SNES_WIDTH * 2 : SNES_WIDTH)
-#define IMAGE_HEIGHT		(Settings.SupportHiRes ? SNES_HEIGHT_EXTENDED * 2 : SNES_HEIGHT_EXTENDED)
+#define IMAGE_WIDTH		(SNES_WIDTH)
+#define IMAGE_HEIGHT		(SNES_HEIGHT_EXTENDED)
 
 #define SNES_MAX_NTSC_VCOUNTER  262
 #define SNES_MAX_PAL_VCOUNTER   312
@@ -192,32 +188,60 @@ enum {
 #define IRQ_PENDING_FLAG    (1 << 11)
 
 struct SCPUState{
-    uint32  Flags;
-    bool8   BranchSkip;
-    bool8   NMIActive;
-    bool8   IRQActive;
-    bool8   WaitingForInterrupt;
-    bool8   InDMA;
-    uint8   WhichEvent;
-    uint8   *PC;
-    uint8   *PCBase;
-    uint8   *PCAtOpcodeStart;
-    uint8   *WaitAddress;
-    uint32  WaitCounter;
-    long   Cycles;
-    long   NextEvent;
-    long   V_Counter;
-    long   MemSpeed;
-    long   MemSpeedx2;
+	uint32  Flags;
+	bool8   BranchSkip;
+	bool8   NMIActive;
+	bool8   IRQActive;
+	bool8   WaitingForInterrupt;
+	bool8   InDMA;
+	uint8   WhichEvent;
+	bool8  SRAMModified;
+	bool8  BRKTriggered;
+	uint8   *PC;
+	uint8   *PCBase;
+	uint8   *PCAtOpcodeStart;
+	uint8   *WaitAddress;
+	uint32  WaitCounter;
+	long   Cycles;
+	long   NextEvent;
+	long   V_Counter;
+	long   MemSpeed;
+	long   MemSpeedx2;
     long   FastROMSpeed;
-    uint32 AutoSaveTimer;
-    bool8  SRAMModified;
-    uint32 NMITriggerPoint;
-    bool8  BRKTriggered;
-    bool8  TriedInterleavedMode2;
     uint32 NMICycleCount;
-    uint32 IRQCycleCount;
+	uint32 IRQCycleCount;
+	uint32 AutoSaveTimer;
+    uint32 NMITriggerPoint;
+    bool8  TriedInterleavedMode2;
 };
+
+/* ASM ORDER
+#define Flags @r12
+#define BranchSkip @(4,r12)
+#define NMIActive @(5,r12)
+#define IRQActive @(6,r12)
+#define WaitingForInterrupt @(7,r12)
+#define InDMA @(8,r12)
+#define WhichEvent @(9,r12)
+#define SRAMModified @(10,r12)
+#define BRKTriggered @(11,r12)
+#define PCS @(12,r12)
+#define PCBase @(16,r12)
+#define PCAtOpcodeStart @(20,r12)
+#define WaitAddress @(24,r12)
+#define WaitCounter @(28,r12)
+#define Cycles @(32,r12)
+#define NextEvent @(36,r12)
+#define V_Counter @(40,r12)
+#define MemSpeed @(44,r12)
+#define MemSpeedx2 @(48,r12)
+#define FastROMSpeed @(52,r12)
+#define NMICycleCount @(56,r12)
+#define IRQCycleCount @(60,r12)
+#define AutoSaveTimer @(64,r12)
+#define NMITriggerPoint @(68,r12)
+#define TriedInterleavedMode2 @(72,r12)
+*/
 
 #define HBLANK_START_EVENT 0
 #define HBLANK_END_EVENT 1
@@ -225,16 +249,33 @@ struct SCPUState{
 #define HTIMER_AFTER_EVENT 3
 #define NO_EVENT 4
 
+/* ASM ORDER
+#define APUEnabled @r1
+#define Shutdown @(1,r1)
+#define SoundSkipMethod @(2,r1)
+#define PAL @(3,r1)
+#define H_Max @(4,r1)
+#define HBlankStart @(8,r1)
+#define CyclesPercentage @(12,r1)
+#define DisableIRQ @(16,r1)
+#define Paused @(17,r1)
+#define SuperFXEnabled @(80,r1)
+#define SA1Enabled @(82,r1)
+#define SoundSync @(108,r1)
+*/
+
 struct SSettings{
-    /* CPU options */
-    bool8  APUEnabled;
-    bool8  Shutdown;
-    uint8  SoundSkipMethod;
-    long   H_Max;
-    long   HBlankStart;
-    long   CyclesPercentage;
-    bool8  DisableIRQ;
+	bool8  APUEnabled;
+	bool8  Shutdown;
+	uint8  SoundSkipMethod;
+	bool8  PAL;
+	long   H_Max;
+	long   HBlankStart;
+	long   CyclesPercentage;
+	bool8  DisableIRQ;
     bool8  Paused;
+	
+    /* CPU options */
     bool8  ForcedPause;
     bool8  StopEmulation;
 
@@ -252,7 +293,6 @@ struct SSettings{
     /* ROM timing options (see also H_Max above) */
     bool8  ForcePAL;
     bool8  ForceNTSC;
-    bool8  PAL;
     uint32 FrameTimePAL;
     uint32 FrameTimeNTSC;
     uint32 FrameTime;

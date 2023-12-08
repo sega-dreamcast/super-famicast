@@ -78,7 +78,7 @@
 #include "spctool/soundmod.h"
 #include "apu.h"
 
-bool8 S9xOpenSoundDevice (int, bool8, int);
+bool8 S9xOpenSoundDevice (int, int);
 
 void S9xSetPlaybackRate (uint32 rate)
 {
@@ -101,17 +101,16 @@ bool8 S9xSetSoundMute (bool8 mute)
 }
 
 START_EXTERN_C
-bool8 S9xInitSound (int mode, bool8 stereo, int buffer_size)
+bool8 S9xInitSound (int mode, int buffer_size)
 {
     if (!(mode & 7))
-	return (TRUE);
+		return (TRUE);
 
     S9xSetSoundMute (TRUE);
-    if (!S9xOpenSoundDevice (mode, stereo, buffer_size))
+    if (!S9xOpenSoundDevice (mode, buffer_size))
     {
-	S9xMessage (S9X_ERROR, S9X_SOUND_DEVICE_OPEN_FAILED,
-		    "Sound device open failed");
-	return (FALSE);
+		S9xMessage (S9X_ERROR, S9X_SOUND_DEVICE_OPEN_FAILED, "Sound device open failed");
+		return (FALSE);
     }
     return (TRUE);
 }

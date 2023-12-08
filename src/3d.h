@@ -109,27 +109,4 @@ void S9xOpenGLDeinit ();
 
 #endif
 
-#ifdef USE_GLIDE
-#include <glide.h>
-
-typedef struct
-{
-    bool8	voodoo_present;
-    GrVertex	sq[4];
-    GrTexInfo	texture;
-    int32	texture_mem_size;
-    int32	texture_mem_start;
-    float	x_offset, y_offset;
-    float	x_scale, y_scale;
-    float	voodoo_width;
-    float	voodoo_height;
-} GlideData;
-
-extern GlideData Glide;
-bool8 S9xGlideEnable (bool8 enable);
-void S9xGlideDeinit ();
-bool8 S9xGlideInit ();
-bool8 S9xVoodooInitialise ();
-#endif
-
 #endif

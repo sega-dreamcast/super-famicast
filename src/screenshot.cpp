@@ -151,30 +151,17 @@ bool8 S9xDoScreenshot(int width, int height){
     }
     
     png_init_io(png_ptr, fp);
-    if(!Settings.SixteenBit){
-        // BJ: credit sanmaiwashi for the idea to do palettized pngs, and to
-        //     S9xSetPalette in x11.cpp for how to calculate the RGB values
-        int b=IPPU.MaxBrightness*140;
-        for(int i=0; i<256; i++){
-            pngpal[i].red   = (PPU.CGDATA[i] & 0x1f)*b>>8;
-            pngpal[i].green = ((PPU.CGDATA[i] >> 5) & 0x1f)*b>>8;
-            pngpal[i].blue  = ((PPU.CGDATA[i] >> 10) & 0x1f)*b>>8;
-        }
-        png_set_PLTE(png_ptr, info_ptr, pngpal, 256);
-    }
     png_set_IHDR(png_ptr, info_ptr, imgwidth, imgheight, 8, 
-                 (Settings.SixteenBit?PNG_COLOR_TYPE_RGB:PNG_COLOR_TYPE_PALETTE),
+                 PNG_COLOR_TYPE_RGB,
                  PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
                  PNG_FILTER_TYPE_DEFAULT);
 
-    if(Settings.SixteenBit){
-        /* 5 bits per color */
-        sig_bit.red=5;
-        sig_bit.green=5;
-        sig_bit.blue=5;
-        png_set_sBIT(png_ptr, info_ptr, &sig_bit);
-        png_set_shift(png_ptr, &sig_bit);
-    }
+    /* 5 bits per color */
+	sig_bit.red=5;
+	sig_bit.green=5;
+	sig_bit.blue=5;
+	png_set_sBIT(png_ptr, info_ptr, &sig_bit);
+	png_set_shift(png_ptr, &sig_bit);
 
     png_write_info(png_ptr, info_ptr);
     
@@ -182,25 +169,22 @@ bool8 S9xDoScreenshot(int width, int height){
 
     png_byte *row_pointer=new png_byte [png_get_rowbytes(png_ptr, info_ptr)];
     uint8 *screen=GFX.Screen;
-    for(int y=0; y<height; y++, screen+=GFX.Pitch){
+    for(int y=0; y<height; y++, screen+=GFX.Pitch)
+    {
         png_byte *rowpix = row_pointer;
-        for(int x=0; x<width; x++){
-            if(Settings.SixteenBit){
-                uint32 r, g, b;
-                DECOMPOSE_PIXEL((*(uint16 *)(screen+2*x)), r, g, b);
-                *(rowpix++) = r;
-                *(rowpix++) = g;
-                *(rowpix++) = b;
-                if(imgwidth!=width){
-                    *(rowpix++) = r;
-                    *(rowpix++) = g;
-                    *(rowpix++) = b;
-                }
-            } else {
-                *(rowpix++)=*(uint8 *)(screen+x);
-                if(imgwidth!=width)
-                    *(rowpix++)=*(uint8 *)(screen+x);
-            }
+        for(int x=0; x<width; x++)
+        {
+			uint32 r, g, b;
+			DECOMPOSE_PIXEL((*(uint16 *)(screen+2*x)), r, g, b);
+			*(rowpix++) = r;
+			*(rowpix++) = g;
+			*(rowpix++) = b;
+			if(imgwidth!=width)
+			{
+				*(rowpix++) = r;
+				*(rowpix++) = g;
+				*(rowpix++) = b;
+			}
         }
         png_write_row(png_ptr, row_pointer);
         if(imgheight!=height)

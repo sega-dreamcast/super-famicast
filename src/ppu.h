@@ -156,11 +156,45 @@ struct SOBJ
     uint8  Size;
 };
 
-struct SPPU {
-    uint8  BGMode;
-    uint8  BG3Priority;
-    uint8  Brightness;
+/*
+#define BGMode @r1
+#define BG3Priority @(1,r1)
+#define Brightness @(2,r1)
+#define OAMFlip @(3,r1)
+#define OAMAddr @(4,r1)
+#define SavedOAMAddr @(6,r1)
+#define ScreenHeight @(8,r1)
+#define FirstSprite @(10,r1)
+#define HVBeamCounterLatched @(11,r1)
+#define VTimerEnabled @(12,r1)
+#define HTimerEnabled @(13,r1)
+#define ForcedBlanking @(14,r1)
+#define IRQVBeamPos @(16,r1)
+#define HTimerPosition @(18,r1)
+#define GHight @(20,r1)
+#define GInc @(21,r1)
+#define GAddress @(22,r1)
+#define GMask1 @(24,r1)
+#define GFullGraphicCount @(26,r1)
+#define GShift @(28,r1)
+*/
 
+struct SPPU {
+	uint8  BGMode;
+	uint8  BG3Priority;
+	uint8  Brightness;
+	uint8  OAMFlip;
+	uint16 OAMAddr;
+	uint16 SavedOAMAddr;
+	uint16 ScreenHeight;
+	uint8  FirstSprite;
+	uint8  HVBeamCounterLatched;
+	bool8  VTimerEnabled;
+	bool8  HTimerEnabled;
+	bool8  ForcedBlanking;
+	uint16 IRQVBeamPos;
+	short  HTimerPosition;
+	
     struct {
 	bool8 High;
 	uint8 Increment;
@@ -181,23 +215,17 @@ struct SPPU {
 
     bool8  CGFLIP;
     uint16 CGDATA [256]; 
-    uint8  FirstSprite;
     uint8  LastSprite;
     struct SOBJ OBJ [128];
     uint8  OAMPriorityRotation;
-    uint16 OAMAddr;
     uint8  RangeTimeOver;
-
-    uint8  OAMFlip;
     uint16 OAMTileAddress;
-    uint16 IRQVBeamPos;
     uint16 IRQHBeamPos;
     uint16 VBeamPosLatched;
     uint16 HBeamPosLatched;
 
     uint8  HBeamFlip;
     uint8  VBeamFlip;
-    uint8  HVBeamCounterLatched;
 
     short  MatrixA;
     short  MatrixB;
@@ -212,11 +240,8 @@ struct SPPU {
     uint8  FixedColourRed;
     uint8  FixedColourGreen;
     uint8  FixedColourBlue;
-    uint16 SavedOAMAddr;
-    uint16 ScreenHeight;
     uint32 WRAM;
     uint8  BG_Forced;
-    bool8  ForcedBlanking;
     bool8  OBJThroughMain;
     bool8  OBJThroughSub;
     uint8  OBJSizeSelect;
@@ -224,9 +249,6 @@ struct SPPU {
     bool8  OBJAddition;
     uint8  OAMReadFlip;
     uint8  OAMData [512 + 32];
-    bool8  VTimerEnabled;
-    bool8  HTimerEnabled;
-    short  HTimerPosition;
     uint8  Mosaic;
     bool8  BGMosaic [4];
     bool8  Mode7HFlip;
@@ -316,7 +338,7 @@ END_EXTERN_C
 #define MAX_5C78_VERSION 0x03
 #define MAX_5A22_VERSION 0x02
 
-STATIC SCHERZO_INLINE uint8 REGISTER_4212()
+STATIC inline uint8 REGISTER_4212()
 {
     GetBank = 0;
     if (CPU.V_Counter >= PPU.ScreenHeight + FIRST_VISIBLE_LINE &&
@@ -330,13 +352,13 @@ STATIC SCHERZO_INLINE uint8 REGISTER_4212()
     return (GetBank);
 }
 
-STATIC SCHERZO_INLINE void FLUSH_REDRAW ()
+STATIC inline void FLUSH_REDRAW ()
 {
     if (IPPU.PreviousLine != IPPU.CurrentLine)
-		S9xUpdateScreen ();
+	S9xUpdateScreen ();
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2104 (uint8 byte)
+STATIC inline void REGISTER_2104 (uint8 byte)
 {
     if (PPU.OAMAddr & 0x100)
     {
@@ -423,7 +445,7 @@ STATIC SCHERZO_INLINE void REGISTER_2104 (uint8 byte)
     Memory.FillRAM [0x2104] = byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2118 (uint8 Byte)
+STATIC inline void REGISTER_2118 (uint8 Byte)
 {
     uint32 address;
     if (PPU.VMA.FullGraphicCount)
@@ -456,7 +478,7 @@ STATIC SCHERZO_INLINE void REGISTER_2118 (uint8 Byte)
 //    Memory.FillRAM [0x2118] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2118_tile (uint8 Byte)
+STATIC inline void REGISTER_2118_tile (uint8 Byte)
 {
     uint32 address;
     uint32 rem = PPU.VMA.Address & PPU.VMA.Mask1;
@@ -472,7 +494,7 @@ STATIC SCHERZO_INLINE void REGISTER_2118_tile (uint8 Byte)
 //    Memory.FillRAM [0x2118] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2118_linear (uint8 Byte)
+STATIC inline void REGISTER_2118_linear (uint8 Byte)
 {
     uint32 address;
     Memory.VRAM[address = (PPU.VMA.Address << 1) & 0xFFFF] = Byte;
@@ -484,7 +506,7 @@ STATIC SCHERZO_INLINE void REGISTER_2118_linear (uint8 Byte)
 //    Memory.FillRAM [0x2118] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2119 (uint8 Byte)
+STATIC inline void REGISTER_2119 (uint8 Byte)
 {
     uint32 address;
     if (PPU.VMA.FullGraphicCount)
@@ -517,7 +539,7 @@ STATIC SCHERZO_INLINE void REGISTER_2119 (uint8 Byte)
 //    Memory.FillRAM [0x2119] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2119_tile (uint8 Byte)
+STATIC inline void REGISTER_2119_tile (uint8 Byte)
 {
     uint32 rem = PPU.VMA.Address & PPU.VMA.Mask1;
     uint32 address = ((((PPU.VMA.Address & ~PPU.VMA.Mask1) +
@@ -532,7 +554,7 @@ STATIC SCHERZO_INLINE void REGISTER_2119_tile (uint8 Byte)
 //    Memory.FillRAM [0x2119] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2119_linear (uint8 Byte)
+STATIC inline void REGISTER_2119_linear (uint8 Byte)
 {
     uint32 address;
     Memory.VRAM[address = ((PPU.VMA.Address << 1) + 1) & 0xFFFF] = Byte;
@@ -544,54 +566,46 @@ STATIC SCHERZO_INLINE void REGISTER_2119_linear (uint8 Byte)
 //    Memory.FillRAM [0x2119] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2122(uint8 Byte)
+STATIC inline void REGISTER_2122(uint8 Byte)
 {
     // CG-RAM (palette) write
 
     if (PPU.CGFLIP)
     {
-	if ((Byte & 0x7f) != (PPU.CGDATA[PPU.CGADD] >> 8))
-	{
-	    if (Settings.SixteenBit)
-		FLUSH_REDRAW ();
-	    PPU.CGDATA[PPU.CGADD] &= 0x00FF;
-	    PPU.CGDATA[PPU.CGADD] |= (Byte & 0x7f) << 8;
-	    IPPU.ColorsChanged = TRUE;
-	    if (Settings.SixteenBit)
-	    {
-		IPPU.Blue [PPU.CGADD] = IPPU.XB [(Byte >> 2) & 0x1f];
-		IPPU.Green [PPU.CGADD] = IPPU.XB [(PPU.CGDATA[PPU.CGADD] >> 5) & 0x1f];
-		IPPU.ScreenColors [PPU.CGADD] = (uint16) BUILD_PIXEL (IPPU.Red [PPU.CGADD],
-							     IPPU.Green [PPU.CGADD],
-							     IPPU.Blue [PPU.CGADD]);
-	    }
-	}
-	PPU.CGADD++;
+		if ((Byte & 0x7f) != (PPU.CGDATA[PPU.CGADD] >> 8))
+		{
+			FLUSH_REDRAW ();
+			PPU.CGDATA[PPU.CGADD] &= 0x00FF;
+			PPU.CGDATA[PPU.CGADD] |= (Byte & 0x7f) << 8;
+			IPPU.ColorsChanged = TRUE;
+			IPPU.Blue [PPU.CGADD] = IPPU.XB [(Byte >> 2) & 0x1f];
+			IPPU.Green [PPU.CGADD] = IPPU.XB [(PPU.CGDATA[PPU.CGADD] >> 5) & 0x1f];
+			IPPU.ScreenColors [PPU.CGADD] = (uint16) BUILD_PIXEL (IPPU.Red [PPU.CGADD],
+									 IPPU.Green [PPU.CGADD],
+									 IPPU.Blue [PPU.CGADD]);
+		}
+		++PPU.CGADD;
     }
     else
     {
-	if (Byte != (uint8) (PPU.CGDATA[PPU.CGADD] & 0xff))
-	{
-	    if (Settings.SixteenBit)
-		FLUSH_REDRAW ();
-	    PPU.CGDATA[PPU.CGADD] &= 0x7F00;
-	    PPU.CGDATA[PPU.CGADD] |= Byte;
-	    IPPU.ColorsChanged = TRUE;
-	    if (Settings.SixteenBit)
-	    {
-		IPPU.Red [PPU.CGADD] = IPPU.XB [Byte & 0x1f];
-		IPPU.Green [PPU.CGADD] = IPPU.XB [(PPU.CGDATA[PPU.CGADD] >> 5) & 0x1f];
-		IPPU.ScreenColors [PPU.CGADD] = (uint16) BUILD_PIXEL (IPPU.Red [PPU.CGADD],
-							     IPPU.Green [PPU.CGADD],
-							     IPPU.Blue [PPU.CGADD]);
-	    }
-	}
+		if (Byte != (uint8) (PPU.CGDATA[PPU.CGADD] & 0xff))
+		{
+			FLUSH_REDRAW ();
+			PPU.CGDATA[PPU.CGADD] &= 0x7F00;
+			PPU.CGDATA[PPU.CGADD] |= Byte;
+			IPPU.ColorsChanged = TRUE;
+			IPPU.Red [PPU.CGADD] = IPPU.XB [Byte & 0x1f];
+			IPPU.Green [PPU.CGADD] = IPPU.XB [(PPU.CGDATA[PPU.CGADD] >> 5) & 0x1f];
+			IPPU.ScreenColors [PPU.CGADD] = (uint16) BUILD_PIXEL (IPPU.Red [PPU.CGADD],
+									 IPPU.Green [PPU.CGADD],
+									 IPPU.Blue [PPU.CGADD]);
+		}
     }
     PPU.CGFLIP ^= 1;
 //    Memory.FillRAM [0x2122] = Byte;
 }
 
-STATIC SCHERZO_INLINE void REGISTER_2180(uint8 Byte)
+STATIC inline void REGISTER_2180(uint8 Byte)
 {
     Memory.RAM[PPU.WRAM++] = Byte;
     PPU.WRAM &= 0x1FFFF;

@@ -5,7 +5,6 @@ DCController g_controllers[4];
 DCController::DCController()
 {
 	m_dev = NULL;
-	m_old_state;
 	memset(&m_old_state, 0, sizeof(cont_state_t));
 	memset(&m_state, 0, sizeof(cont_state_t));
 }
