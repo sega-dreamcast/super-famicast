@@ -1,4 +1,5 @@
 #include <kos.h>
+#include <sys/time.h>
 #include <plx/font.h>
 #include <png/png.h>
 #include "vorbisfile.h"
@@ -24,6 +25,7 @@
 #include "dc_mouse.h"
 #include "dc_file_browser.h"
 #include "scherzo_snd_stream.h"
+#include "utils.h"
 
 uint32 g_soundModes[] = { 	0,
 							8192,
@@ -166,6 +168,8 @@ int tempcounter = 0;
 static int current_section;
 
 void* interfaceGetSound(int samples_requested, int* samples_returned);
+
+
 
 #define I_HAVE_MENU_MUSIC 1
 

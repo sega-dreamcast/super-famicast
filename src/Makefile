@@ -2,7 +2,7 @@
 # by Scherzo
 
 TARGET = superfamicast.elf
-OBJS =  main.o 2xsai.o apu.o apudebug.o c4.o c4emu.o cheats2.o clip.o cpu.o data.o debug.o dma.o 
+OBJS =  utils.o main.o 2xsai.o apu.o apudebug.o c4.o c4emu.o cheats2.o clip.o cpu.o data.o debug.o dma.o 
 OBJS += dsp1.o fxdbg.o fxemu.o fxinst.o gfx.o globals.o loadzip.o memmap.o netplay.o obc1.o ppu.o screenshot.o 
 OBJS += sdd1.o sdd1emu.o server.o seta010.o seta011.o seta018.o seta.o snaporig.o snapshot.o snes9x.o soundux.o spc700.o 
 OBJS += spc7110.o spc.o spccycles.o srtc.o tile.o explode.o unreduce.o unshrink.o unzip.o cheats.o scanf.o dc_utils.o 

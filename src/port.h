@@ -76,6 +76,8 @@
 #ifndef _PORT_H_
 #define _PORT_H_
 
+#include "utils.h"
+
 #define SCHERZO_INLINE	inline
 
 #ifdef __GNUC__

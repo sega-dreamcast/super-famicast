@@ -97,6 +97,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utils.h"
+
 bool8 LoadZip(const char* zipname,
 	      int32 *TotalFileSize,
 	      int32 *headers, uint8* buffer)

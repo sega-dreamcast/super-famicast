@@ -73,6 +73,8 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
+#include <malloc.h>
+
 #include <string.h>
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
